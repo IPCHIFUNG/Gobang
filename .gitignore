@@ -1,0 +1,5 @@
+
+*.exe
+x64/Debug/Gobang.exe
+x64/Debug/Gobang.ilk
+.vs/Gobang/v15/Browse.VC.opendb

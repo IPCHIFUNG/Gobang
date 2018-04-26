@@ -1,13 +1,2 @@
-﻿  Moc'ing MainWindow.h...
-  Rcc'ing MainWindow.qrc...
-  Uic'ing MainWindow.ui...
-  RCC: Warning: No resources in 'E:\IDE\GitHub\Gobang\Gobang\MainWindow.qrc'.
-  Gobang.cpp
-  main.cpp
-  MainWindow.cpp
-  moc_MainWindow.cpp
-  qrc_MainWindow.cpp
-e:\ide\github\gobang\gobang\gobang.h(17): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int (编译源文件 Gobang.cpp)
-e:\ide\github\gobang\gobang\gobang.h(20): error C2062: 意外的类型“int”  (编译源文件 Gobang.cpp)
-e:\ide\github\gobang\gobang\gobang.h(20): error C2238: 意外的标记位于“;”之前 (编译源文件 Gobang.cpp)
-e:\ide\github\gobang\gobang\gobang.cpp(22): error C2065: “board”: 未声明的标识符
+﻿  Gobang.cpp
+  Gobang.vcxproj -> E:\IDE\GitHub\Gobang\x64\Debug\Gobang.exe

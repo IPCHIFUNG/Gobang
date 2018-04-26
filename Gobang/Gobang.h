@@ -14,7 +14,7 @@ public:
 private:
 
 	// ∆Â≈Ã–≈œ¢
-	ChessType board[BOARDLENGTH][BOARDLENGTH];
+	int board[BOARDLENGTH][BOARDLENGTH];
 
 };
 
