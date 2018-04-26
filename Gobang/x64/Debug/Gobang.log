@@ -1,0 +1,9 @@
+﻿  Moc'ing MainWindow.h...
+  Rcc'ing MainWindow.qrc...
+  Uic'ing MainWindow.ui...
+  RCC: Warning: No resources in 'E:\IDE\VSworkspace\Gobang\Gobang\MainWindow.qrc'.
+  main.cpp
+  MainWindow.cpp
+  moc_MainWindow.cpp
+  qrc_MainWindow.cpp
+  Gobang.vcxproj -> E:\IDE\VSworkspace\Gobang\x64\Debug\Gobang.exe
