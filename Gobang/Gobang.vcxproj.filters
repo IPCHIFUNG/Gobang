@@ -36,6 +36,9 @@
     <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Gobang.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h">
@@ -54,5 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Gobang.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Gobang.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
