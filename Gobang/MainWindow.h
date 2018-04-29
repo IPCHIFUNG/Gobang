@@ -21,8 +21,6 @@ private:
 	void setBackgroundMusic(bool isOn);		// 播放和暂停背景音乐
 	void playSoundEffects();				// 播放落子音效
 
-	void setBackgroundMusic(bool isOn);	// 播放和暂停背景音乐
-
 private slots:
 	void buttonClicked();				// 按钮被点击响应事件
 };
