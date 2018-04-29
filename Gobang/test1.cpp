@@ -1,6 +1,6 @@
 #include "Gobang.h"
 
-/*void main() {
+void main() {
 	Gobang *g =new Gobang();
 
 	Gobang::Step step;
@@ -8,4 +8,4 @@
 	step.y = 2;
 
 	g->newStep(step);
-}*/
+}
