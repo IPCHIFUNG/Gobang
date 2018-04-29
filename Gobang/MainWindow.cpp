@@ -11,7 +11,7 @@ void MainWindow::setBackgroundMusic(bool isOn)	// 播放和暂停背景音乐
 
 }
 
-void MainWindow::buttonClicked()				// 棋盘被点击响应事件
+void MainWindow::buttonClicked()				// 按钮被点击响应事件
 {
 	QString butName = sender()->objectName();
 

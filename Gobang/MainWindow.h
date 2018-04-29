@@ -24,5 +24,5 @@ private:
 	void setBackgroundMusic(bool isOn);	// 播放和暂停背景音乐
 
 private slots:
-	void buttonClicked();				// 棋盘被点击响应事件
+	void buttonClicked();				// 按钮被点击响应事件
 };

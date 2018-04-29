@@ -23,5 +23,5 @@ void GameInterface::playSoundEffects()				// 播放落子音效
 
 void GameInterface::boardClicked()					// 棋盘被点击响应事件
 {
-
+	QString str;
 }
