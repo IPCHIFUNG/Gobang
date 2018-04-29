@@ -16,10 +16,10 @@ private:
 
 private:
 
-	void showStep(Gobang::Step step);			// 显示一步棋
+	//void showStep(Gobang::Step step);			// 显示一步棋
 
-	void setBackgroundMusic(bool isOn);		// 播放和暂停背景音乐
-	void playSoundEffects();				// 播放落子音效
+	//void setBackgroundMusic(bool isOn);		// 播放和暂停背景音乐
+	//void playSoundEffects();				// 播放落子音效
 
 private slots:
 
