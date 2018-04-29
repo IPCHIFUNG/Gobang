@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "GameInterface.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -6,19 +7,30 @@ MainWindow::MainWindow(QWidget *parent)
 	ui.setupUi(this);
 }
 
-void MainWindow::setBackgroundMusic(bool isOn)	// 播放和暂停背景音乐
+/*
+播放和暂停背景音乐
+
+@author 王开阳
+@para 是否播放音乐
+*/
+void MainWindow::setBackgroundMusic(bool isOn)
 {
 
 }
 
-void MainWindow::buttonClicked()				// 按钮被点击响应事件
+/*
+棋盘被点击响应事件
+
+@author 王开阳
+*/
+void MainWindow::buttonClicked()
 {
 	QString butName = sender()->objectName();
 
-	if (butName == "Button_PVE")
-		;
-	else if (butName == "Button_PVE")
-		;
+	if (butName == "Button_PVE") {
+		GameInterface g;
+		g.show();
+	}
 	else if (butName == "Button_PVP")
 		;
 	else if (butName == "Button_Load")
