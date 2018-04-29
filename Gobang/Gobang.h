@@ -19,12 +19,12 @@ public:
 
 	void initBoard();				// 初始化棋盘或用于清空棋盘
 	void newStep(Step step);		// 走一步棋
-	//void AIWalk();					// 机器走棋
+	void AIWalk();					// 机器走棋
 
 	int isOver();					// 判断游戏是否结束，否返回ChessType::NOCHESS, 是返回棋子对应枚举
 
-	//void saveBoard(char * path);	// 把棋盘保存到文件里
-	//void loadBoard(char * path);	// 从文件里读取棋盘
+	void saveBoard(char * path);	// 把棋盘保存到文件里
+	void loadBoard(char * path);	// 从文件里读取棋盘
 
 	int getTurn();					// 返回当前轮次
 	std::deque<Step> getSteps();	// 返回储存落子顺序的双端队列
