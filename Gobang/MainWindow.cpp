@@ -1,10 +1,20 @@
 #include "MainWindow.h"
-#include "GameInterface.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+}
+
+/*
+显示一步棋
+
+@author 王开阳
+@para 下一步落子
+*/
+void MainWindow::showStep(Gobang::Step step)
+{
+
 }
 
 /*
@@ -19,7 +29,17 @@ void MainWindow::setBackgroundMusic(bool isOn)
 }
 
 /*
-棋盘被点击响应事件
+播放落子音效
+
+@author 王开阳
+*/
+void MainWindow::playSoundEffects()
+{
+
+}
+
+/*
+按钮被点击响应事件
 
 @author 王开阳
 */
@@ -28,8 +48,7 @@ void MainWindow::buttonClicked()
 	QString butName = sender()->objectName();
 
 	if (butName == "Button_PVE") {
-		GameInterface g;
-		g.show();
+
 	}
 	else if (butName == "Button_PVP")
 		;
@@ -39,4 +58,14 @@ void MainWindow::buttonClicked()
 		;
 	else if (butName == "Button_Exit")
 		;
+}
+
+/*
+棋盘被点击响应事件
+
+@author 王开阳
+*/
+void MainWindow::boardClicked()
+{
+	QString str;
 }
