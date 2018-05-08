@@ -123,86 +123,89 @@ void Gobang::newStep(Step step)
 	判断游戏是否结束
 
 	@author 应禹尧
-	@return ChessType
+	@return ChessType   NOCHESS---无胜负产生，
 */
 int Gobang::isOver()
 {
 	Step s;
 	int i, j;                            //i----横坐标，j----纵坐标
-	int s1, s2, h1, h2, z1, z2, f1, f2;  //s1,s2竖直判断，h1,h2水平判断，z1,z2主对角线判断，f1,f2副对角线判断
-	int sign = (turn + 1) % 2;
+	int left, right;                     //left往小算，right往大算
+	int sign = (turn + 1) % 2;           //sign----棋子类别
 
 	s = steps->back();
-	s1 = s2 = h1 = h2 = z1 = z2 = f1 = f2 = 0;
-	
+
+	left = right = 0;
 	//竖直向上统计
 	for (i = s.x, j = s.y; j >= 0; j--){
 		if (board[i][j] == sign)
-			s1++;
+			left++;
 		else
 			break;
 	}
 	//竖直向下统计
 	for (i = s.x, j = s.y; j < BOARDLENGTH; j++) {
 		if (board[i][j] == sign)
-			s2++;
+			right++;
 		else
 			break;
 	}
+	if (left + right > 4)
+		return sign;
 
+	left = right = 0;
 	//水平向左统计
 	for (i = s.x, j = s.y; i >= 0; i--) {
 		if (board[i][j] == sign)
-			h1++;
+			left++;
 		else
 			break;
 	}
 	//水平向右统计
 	for (i = s.x, j = s.y; i < BOARDLENGTH; i++) {
 		if (board[i][j] == sign)
-			h2++;
+			right++;
 		else
 			break;
 	}
+	if (left + right > 4)
+		return sign;
 
+	left = right = 0;
 	//主对角线向上统计
 	for (i = s.x, j = s.y; i >= 0 && j >= 0; i--, j--) {
 		if (board[i][j] == sign)
-			z1++;
+			left++;
 		else
 			break;
 	}
 	//主对角线向下统计
 	for (i = s.x, j = s.y; i < BOARDLENGTH && j < BOARDLENGTH; i++, j++) {
 		if (board[i][j] == sign)
-			z2++;
+			right++;
 		else
 			break;
 	}
+	if (left + right > 4)
+		return sign;
 
+	left = right = 0;
 	//副对角线向上统计
 	for (i = s.x, j = s.y; i < BOARDLENGTH && j >= 0; i++, j--) {
 		if (board[i][j] == sign)
-			f1++;
+			left++;
 		else
 			break;
 	}
 	//副对角线向下统计
 	for (i = s.x, j = s.y; i >= 0 && j < BOARDLENGTH; i--, j++) {
 		if (board[i][j] == sign)
-			f2++;
+			right++;
 		else
 			break;
 	}
-
-	if (s1 + s2 > 4)
-		return sign;
-	if(h1 + h2 > 4)
-		return sign;
-	if (z1 + z2 > 4)
-		return sign;
-	if (f1 + f2 > 4)
+	if (left + right > 4)
 		return sign;
 
 	return ChessType::NOCHESS;
 }
+
