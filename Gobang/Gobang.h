@@ -22,6 +22,7 @@ public:
 	Step AIWalk(int type);					// 机器走棋
 
 	int isOver();					// 判断游戏是否结束，否返回ChessType::NOCHESS, 是返回棋子对应枚举
+	bool isBanned();                // 判断是否存在禁手，否返回false，是返回true
 
 	void saveBoard(char * path);	// 把棋盘保存到文件里
 	void loadBoard(char * path);	// 从文件里读取棋盘

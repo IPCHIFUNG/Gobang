@@ -119,6 +119,12 @@ void Gobang::newStep(Step step)
 	turn = (turn + 1) % 2;
 }
 
+/*
+	人机对战
+
+	@author 应禹尧
+	@return 返回Step类型的坐标
+*/
 Gobang::Step Gobang::AIWalk(int type)
 {
 	if (type != ChessType::BLACKCHESS || type != ChessType::WHITECHESS)
@@ -135,89 +141,122 @@ Gobang::Step Gobang::AIWalk(int type)
 	判断游戏是否结束
 
 	@author 应禹尧
-	@return ChessType   NOCHESS---无胜负产生，
+	@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
 */
 int Gobang::isOver()
 {
 	Step s;
 	int i, j;                            //i----横坐标，j----纵坐标
-	int left, right;                     //left往小算，right往大算
+
+	int s1, s2, h1, h2, z1, z2, f1, f2;  //s1,s2用于竖直统计，h1,h2用于水平统计，z1,z2用于主对角线统计，f1,f2用于副对角线统计
 	int sign = (turn + 1) % 2;           //sign----棋子类别
 
 	s = steps->back();
+	s1 = s2 = h1 = h2 = z1 = z2 = f1 = f2 = 0;
 
-	left = right = 0;
+	/* ------------------------------------------------------------- */
+
 	//竖直向上统计
 	for (i = s.x, j = s.y; j >= 0; j--){
 		if (board[i][j] == sign)
-			left++;
+			s1++;
 		else
 			break;
 	}
 	//竖直向下统计
 	for (i = s.x, j = s.y; j < BOARDLENGTH; j++) {
 		if (board[i][j] == sign)
-			right++;
+			s2++;
 		else
 			break;
 	}
-	if (left + right > 4)
-		return sign;
-
-	left = right = 0;
+	
 	//水平向左统计
 	for (i = s.x, j = s.y; i >= 0; i--) {
 		if (board[i][j] == sign)
-			left++;
+			h1++;
 		else
 			break;
 	}
 	//水平向右统计
 	for (i = s.x, j = s.y; i < BOARDLENGTH; i++) {
 		if (board[i][j] == sign)
-			right++;
+			h2++;
 		else
 			break;
 	}
-	if (left + right > 4)
-		return sign;
 
-	left = right = 0;
 	//主对角线向上统计
 	for (i = s.x, j = s.y; i >= 0 && j >= 0; i--, j--) {
 		if (board[i][j] == sign)
-			left++;
+			z1++;
 		else
 			break;
 	}
 	//主对角线向下统计
 	for (i = s.x, j = s.y; i < BOARDLENGTH && j < BOARDLENGTH; i++, j++) {
 		if (board[i][j] == sign)
-			right++;
+			z2++;
 		else
 			break;
 	}
-	if (left + right > 4)
-		return sign;
 
-	left = right = 0;
 	//副对角线向上统计
 	for (i = s.x, j = s.y; i < BOARDLENGTH && j >= 0; i++, j--) {
 		if (board[i][j] == sign)
-			left++;
+			f1++;
 		else
 			break;
 	}
 	//副对角线向下统计
 	for (i = s.x, j = s.y; i >= 0 && j < BOARDLENGTH; i--, j++) {
 		if (board[i][j] == sign)
-			right++;
+			f2++;
 		else
 			break;
 	}
-	if (left + right > 4)
+
+	/* ------------------------------------------------------------- */
+
+	if (s1 + s2 > 5)
 		return sign;
+	if (h1 + h2 > 5)
+		return sign;
+	if (z1 + z2 > 5)
+		return sign;
+	if (f1 + f2 > 5)
+		return sign;
+	if (sign == ChessType::BLACKCHESS) {
+		//三三禁手
+
+		//四四禁手
+
+		//长连禁手
+		if (s1 + s2 > 6)
+			return turn;
+		if (h1 + h2 > 6)
+			return turn;
+		if (z1 + z2 > 6)
+			return turn;
+		if (f1 + f2 > 6)
+			return turn;
+	}
 
 	return ChessType::NOCHESS;
 }
 
+/*
+	判断是否存在禁手
+
+	@author 应禹尧
+	@return bool   true---存在禁手，false---不存在禁手
+	*/
+bool Gobang::isBanned()
+{
+	Step s;
+
+	s = steps->back();
+
+
+	return false;
+}
