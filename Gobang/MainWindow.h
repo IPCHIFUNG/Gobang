@@ -15,8 +15,11 @@ private:
 	Ui::MainWindowClass ui;
 
 private:
+	void showStep(Gobang::Step step);	// 显示一步棋
 	void setBackgroundMusic(bool isOn);	// 播放和暂停背景音乐
+	void playSoundEffects();			// 播放落子音效
 
 private slots:
 	void buttonClicked();				// 按钮被点击响应事件
+	void boardClicked();				// 棋盘被点击响应事件
 };

@@ -1,4 +1,6 @@
 <RCC>
-    <qresource prefix="MainWindow">
-    </qresource>
+  <qresource prefix="MainWindow">
+    <file>image/保存棋盘（带阴影）.png</file>
+    <file>image/保存棋盘.PNG</file>
+  </qresource>
 </RCC>
