@@ -119,6 +119,18 @@ void Gobang::newStep(Step step)
 	turn = (turn + 1) % 2;
 }
 
+Gobang::Step Gobang::AIWalk(int type)
+{
+	if (type != ChessType::BLACKCHESS || type != ChessType::WHITECHESS)
+		throw "The chess type does not existing";
+
+
+
+
+
+	return Step();
+}
+
 /*
 	≈–∂œ”Œœ∑ «∑ÒΩ· ¯
 
