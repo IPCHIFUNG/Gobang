@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>1300</x>
-      <y>390</y>
-      <width>261</width>
-      <height>111</height>
+      <y>430</y>
+      <width>260</width>
+      <height>80</height>
      </rect>
     </property>
     <property name="font">
