@@ -15,9 +15,9 @@ Gobang::~Gobang()
 }
 
 /*
-	初始化棋盘或用于清空棋盘
+初始化棋盘或用于清空棋盘
 
-	@author 叶志枫
+@author 叶志枫
 */
 void Gobang::initBoard()
 {
@@ -28,11 +28,11 @@ void Gobang::initBoard()
 }
 
 /*
-	把棋盘保存到文件里
+把棋盘保存到文件里
 
-	@author 叶志枫
-	@para 保存路径
-	@throw char *
+@author 叶志枫
+@para 保存路径
+@throw char *
 */
 void Gobang::saveBoard(char * path)
 {
@@ -55,10 +55,10 @@ void Gobang::saveBoard(char * path)
 }
 
 /*
-	从文件里读取棋盘
+从文件里读取棋盘
 
-	@author 叶志枫
-	@para 保存路径
+@author 叶志枫
+@para 保存路径
 */
 void Gobang::loadBoard(char * path)
 {
@@ -79,10 +79,10 @@ void Gobang::loadBoard(char * path)
 }
 
 /*
-	返回当前轮次
+返回当前轮次
 
-	@author 叶志枫
-	@return ChessType
+@author 叶志枫
+@return ChessType
 */
 int Gobang::getTurn()
 {
@@ -90,10 +90,10 @@ int Gobang::getTurn()
 }
 
 /*
-	返回储存落子顺序的双端队列
+返回储存落子顺序的双端队列
 
-	@author 叶志枫
-	@return 双端队列
+@author 叶志枫
+@return 双端队列
 */
 std::deque<Gobang::Step> Gobang::getSteps()
 {
@@ -101,10 +101,22 @@ std::deque<Gobang::Step> Gobang::getSteps()
 }
 
 /*
-	走一步棋
+返回导致游戏结束的落子位置的双端队列
 
-	@author 应禹尧
-	@para step：棋子位置
+@author 应禹尧
+@return 双端队列
+*/
+std::deque<Gobang::Step> Gobang::getOverSteps()
+{
+
+	return *overSteps;
+}
+
+/*
+走一步棋
+
+@author 应禹尧
+@para step：棋子位置
 */
 void Gobang::newStep(Step step)
 {
@@ -120,10 +132,10 @@ void Gobang::newStep(Step step)
 }
 
 /*
-	人机对战
+人机对战
 
-	@author 应禹尧
-	@return 返回Step类型的坐标
+@author 应禹尧
+@return 返回Step类型的坐标
 */
 Gobang::Step Gobang::AIWalk(int type)
 {
@@ -138,12 +150,36 @@ Gobang::Step Gobang::AIWalk(int type)
 }
 
 /*
-	判断游戏是否结束
+判断游戏是否结束，有禁手
 
-	@author 应禹尧
-	@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
+@author 应禹尧
+@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
 */
-int Gobang::isOver()
+int Gobang::isOverWithRestricted()
+{
+	// true表示有禁手
+	return isOver(true);
+}
+
+/*
+判断游戏是否结束，无禁手
+
+@author 应禹尧
+@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
+*/
+int Gobang::isOverWithoutRestricted()
+{
+	// false表示无禁手
+	return isOver(false);
+}
+
+/*
+判断游戏是否结束
+
+@author 应禹尧
+@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
+*/
+int Gobang::isOver(bool isRestricted)
 {
 	Step s;
 	int i, j;                            //i----横坐标，j----纵坐标
@@ -157,7 +193,7 @@ int Gobang::isOver()
 	/* ------------------------------------------------------------- */
 
 	//竖直向上统计
-	for (i = s.x, j = s.y; j >= 0; j--){
+	for (i = s.x, j = s.y; j >= 0; j--) {
 		if (board[i][j] == sign)
 			s1++;
 		else
@@ -170,7 +206,7 @@ int Gobang::isOver()
 		else
 			break;
 	}
-	
+
 	//水平向左统计
 	for (i = s.x, j = s.y; i >= 0; i--) {
 		if (board[i][j] == sign)
@@ -218,45 +254,44 @@ int Gobang::isOver()
 
 	/* ------------------------------------------------------------- */
 
-	if (s1 + s2 > 5)
-		return sign;
-	if (h1 + h2 > 5)
-		return sign;
-	if (z1 + z2 > 5)
-		return sign;
-	if (f1 + f2 > 5)
-		return sign;
-	if (sign == ChessType::BLACKCHESS) {
-		//三三禁手
+	if (!isRestricted) {
+		if (s1 + s2 > 5)
+			return sign;
+		if (h1 + h2 > 5)
+			return sign;
+		if (z1 + z2 > 5)
+			return sign;
+		if (f1 + f2 > 5)
+			return sign;
+	}
+	else {
+		if (sign == ChessType::BLACKCHESS) {
+			//三三禁手
+			if (s1 + s2 - 1 + h1 + h2 - 2 == 5)
 
-		//四四禁手
+				//四四禁手
 
-		//长连禁手
-		if (s1 + s2 > 6)
-			return turn;
-		if (h1 + h2 > 6)
-			return turn;
-		if (z1 + z2 > 6)
-			return turn;
-		if (f1 + f2 > 6)
-			return turn;
+
+				//长连禁手
+				if (s1 + s2 > 6)
+					return turn;
+			if (h1 + h2 > 6)
+				return turn;
+			if (z1 + z2 > 6)
+				return turn;
+			if (f1 + f2 > 6)
+				return turn;
+		}
+		if (s1 + s2 > 5)
+			return sign;
+		if (h1 + h2 > 5)
+			return sign;
+		if (z1 + z2 > 5)
+			return sign;
+		if (f1 + f2 > 5)
+			return sign;
 	}
 
+
 	return ChessType::NOCHESS;
-}
-
-/*
-	判断是否存在禁手
-
-	@author 应禹尧
-	@return bool   true---存在禁手，false---不存在禁手
-	*/
-bool Gobang::isBanned()
-{
-	Step s;
-
-	s = steps->back();
-
-
-	return false;
 }
