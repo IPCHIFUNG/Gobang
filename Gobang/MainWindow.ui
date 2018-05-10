@@ -17,10 +17,10 @@
    <widget class="QPushButton" name="btn_pve">
     <property name="geometry">
      <rect>
-      <x>1300</x>
-      <y>430</y>
-      <width>260</width>
-      <height>80</height>
+      <x>50</x>
+      <y>370</y>
+      <width>241</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
@@ -38,30 +38,11 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_pvp">
-    <property name="geometry">
-     <rect>
-      <x>1320</x>
-      <y>520</y>
-      <width>200</width>
-      <height>60</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>微软雅黑</family>
-      <pointsize>30</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>双人对战</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_load">
     <property name="geometry">
      <rect>
-      <x>1350</x>
-      <y>660</y>
+      <x>100</x>
+      <y>610</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -79,8 +60,8 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
    <widget class="QPushButton" name="btn_ranking">
     <property name="geometry">
      <rect>
-      <x>1350</x>
-      <y>760</y>
+      <x>1360</x>
+      <y>620</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -98,8 +79,8 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
    <widget class="QPushButton" name="btn_exit">
     <property name="geometry">
      <rect>
-      <x>1350</x>
-      <y>820</y>
+      <x>1360</x>
+      <y>710</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -136,8 +117,8 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
    <widget class="QPushButton" name="btn_online">
     <property name="geometry">
      <rect>
-      <x>1330</x>
-      <y>610</y>
+      <x>100</x>
+      <y>490</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -156,7 +137,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
     <property name="geometry">
      <rect>
       <x>1350</x>
-      <y>710</y>
+      <y>530</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -193,7 +174,6 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
    <zorder>lbl_background</zorder>
    <zorder>lbl_chessboard</zorder>
    <zorder>btn_pve</zorder>
-   <zorder>btn_pvp</zorder>
    <zorder>btn_load</zorder>
    <zorder>btn_ranking</zorder>
    <zorder>btn_exit</zorder>

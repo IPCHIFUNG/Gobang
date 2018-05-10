@@ -12,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent)
 	setHomePageBtnVisable(true);
 	setGamePageBtnVisable(false);
 
+	music.setMedia(QUrl::fromLocalFile("./sound/FlowerDance.mp3"));
+	soundEff.setMedia(QUrl::fromLocalFile("./sound/棋子音效a.mp3"));
+
 	connect(ui.btn_exit, SIGNAL(clicked()), this, SLOT(buttonClicked()));
 }
 
@@ -31,9 +34,9 @@ void MainWindow::clearBoard()
 */
 void MainWindow::showStep(Gobang::Step step, int type)
 {
-	if (step.x < 0 || step.x > BOARDLENGTH)
+	if (step.x < 350 || step.x > 1250)
 		throw "step.x is out of range";
-	if (step.y < 0 || step.y > BOARDLENGTH)
+	if (step.y < 0 || step.y > 900)
 		throw "step.y is out of range";
 	if (type != ChessType::BLACKCHESS || type != ChessType::WHITECHESS)
 		throw "Invalid type";
@@ -54,7 +57,10 @@ void MainWindow::highlightStep(Gobang::Step step)
 */
 void MainWindow::setBackgroundMusic(bool isOn)
 {
-
+	if (isOn)
+		music.play();
+	else
+		music.pause();
 }
 
 /*
@@ -64,7 +70,7 @@ void MainWindow::setBackgroundMusic(bool isOn)
 */
 void MainWindow::playSoundEffects()
 {
-
+	soundEff.play();
 }
 
 /*
@@ -74,7 +80,8 @@ void MainWindow::playSoundEffects()
 */
 void MainWindow::setHomePageBtnVisable(bool isOn)
 {
-	// TO_DO:设置主页按钮的可见性
+	ui.btn_pve->setVisible(isOn);
+	ui.btn_online->setVisible(isOn);
 }
 
 /*
@@ -84,7 +91,7 @@ void MainWindow::setHomePageBtnVisable(bool isOn)
 */
 void MainWindow::setGamePageBtnVisable(bool isOn)
 {
-	// TO_DO:设置游戏页按钮的可见性
+	
 }
 
 /*
