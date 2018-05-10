@@ -14,11 +14,11 @@
    <string>五子棋游戏</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="btn_pve">
+   <widget class="QPushButton" name="btn_retract">
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>370</y>
+      <y>440</y>
       <width>241</width>
       <height>81</height>
      </rect>
@@ -30,9 +30,9 @@
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/保存棋盘.PNG);}
-QPushButton:hover{border-image: url(:/MainWindow/image/保存棋盘（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</string>
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/悔棋.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/悔棋（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/悔棋.PNG);}</string>
     </property>
     <property name="text">
      <string/>
@@ -41,10 +41,10 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
    <widget class="QPushButton" name="btn_load">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>610</y>
-      <width>121</width>
-      <height>41</height>
+      <x>50</x>
+      <y>650</y>
+      <width>241</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
@@ -53,46 +53,13 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
       <pointsize>18</pointsize>
      </font>
     </property>
-    <property name="text">
-     <string>读取游戏</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_ranking">
-    <property name="geometry">
-     <rect>
-      <x>1360</x>
-      <y>620</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>微软雅黑</family>
-      <pointsize>18</pointsize>
-     </font>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/读取棋盘.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/读取棋盘（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/读取棋盘.PNG);}</string>
     </property>
     <property name="text">
-     <string>排行榜</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_exit">
-    <property name="geometry">
-     <rect>
-      <x>1360</x>
-      <y>710</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>微软雅黑</family>
-      <pointsize>18</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>退出游戏</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="lbl_chessboard">
@@ -117,10 +84,10 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
    <widget class="QPushButton" name="btn_online">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>490</y>
-      <width>121</width>
-      <height>41</height>
+      <x>50</x>
+      <y>550</y>
+      <width>241</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
@@ -129,27 +96,13 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
       <pointsize>18</pointsize>
      </font>
     </property>
-    <property name="text">
-     <string>网络对战</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_rules">
-    <property name="geometry">
-     <rect>
-      <x>1350</x>
-      <y>530</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>微软雅黑</family>
-      <pointsize>18</pointsize>
-     </font>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/联机对战.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/联机对战（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/联机对战.PNG);}</string>
     </property>
     <property name="text">
-     <string>游戏规则</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="lbl_background">
@@ -171,14 +124,236 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_save">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>720</y>
+      <width>241</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>30</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/保存棋盘.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/保存棋盘（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_pve">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>450</y>
+      <width>241</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>30</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/人机对战.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/人机对战（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/人机对战.PNG);}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_ranking">
+    <property name="geometry">
+     <rect>
+      <x>1300</x>
+      <y>400</y>
+      <width>241</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>30</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/排行榜.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/排行榜（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/排行榜.PNG);}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_pve_5">
+    <property name="geometry">
+     <rect>
+      <x>1300</x>
+      <y>600</y>
+      <width>241</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>30</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/游戏规则.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/游戏规则（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/游戏规则.PNG);}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_exit">
+    <property name="geometry">
+     <rect>
+      <x>1300</x>
+      <y>700</y>
+      <width>241</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>30</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/退出.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/退出（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/退出.PNG);}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_prompt">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>510</y>
+      <width>241</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>30</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/提示.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/提示（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/提示.PNG);}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_giveUp">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>580</y>
+      <width>241</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>30</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/认输.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/认输（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/认输.PNG);}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_restart">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>370</y>
+      <width>241</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>30</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/重新开始.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/重新开始（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/重新开始.PNG);}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_team">
+    <property name="geometry">
+     <rect>
+      <x>1300</x>
+      <y>500</y>
+      <width>241</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>30</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/制作团队.PNG);}
+QPushButton:hover{border-image: url(:/MainWindow/image/制作团队（带阴影）.png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/制作团队.PNG);}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>lbl_background</zorder>
    <zorder>lbl_chessboard</zorder>
-   <zorder>btn_pve</zorder>
+   <zorder>btn_retract</zorder>
    <zorder>btn_load</zorder>
-   <zorder>btn_ranking</zorder>
-   <zorder>btn_exit</zorder>
    <zorder>btn_online</zorder>
-   <zorder>btn_rules</zorder>
+   <zorder>btn_save</zorder>
+   <zorder>btn_pve</zorder>
+   <zorder>btn_ranking</zorder>
+   <zorder>btn_pve_5</zorder>
+   <zorder>btn_exit</zorder>
+   <zorder>btn_prompt</zorder>
+   <zorder>btn_giveUp</zorder>
+   <zorder>btn_restart</zorder>
+   <zorder>btn_team</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -187,7 +362,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
  </resources>
  <connections>
   <connection>
-   <sender>btn_pve</sender>
+   <sender>btn_retract</sender>
    <signal>clicked()</signal>
    <receiver>MainWindowClass</receiver>
    <slot>buttonClicked()</slot>

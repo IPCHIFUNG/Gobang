@@ -9,8 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
 	this->setWindowIcon(QIcon(":/MainWindow/image/WHITE_64.ico"));
 
 	// 初始化按钮
-	setHomePageBtnVisable(true);
-	setGamePageBtnVisable(false);
+	setHomePageBtnVisable(false);
+	setGamePageBtnVisable(true);
 
 	music.setMedia(QUrl::fromLocalFile("./sound/FlowerDance.mp3"));
 	soundEff.setMedia(QUrl::fromLocalFile("./sound/棋子音效a.mp3"));
@@ -91,7 +91,11 @@ void MainWindow::setHomePageBtnVisable(bool isOn)
 */
 void MainWindow::setGamePageBtnVisable(bool isOn)
 {
-	
+	ui.btn_restart->setVisible(isOn);
+	ui.btn_prompt->setVisible(isOn);
+	ui.btn_retract->setVisible(isOn);
+	ui.btn_giveUp->setVisible(isOn);
+	ui.btn_save->setVisible(isOn);
 }
 
 /*
