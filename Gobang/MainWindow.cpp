@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
 	// ≥ı ºªØ∞¥≈•
 	setHomePageBtnVisable(true);
 	setGamePageBtnVisable(false);
+
+	connect(ui.btn_exit, SIGNAL(clicked()), this, SLOT(buttonClicked()));
 }
 
 /*
@@ -132,7 +134,7 @@ void MainWindow::buttonClicked()
 	}
 	else if (btnName == "btn_exit")
 	{
-
+		exit(0);
 	}
 }
 
