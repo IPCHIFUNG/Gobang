@@ -200,10 +200,9 @@ int Gobang::isOver(bool isRestricted)
 		if (board[i][j] == sign)
 			s1++;
 		else {
-			while (board[i][j] == ChessType::NOCHESS) {
+			while (board[i][j] == ChessType::NOCHESS && j >= 0) {
 				sk1++;
-				i++;
-				j++; 
+				j--; 
 			}
 			break;
 		}
@@ -213,9 +212,8 @@ int Gobang::isOver(bool isRestricted)
 		if (board[i][j] == sign)
 			s2++;
 		else {
-			while (board[i][j] == ChessType::NOCHESS) {
+			while (board[i][j] == ChessType::NOCHESS && j < BOARDLENGTH) {
 				sk2++;
-				i++;
 				j++;
 			}
 			break;
@@ -227,10 +225,9 @@ int Gobang::isOver(bool isRestricted)
 		if (board[i][j] == sign)
 			h1++;
 		else {
-			while (board[i][j] == ChessType::NOCHESS) {
+			while (board[i][j] == ChessType::NOCHESS && i >= 0) {
 				hk1++;
-				i++;
-				j++;
+				i--;
 			}
 			break;
 		}
@@ -240,10 +237,9 @@ int Gobang::isOver(bool isRestricted)
 		if (board[i][j] == sign)
 			h2++;
 		else {
-			while (board[i][j] == ChessType::NOCHESS) {
+			while (board[i][j] == ChessType::NOCHESS && i < BOARDLENGTH) {
 				hk2++;
 				i++;
-				j++;
 			}
 			break;
 		}
@@ -254,10 +250,10 @@ int Gobang::isOver(bool isRestricted)
 		if (board[i][j] == sign)
 			z1++;
 		else {
-			while (board[i][j] == ChessType::NOCHESS) {
+			while (board[i][j] == ChessType::NOCHESS && i >= 0 && j >= 0) {
 				zk1++;
-				i++;
-				j++;
+				i--;
+				j--;
 			}
 			break;
 		}
@@ -267,7 +263,7 @@ int Gobang::isOver(bool isRestricted)
 		if (board[i][j] == sign)
 			z2++;
 		else {
-			while (board[i][j] == ChessType::NOCHESS) {
+			while (board[i][j] == ChessType::NOCHESS && i < BOARDLENGTH && j < BOARDLENGTH) {
 				zk2++;
 				i++;
 				j++;
@@ -281,10 +277,10 @@ int Gobang::isOver(bool isRestricted)
 		if (board[i][j] == sign)
 			f1++;
 		else {
-			while (board[i][j] == ChessType::NOCHESS) {
+			while (board[i][j] == ChessType::NOCHESS && i < BOARDLENGTH && j >= 0) {
 				fk1++;
 				i++;
-				j++;
+				j--;
 			}
 			break;
 		}
@@ -294,9 +290,9 @@ int Gobang::isOver(bool isRestricted)
 		if (board[i][j] == sign)
 			f2++;
 		else {
-			while (board[i][j] == ChessType::NOCHESS) {
+			while (board[i][j] == ChessType::NOCHESS && i >= 0 && j < BOARDLENGTH) {
 				fk2++;
-				i++;
+				i--;
 				j++;
 			}
 			break;
@@ -362,4 +358,37 @@ int Gobang::isOver(bool isRestricted)
 
 
 	return ChessType::NOCHESS;
+}
+
+/*
+	判断棋型是否为活三
+
+	@author 应禹尧
+	@return bool    true---棋型为活三，false---棋型不为活三
+*/
+bool Gobang::isLiveThree()
+{
+	return false;
+}
+
+/*
+	判断棋型是否为活四
+
+	@author 应禹尧
+	@return bool    true---棋型为活四，false---棋型不为活四
+*/
+bool Gobang::isLiveFour()
+{
+	return false;
+}
+
+/*
+	判断棋型是否为冲四
+
+	@author 应禹尧
+	@return bool    true---棋型为冲四，false---棋型不为冲四
+*/
+bool Gobang::isPunchingFour()
+{
+	return false;
 }
