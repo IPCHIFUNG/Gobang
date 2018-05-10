@@ -8,6 +8,7 @@ Gobang::Gobang()
 	initBoard();
 	// 初始化双端队列
 	steps = new std::deque<Step>();
+	overSteps = new std::deque<Step>();
 }
 
 Gobang::~Gobang()
@@ -15,9 +16,9 @@ Gobang::~Gobang()
 }
 
 /*
-初始化棋盘或用于清空棋盘
+	初始化棋盘或用于清空棋盘
 
-@author 叶志枫
+	@author 叶志枫
 */
 void Gobang::initBoard()
 {
@@ -28,11 +29,11 @@ void Gobang::initBoard()
 }
 
 /*
-把棋盘保存到文件里
+	把棋盘保存到文件里
 
-@author 叶志枫
-@para 保存路径
-@throw char *
+	@author 叶志枫
+	@para 保存路径
+	@throw char *
 */
 void Gobang::saveBoard(char * path)
 {
@@ -55,10 +56,10 @@ void Gobang::saveBoard(char * path)
 }
 
 /*
-从文件里读取棋盘
+	从文件里读取棋盘
 
-@author 叶志枫
-@para 保存路径
+	@author 叶志枫
+	@para 保存路径
 */
 void Gobang::loadBoard(char * path)
 {
@@ -79,10 +80,10 @@ void Gobang::loadBoard(char * path)
 }
 
 /*
-返回当前轮次
+	返回当前轮次
 
-@author 叶志枫
-@return ChessType
+	@author 叶志枫
+	@return ChessType
 */
 int Gobang::getTurn()
 {
@@ -90,10 +91,10 @@ int Gobang::getTurn()
 }
 
 /*
-返回储存落子顺序的双端队列
+	返回储存落子顺序的双端队列
 
-@author 叶志枫
-@return 双端队列
+	@author 叶志枫
+	@return 双端队列
 */
 std::deque<Gobang::Step> Gobang::getSteps()
 {
@@ -101,10 +102,10 @@ std::deque<Gobang::Step> Gobang::getSteps()
 }
 
 /*
-返回导致游戏结束的落子位置的双端队列
+	返回导致游戏结束的落子位置的双端队列
 
-@author 应禹尧
-@return 双端队列
+	@author 应禹尧
+	@return 双端队列
 */
 std::deque<Gobang::Step> Gobang::getOverSteps()
 {
@@ -113,10 +114,10 @@ std::deque<Gobang::Step> Gobang::getOverSteps()
 }
 
 /*
-走一步棋
+	走一步棋
 
-@author 应禹尧
-@para step：棋子位置
+	@author 应禹尧
+	@para step：棋子位置
 */
 void Gobang::newStep(Step step)
 {
@@ -132,10 +133,10 @@ void Gobang::newStep(Step step)
 }
 
 /*
-人机对战
+	人机对战
 
-@author 应禹尧
-@return 返回Step类型的坐标
+	@author 应禹尧
+	@return 返回Step类型的坐标
 */
 Gobang::Step Gobang::AIWalk(int type)
 {
@@ -150,10 +151,10 @@ Gobang::Step Gobang::AIWalk(int type)
 }
 
 /*
-判断游戏是否结束，有禁手
+	判断游戏是否结束，有禁手
 
-@author 应禹尧
-@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
+	@author 应禹尧
+	@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
 */
 int Gobang::isOverWithRestricted()
 {
@@ -162,10 +163,10 @@ int Gobang::isOverWithRestricted()
 }
 
 /*
-判断游戏是否结束，无禁手
+	判断游戏是否结束，无禁手
 
-@author 应禹尧
-@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
+	@author 应禹尧
+	@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
 */
 int Gobang::isOverWithoutRestricted()
 {
@@ -174,21 +175,23 @@ int Gobang::isOverWithoutRestricted()
 }
 
 /*
-判断游戏是否结束
+	判断游戏是否结束
 
-@author 应禹尧
-@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
+	@author 应禹尧
+	@return ChessType   NOCHESS---无胜负产生，BLACKCHESS---黑棋获胜，WHITECHESS---白棋获胜
 */
 int Gobang::isOver(bool isRestricted)
 {
 	Step s;
-	int i, j;                            //i----横坐标，j----纵坐标
+	int i, j;										//i----横坐标，j----纵坐标
 
-	int s1, s2, h1, h2, z1, z2, f1, f2;  //s1,s2用于竖直统计，h1,h2用于水平统计，z1,z2用于主对角线统计，f1,f2用于副对角线统计
-	int sign = (turn + 1) % 2;           //sign----棋子类别
+	int s1, s2, h1, h2, z1, z2, f1, f2;				//s1,s2用于竖直统计，h1,h2用于水平统计，z1,z2用于主对角线统计，f1,f2用于副对角线统计
+	int sk1, sk2, hk1, hk2, zk1, zk2, fk1, fk2;		//sk1,sk2用于竖直空位统计，hk1,hk2用于水平空位统计，zk1,zk2用于主对角线空位统计，fk1,fk2用于副对角线空位统计
+	int sign = (turn + 1) % 2;						//sign----棋子类别
 
 	s = steps->back();
 	s1 = s2 = h1 = h2 = z1 = z2 = f1 = f2 = 0;
+	sk1 = sk2 = hk1 = hk2 = zk1 = zk2 = fk1 = fk2 = 0;
 
 	/* ------------------------------------------------------------- */
 
@@ -196,60 +199,108 @@ int Gobang::isOver(bool isRestricted)
 	for (i = s.x, j = s.y; j >= 0; j--) {
 		if (board[i][j] == sign)
 			s1++;
-		else
+		else {
+			while (board[i][j] == ChessType::NOCHESS) {
+				sk1++;
+				i++;
+				j++; 
+			}
 			break;
+		}
 	}
 	//竖直向下统计
 	for (i = s.x, j = s.y; j < BOARDLENGTH; j++) {
 		if (board[i][j] == sign)
 			s2++;
-		else
+		else {
+			while (board[i][j] == ChessType::NOCHESS) {
+				sk2++;
+				i++;
+				j++;
+			}
 			break;
+		}
 	}
 
 	//水平向左统计
 	for (i = s.x, j = s.y; i >= 0; i--) {
 		if (board[i][j] == sign)
 			h1++;
-		else
+		else {
+			while (board[i][j] == ChessType::NOCHESS) {
+				hk1++;
+				i++;
+				j++;
+			}
 			break;
+		}
 	}
 	//水平向右统计
 	for (i = s.x, j = s.y; i < BOARDLENGTH; i++) {
 		if (board[i][j] == sign)
 			h2++;
-		else
+		else {
+			while (board[i][j] == ChessType::NOCHESS) {
+				hk2++;
+				i++;
+				j++;
+			}
 			break;
+		}
 	}
 
 	//主对角线向上统计
 	for (i = s.x, j = s.y; i >= 0 && j >= 0; i--, j--) {
 		if (board[i][j] == sign)
 			z1++;
-		else
+		else {
+			while (board[i][j] == ChessType::NOCHESS) {
+				zk1++;
+				i++;
+				j++;
+			}
 			break;
+		}
 	}
 	//主对角线向下统计
 	for (i = s.x, j = s.y; i < BOARDLENGTH && j < BOARDLENGTH; i++, j++) {
 		if (board[i][j] == sign)
 			z2++;
-		else
+		else {
+			while (board[i][j] == ChessType::NOCHESS) {
+				zk2++;
+				i++;
+				j++;
+			}
 			break;
+		}
 	}
 
 	//副对角线向上统计
 	for (i = s.x, j = s.y; i < BOARDLENGTH && j >= 0; i++, j--) {
 		if (board[i][j] == sign)
 			f1++;
-		else
+		else {
+			while (board[i][j] == ChessType::NOCHESS) {
+				fk1++;
+				i++;
+				j++;
+			}
 			break;
+		}
 	}
 	//副对角线向下统计
 	for (i = s.x, j = s.y; i >= 0 && j < BOARDLENGTH; i--, j++) {
 		if (board[i][j] == sign)
 			f2++;
-		else
+		else {
+			while (board[i][j] == ChessType::NOCHESS) {
+				fk2++;
+				i++;
+				j++;
+			}
 			break;
+		}
 	}
 
 	/* ------------------------------------------------------------- */
@@ -267,14 +318,31 @@ int Gobang::isOver(bool isRestricted)
 	else {
 		if (sign == ChessType::BLACKCHESS) {
 			//三三禁手
-			if (s1 + s2 - 1 + h1 + h2 - 2 == 5)
+			if (s1 + s2 - 1 + h1 + h2 - 2 == 5 && sk1 + sk2 == 3 && hk1 + hk2 == 3) {
+				return turn;
+			}
+			if (s1 + s2 - 1 + z1 + z2 - 2 == 5 && sk1 + sk2 == 3 && zk1 + zk2 == 3) {
+				return turn;
+			}
+			if (s1 + s2 - 1 + f1 + f2 - 2 == 5 && sk1 + sk2 == 3 && fk1 + fk2 == 3) {
+				return turn;
+			}
+			if (h1 + h2 - 1 + z1 + z2 - 2 == 5 && hk1 + hk2 == 3 && zk1 + zk2 == 3) {
+				return turn;
+			}
+			if (h1 + h2 - 1 + f1 + f2 - 2 == 5 && hk1 + hk2 == 3 && fk1 + fk2 == 3) {
+				return turn;
+			}
+			if (z1 + z2 - 1 + f1 + f2 - 2 == 5 && zk1 + zk2 == 3 && fk1 + fk2 == 3) {
+				return turn;
+			}
 
-				//四四禁手
+			//四四禁手
 
 
-				//长连禁手
-				if (s1 + s2 > 6)
-					return turn;
+			//长连禁手
+			if (s1 + s2 > 6)
+				return turn;
 			if (h1 + h2 > 6)
 				return turn;
 			if (z1 + z2 > 6)
