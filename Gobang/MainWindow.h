@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
+#include <QMediaPlayer>
 #include "ui_MainWindow.h"
 #include "Gobang.h"
 
@@ -13,6 +14,8 @@ public:
 
 private:
 	Ui::MainWindowClass ui;
+	QMediaPlayer music;
+	QMediaPlayer soundEff;
 
 private:
 	void clearBoard();									// 清空棋盘
@@ -20,10 +23,8 @@ private:
 	void highlightStep(Gobang::Step step);				// 高亮棋子
 	void setBackgroundMusic(bool isOn);					// 播放和暂停背景音乐
 	void playSoundEffects();							// 播放落子音效
-
 	void setHomePageBtnVisable(bool isOn);				// 设置主页按钮的可见性
 	void setGamePageBtnVisable(bool isOn);				// 设置游戏页按钮的可见性
-
 	void showWinnerDialog(int type);					// 显示胜方信息
 
 private slots:
