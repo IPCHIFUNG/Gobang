@@ -4,9 +4,20 @@ MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	// 初始化标题栏
+	this->setWindowTitle(QString::fromLocal8Bit("五子棋"));
+	this->setWindowIcon(QIcon(":/MainWindow/image/WHITE_64.ico"));
 
+	// 初始化按钮
 	setHomePageBtnVisable(true);
 	setGamePageBtnVisable(false);
+}
+
+/*
+	清空棋盘
+*/
+void MainWindow::clearBoard()
+{
 }
 
 /*
@@ -24,6 +35,13 @@ void MainWindow::showStep(Gobang::Step step, int type)
 		throw "step.y is out of range";
 	if (type != ChessType::BLACKCHESS || type != ChessType::WHITECHESS)
 		throw "Invalid type";
+}
+
+/*
+	高亮棋子
+*/
+void MainWindow::highlightStep(Gobang::Step step)
+{
 }
 
 /*
@@ -68,6 +86,26 @@ void MainWindow::setGamePageBtnVisable(bool isOn)
 }
 
 /*
+	显示胜方信息
+
+	@para ChessType - 胜方棋子种类
+*/
+void MainWindow::showWinnerDialog(int type)
+{
+	switch (type)
+	{
+	case ChessType::BLACKCHESS:		// 黑棋获胜
+		break;
+	case ChessType::WHITECHESS:		// 白起获胜
+		break;
+	case ChessType::NOCHESS:		// 平局
+		break;
+	default:
+		break;
+	}
+}
+
+/*
 	按钮被点击响应事件
 
 	@author 王开阳
@@ -76,17 +114,26 @@ void MainWindow::buttonClicked()
 {
 	QString btnName = sender()->objectName();
 
-	if (btnName == "Button_PVE") {
+	if (btnName == "btn_pve")
+	{
 
 	}
-	else if (btnName == "Button_PVP")
-		;
-	else if (btnName == "Button_Load")
-		;
-	else if (btnName == "Button_Ranking")
-		;
-	else if (btnName == "Button_Exit")
-		;
+	else if (btnName == "btn_pvp")
+	{
+
+	}
+	else if (btnName == "btn_load")
+	{
+
+	}
+	else if (btnName == "btn_ranking")
+	{
+
+	}
+	else if (btnName == "btn_exit")
+	{
+
+	}
 }
 
 /*

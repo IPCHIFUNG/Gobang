@@ -14,7 +14,7 @@
    <string>五子棋游戏</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="Button_PVE">
+   <widget class="QPushButton" name="btn_pve">
     <property name="geometry">
      <rect>
       <x>1300</x>
@@ -38,7 +38,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="Button_PVP">
+   <widget class="QPushButton" name="btn_pvp">
     <property name="geometry">
      <rect>
       <x>1320</x>
@@ -57,7 +57,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <string>双人对战</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Button_Load">
+   <widget class="QPushButton" name="btn_load">
     <property name="geometry">
      <rect>
       <x>1350</x>
@@ -76,7 +76,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <string>读取游戏</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Button_Ranking">
+   <widget class="QPushButton" name="btn_ranking">
     <property name="geometry">
      <rect>
       <x>1350</x>
@@ -95,7 +95,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <string>排行榜</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Button_Exit">
+   <widget class="QPushButton" name="btn_exit">
     <property name="geometry">
      <rect>
       <x>1350</x>
@@ -114,7 +114,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <string>退出游戏</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="lbl_chessboard">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -133,7 +133,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="Button_Online">
+   <widget class="QPushButton" name="btn_online">
     <property name="geometry">
      <rect>
       <x>1330</x>
@@ -152,7 +152,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <string>网络对战</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Button_Rules">
+   <widget class="QPushButton" name="btn_rules">
     <property name="geometry">
      <rect>
       <x>1350</x>
@@ -171,7 +171,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <string>游戏规则</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="lbl_background">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -190,15 +190,15 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      <bool>true</bool>
     </property>
    </widget>
-   <zorder>label_2</zorder>
-   <zorder>label</zorder>
-   <zorder>Button_PVE</zorder>
-   <zorder>Button_PVP</zorder>
-   <zorder>Button_Load</zorder>
-   <zorder>Button_Ranking</zorder>
-   <zorder>Button_Exit</zorder>
-   <zorder>Button_Online</zorder>
-   <zorder>Button_Rules</zorder>
+   <zorder>lbl_background</zorder>
+   <zorder>lbl_chessboard</zorder>
+   <zorder>btn_pve</zorder>
+   <zorder>btn_pvp</zorder>
+   <zorder>btn_load</zorder>
+   <zorder>btn_ranking</zorder>
+   <zorder>btn_exit</zorder>
+   <zorder>btn_online</zorder>
+   <zorder>btn_rules</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -207,7 +207,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
  </resources>
  <connections>
   <connection>
-   <sender>Button_PVE</sender>
+   <sender>btn_pve</sender>
    <signal>clicked()</signal>
    <receiver>MainWindowClass</receiver>
    <slot>buttonClicked()</slot>
