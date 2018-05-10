@@ -363,10 +363,11 @@ int Gobang::isOver(bool isRestricted)
 /*
 	判断棋型是否为活三
 
+	@para x---横坐标，y---纵坐标
 	@author 应禹尧
 	@return bool    true---棋型为活三，false---棋型不为活三
 */
-bool Gobang::isLiveThree()
+bool Gobang::isLiveThree(int x, int y)
 {
 	return false;
 }
@@ -374,10 +375,11 @@ bool Gobang::isLiveThree()
 /*
 	判断棋型是否为活四
 
+	@para x---横坐标，y---纵坐标
 	@author 应禹尧
 	@return bool    true---棋型为活四，false---棋型不为活四
 */
-bool Gobang::isLiveFour()
+bool Gobang::isLiveFour(int x, int y)
 {
 	return false;
 }
@@ -385,10 +387,11 @@ bool Gobang::isLiveFour()
 /*
 	判断棋型是否为冲四
 
+	@para x---横坐标，y---纵坐标
 	@author 应禹尧
 	@return bool    true---棋型为冲四，false---棋型不为冲四
 */
-bool Gobang::isPunchingFour()
+bool Gobang::isPunchingFour(int x, int y)
 {
 	return false;
 }

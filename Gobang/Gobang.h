@@ -41,9 +41,9 @@ private:
 	std::deque<Step> * overSteps;			// 储存导致游戏结束的落子位置
 
 	int isOver(bool isRestricted);			// 判断游戏是否结束，否返回ChessType::NOCHESS, 是返回棋子对应枚举
-	bool isLiveThree();                     // 判断棋型是否为活三
-	bool isLiveFour();                      // 判断棋型是否为活四
-	bool isPunchingFour();                  // 判断棋型是否为冲四
+	bool isLiveThree(int x, int y);         // 判断棋型是否为活三
+	bool isLiveFour(int x, int y);          // 判断棋型是否为活四
+	bool isPunchingFour(int x, int y);      // 判断棋型是否为冲四
 
 };
 
