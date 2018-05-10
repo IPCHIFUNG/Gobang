@@ -377,6 +377,11 @@ int Gobang::isOver(bool isRestricted)
 */
 int Gobang::searchNumOfChess(int m, int n)
 {
+	int temp_x, temp_y;
+
+
+
+
 	return 0;
 }
 
