@@ -81,6 +81,7 @@ void MainWindow::playSoundEffects()
 void MainWindow::setHomePageBtnVisable(bool isOn)
 {
 	ui.btn_pve->setVisible(isOn);
+	ui.btn_pvp->setVisible(isOn);
 	ui.btn_online->setVisible(isOn);
 	ui.btn_load->setVisible(isOn);
 }
