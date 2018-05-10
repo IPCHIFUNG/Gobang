@@ -189,11 +189,19 @@ int Gobang::isOver(bool isRestricted)
 	int sk1, sk2, hk1, hk2, zk1, zk2, fk1, fk2;		//sk1,sk2用于竖直空位统计，hk1,hk2用于水平空位统计，zk1,zk2用于主对角线空位统计，fk1,fk2用于副对角线空位统计
 	int sign = (turn + 1) % 2;						//sign----棋子类别
 
+	int result[4];
+
 	s = steps->back();
 	s1 = s2 = h1 = h2 = z1 = z2 = f1 = f2 = 0;
 	sk1 = sk2 = hk1 = hk2 = zk1 = zk2 = fk1 = fk2 = 0;
 
 	/* ------------------------------------------------------------- */
+
+	result[0] = searchNumOfChess(0, 1);		//竖直查找
+	result[1] = searchNumOfChess(1, 0);		//水平查找
+	result[2] = searchNumOfChess(1, 1);		//主对角线查找
+	result[3] = searchNumOfChess(1, -1);	//副对角线查找
+
 
 	//竖直向上统计
 	for (i = s.x, j = s.y; j >= 0; j--) {
@@ -358,6 +366,18 @@ int Gobang::isOver(bool isRestricted)
 
 
 	return ChessType::NOCHESS;
+}
+
+/*
+	判断棋子数量
+
+	@para m---水平查找，n---竖直查找
+	@author 应禹尧
+	@return 
+*/
+int Gobang::searchNumOfChess(int m, int n)
+{
+	return 0;
 }
 
 /*
