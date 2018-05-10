@@ -4,13 +4,13 @@
     <file>image/保存棋盘.PNG</file>
     <file>image/读取棋盘（带阴影）.png</file>
     <file>image/读取棋盘.PNG</file>
+    <file>image/返回（带阴影）.png</file>
+    <file>image/返回.PNG</file>
     <file>image/悔棋（带阴影）.png</file>
     <file>image/悔棋.PNG</file>
-    <file>image/联机对战（带阴影）.png</file>
-    <file>image/返回（带阴影）.png</file>
-    <file>image/返回.png</file>
     <file>image/开始游戏（带阴影）.png</file>
     <file>image/开始游戏.PNG</file>
+    <file>image/联机对战（带阴影）.png</file>
     <file>image/联机对战.PNG</file>
     <file>image/排行榜（带阴影）.png</file>
     <file>image/排行榜.PNG</file>
@@ -28,8 +28,6 @@
     <file>image/制作团队.PNG</file>
     <file>image/重新开始（带阴影）.png</file>
     <file>image/重新开始.PNG</file>
-    <file>image/保存棋盘（带阴影）.png</file>
-    <file>image/保存棋盘.PNG</file>
     <file>image/WHITE_64.ico</file>
   </qresource>
 </RCC>
