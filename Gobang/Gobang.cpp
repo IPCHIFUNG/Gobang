@@ -203,7 +203,7 @@ int Gobang::isOver(bool isRestricted)
 	result[3] = searchNumOfChess(1, -1);	//副对角线查找
 
 
-	//竖直向上统计
+	/*//竖直向上统计
 	for (i = s.x, j = s.y; j >= 0; j--) {
 		if (board[i][j] == sign)
 			s1++;
@@ -305,7 +305,7 @@ int Gobang::isOver(bool isRestricted)
 			}
 			break;
 		}
-	}
+	}*/
 
 	/* ------------------------------------------------------------- */
 
@@ -377,10 +377,43 @@ int Gobang::isOver(bool isRestricted)
 */
 int Gobang::searchNumOfChess(int m, int n)
 {
-	int temp_x, temp_y;
+	Step s = steps->back();
+	int i, j;												// i---x坐标，j---y坐标
+	int ChessNum = -1, BlankNum = 0, BlankChessNum = 0;		// ChessNum---相同棋子数目，BlankNum---空位数目，BlankChessNum---空位后一个位置同色棋子数
+	int ChessTypeNow = (turn + 1) % 2;						// ChessTypeNow----当前棋子类别
 
 
+	// 往右方及下方扫描 
+	i = s.x;
+	j = s.y;
+	while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == ChessTypeNow) {
+		i += m;                            
+		j += n;
+		ChessNum++;
+	}
+	if (board[i][j] == ChessType::NOCHESS) {         // 判断右方或下方是否有空位置
+		BlankNum++;
+		i += m;
+		j += n;
+		if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == ChessTypeNow)
+			BlankChessNum++;
+	}
 
+	// 往左方及上方扫描
+	i = s.x;
+	j = s.y;                     
+	while (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == ChessTypeNow) {
+		i -= m;                         
+		j -= n;
+		ChessNum++;
+	}
+	if (board[i][j] == ChessType::NOCHESS) {       // 判断左方或上方是否有空位置
+		BlankNum++;
+		i -= m;
+		j -= n;
+		if (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == ChessTypeNow)
+			BlankChessNum++;
+	}
 
 	return 0;
 }
