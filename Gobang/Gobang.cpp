@@ -379,7 +379,8 @@ int Gobang::searchNumOfChess(int m, int n)
 {
 	Step s = steps->back();
 	int i, j;												// i---x坐标，j---y坐标
-	int ChessNum = -1, BlankNum = 0, BlankChessNum = 0;		// ChessNum---相同棋子数目，BlankNum---空位数目，BlankChessNum---空位后一个位置同色棋子数
+	int ChessNum = -1, BlankNum = 0, OtherNum = 0;			// ChessNum---相同棋子数目，BlankNum---空位数目，OtherNum---不同色棋子数
+	int BlankOtherChessNum = 0, BlankChessNum = 0;			// BlankOtherChessNum---空位后一个位置不同色棋子数，BlankChessNum---空位后同色棋子数
 	int ChessTypeNow = (turn + 1) % 2;						// ChessTypeNow----当前棋子类别
 
 
@@ -395,9 +396,18 @@ int Gobang::searchNumOfChess(int m, int n)
 		BlankNum++;
 		i += m;
 		j += n;
-		if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == ChessTypeNow)
+		if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == turn)
+			BlankOtherChessNum++;
+		if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == ChessTypeNow) {
 			BlankChessNum++;
+			i += m;
+			j += n;
+			if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == turn)
+				BlankOtherChessNum++;
+		}
 	}
+	else 
+		OtherNum++;
 
 	// 往左方及上方扫描
 	i = s.x;
@@ -407,49 +417,30 @@ int Gobang::searchNumOfChess(int m, int n)
 		j -= n;
 		ChessNum++;
 	}
-	if (board[i][j] == ChessType::NOCHESS) {       // 判断左方或上方是否有空位置
+	if (board[i][j] == ChessType::NOCHESS) {        // 判断左方或上方是否有空位置
 		BlankNum++;
 		i -= m;
 		j -= n;
-		if (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == ChessTypeNow)
+		if (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == turn)
+			BlankOtherChessNum++;
+		if (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == ChessTypeNow) {
 			BlankChessNum++;
+			i -= m;
+			j -= n;
+			if (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == turn)
+				BlankOtherChessNum++;
+		}
 	}
+	else 
+		OtherNum++;
 
-	return 0;
-}
+	if (ChessNum + BlankChessNum == 3 && OtherNum + BlankOtherChessNum < 2) {
+		//活三
+	}
+	else if (ChessNum == 4 && OtherNum = 0) {
+		//活四
+	}
+		
 
-/*
-	判断棋型是否为活三
-
-	@para x---横坐标，y---纵坐标
-	@author 应禹尧
-	@return bool    true---棋型为活三，false---棋型不为活三
-*/
-bool Gobang::isLiveThree(int x, int y)
-{
-	return false;
-}
-
-/*
-	判断棋型是否为活四
-
-	@para x---横坐标，y---纵坐标
-	@author 应禹尧
-	@return bool    true---棋型为活四，false---棋型不为活四
-*/
-bool Gobang::isLiveFour(int x, int y)
-{
-	return false;
-}
-
-/*
-	判断棋型是否为冲四
-
-	@para x---横坐标，y---纵坐标
-	@author 应禹尧
-	@return bool    true---棋型为冲四，false---棋型不为冲四
-*/
-bool Gobang::isPunchingFour(int x, int y)
-{
-	return false;
+	return ChessNum;
 }
