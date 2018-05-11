@@ -96,6 +96,7 @@ void MainWindow::setGamePageBtnVisable(bool isOn)
 	ui.btn_retract->setVisible(isOn);
 	ui.btn_giveUp->setVisible(isOn);
 	ui.btn_save->setVisible(isOn);
+	ui.btn_return->setVisible(isOn);
 }
 
 /*
@@ -135,7 +136,31 @@ void MainWindow::buttonClicked()
 	{
 
 	}
+	else if (btnName == "btn_online")
+	{
+
+	}
 	else if (btnName == "btn_load")
+	{
+
+	}
+	else if (btnName == "btn_restart")
+	{
+
+	}
+	else if (btnName == "btn_prompt")
+	{
+
+	}
+	else if (btnName == "btn_retract")
+	{
+
+	}
+	else if (btnName == "btn_giveUp")
+	{
+
+	}
+	else if (btnName == "btn_save")
 	{
 
 	}
@@ -143,10 +168,20 @@ void MainWindow::buttonClicked()
 	{
 
 	}
-	else if (btnName == "btn_exit")
+	else if (btnName == "btn_team")
 	{
-		exit(0);
+
 	}
+	else if (btnName == "btn_rules")
+	{
+
+	}
+	else if (btnName == "btn_return")
+	{
+
+	}
+	else if (btnName == "btn_exit")
+		exit(0);
 }
 
 /*
