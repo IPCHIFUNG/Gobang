@@ -21,7 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
 */
 void MainWindow::clearBoard()
 {
-
+	std::deque<Gobang::Step>::iterator ite;
+	for (ite = gobang.getSteps().begin(); ite != gobang.getSteps().end(); ite++)
+		chess[ite->x][ite->y].setPixmap(QPixmap(""));
 }
 
 /*
@@ -33,9 +35,9 @@ void MainWindow::clearBoard()
 */
 void MainWindow::showStep(Gobang::Step step, int type)
 {
-	if (step.x < 350 || step.x > 1250)
+	if (step.x < 0 || step.x > BOARDLENGTH)
 		throw "step.x is out of range";
-	if (step.y < 0 || step.y > 900)
+	if (step.y < 0 || step.y > BOARDLENGTH)
 		throw "step.y is out of range";
 	if (type != ChessType::BLACKCHESS || type != ChessType::WHITECHESS)
 		throw "Invalid type";
@@ -125,7 +127,7 @@ void MainWindow::showWinnerDialog(int type)
 
 	@author 王开阳
 */
-void MainWindow::btnClicked1()
+void MainWindow::btnClicked()
 {
 	QString btnName = sender()->objectName();
 
@@ -150,17 +152,19 @@ void MainWindow::btnClicked1()
 
 @author 王开阳
 */
-void MainWindow::btnClicked2()
+void MainWindow::gameBtnsClicked()
 {
 	QString btnName = sender()->objectName();
 
 	if (btnName == "btn_pve")
 	{
-
+		
 	}
 	else if (btnName == "btn_pvp")
 	{
-
+		clearBoard();
+		gobang.initBoard();
+		connect(ui.lbl_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
 	}
 	else if (btnName == "btn_online")
 	{
@@ -177,7 +181,7 @@ void MainWindow::btnClicked2()
 
 @author 王开阳
 */
-void MainWindow::btnClicked3()
+void MainWindow::gamePropertiesBtnsClicked()
 {
 	QString btnName = sender()->objectName();
 
@@ -212,7 +216,12 @@ void MainWindow::btnClicked3()
 
 	@author 王开阳
 */
-void MainWindow::boardClicked()
+void MainWindow::boardClicked(QMouseEvent *event)
 {
-	QString str;
+	QPoint point = event->pos();
+	Gobang::Step step;
+
+	step.x = (point.x - 377) / 47 + 0.5;
+	step.y = (point.y - 424) / 47 + 0.5;
+	gobang.newStep(step);
 }

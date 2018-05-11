@@ -410,24 +410,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
  <resources>
   <include location="MainWindow.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>btn_retract</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>buttonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>289</x>
-     <y>105</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>409</x>
-     <y>111</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>buttonClicked()</slot>
  </slots>

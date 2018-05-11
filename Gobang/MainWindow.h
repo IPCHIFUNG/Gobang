@@ -2,6 +2,8 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QMediaPlayer>
+#include <QMouseEvent>
+#include <queue>
 #include "ui_MainWindow.h"
 #include "Gobang.h"
 
@@ -14,8 +16,10 @@ public:
 
 private:
 	Ui::MainWindowClass ui;
+	Gobang gobang;
 	QMediaPlayer music;
 	QMediaPlayer soundEff;
+	QLabel chess[BOARDLENGTH][BOARDLENGTH];
 
 private:
 	void clearBoard();									// 清空棋盘
@@ -30,8 +34,8 @@ private:
 	void setGamePageBtnVisable(bool isOn);				// 设置游戏页按钮的可见性
 
 private slots:
-	void btnClicked1();									// 按钮被点击响应事件
-	void btnClicked2();									// 按钮被点击响应事件
-	void btnClicked3();									// 按钮被点击响应事件
-	void boardClicked();								// 棋盘被点击响应事件
+	void btnClicked();									// 按钮被点击响应事件
+	void gameBtnsClicked();									// 按钮被点击响应事件
+	void gamePropertiesBtnsClicked();									// 按钮被点击响应事件
+	void boardClicked(QMouseEvent *event);					// 棋盘被点击响应事件
 };
