@@ -47,6 +47,8 @@ private:
 	void setChessModel(int model);			// 设置棋型
 	int getChessModel();					// 获得棋型
 
+	bool judgeRestricted(int model1, int model2);	// 判断棋型
+
 };
 
 /*
@@ -59,6 +61,18 @@ const enum ChessType
 	BLACKCHESS,	// 黑棋
 	WHITECHESS,	// 白棋
 	NOCHESS		// 无棋
+};
+
+/*
+	棋盘上的棋子路数
+
+	@author 应禹尧
+*/
+const enum ChessModel
+{
+	LIVETHREE,	// 活三
+	LIVEFOUR,	// 活四
+	CHONGFOUR,	// 冲四
 };
 
 #endif // !GOBANG_H
