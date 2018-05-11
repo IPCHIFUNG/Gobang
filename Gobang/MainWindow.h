@@ -28,6 +28,8 @@ private:
 	void showWinnerDialog(int type);					// 显示胜方信息
 
 private slots:
-	void buttonClicked();								// 按钮被点击响应事件
+	void btnClicked1();									// 按钮被点击响应事件
+	void btnClicked2();									// 按钮被点击响应事件
+	void btnClicked3();									// 按钮被点击响应事件
 	void boardClicked();								// 棋盘被点击响应事件
 };

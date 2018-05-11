@@ -124,7 +124,32 @@ void MainWindow::showWinnerDialog(int type)
 
 	@author 王开阳
 */
-void MainWindow::buttonClicked()
+void MainWindow::btnClicked1()
+{
+	QString btnName = sender()->objectName();
+
+	if (btnName == "btn_ranking")
+	{
+
+	}
+	else if (btnName == "btn_team")
+	{
+
+	}
+	else if (btnName == "btn_rules")
+	{
+
+	}
+	else if (btnName == "btn_exit")
+		exit(0);
+}
+
+/*
+按钮被点击响应事件
+
+@author 王开阳
+*/
+void MainWindow::btnClicked2()
 {
 	QString btnName = sender()->objectName();
 
@@ -144,7 +169,18 @@ void MainWindow::buttonClicked()
 	{
 
 	}
-	else if (btnName == "btn_restart")
+}
+
+/*
+按钮被点击响应事件
+
+@author 王开阳
+*/
+void MainWindow::btnClicked3()
+{
+	QString btnName = sender()->objectName();
+
+	if (btnName == "btn_restart")
 	{
 
 	}
@@ -164,24 +200,10 @@ void MainWindow::buttonClicked()
 	{
 
 	}
-	else if (btnName == "btn_ranking")
-	{
-
-	}
-	else if (btnName == "btn_team")
-	{
-
-	}
-	else if (btnName == "btn_rules")
-	{
-
-	}
 	else if (btnName == "btn_return")
 	{
 
 	}
-	else if (btnName == "btn_exit")
-		exit(0);
 }
 
 /*
