@@ -14,8 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 	music.setMedia(QUrl::fromLocalFile("./sound/FlowerDance.mp3"));
 	soundEff.setMedia(QUrl::fromLocalFile("./sound/∆Â◊”“Ù–ßa.mp3"));
-
-	connect(ui.btn_exit, SIGNAL(clicked()), this, SLOT(buttonClicked()));
 }
 
 /*

@@ -56,9 +56,9 @@ public:
         font.setFamily(QString::fromUtf8("\345\276\256\350\275\257\351\233\205\351\273\221"));
         font.setPointSize(30);
         btn_retract->setFont(font);
-        btn_retract->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\346\202\224\346\243\213.PNG);}\n"
+        btn_retract->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\346\202\224\346\243\213.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\346\202\224\346\243\213\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\346\202\224\346\243\213.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\346\202\224\346\243\213.png);}"));
         btn_load = new QPushButton(centralWidget);
         btn_load->setObjectName(QStringLiteral("btn_load"));
         btn_load->setGeometry(QRect(50, 750, 241, 81));
@@ -66,9 +66,9 @@ public:
         font1.setFamily(QString::fromUtf8("\345\276\256\350\275\257\351\233\205\351\273\221"));
         font1.setPointSize(18);
         btn_load->setFont(font1);
-        btn_load->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\350\257\273\345\217\226\346\243\213\347\233\230.PNG);}\n"
+        btn_load->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\350\257\273\345\217\226\346\243\213\347\233\230.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\350\257\273\345\217\226\346\243\213\347\233\230\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\350\257\273\345\217\226\346\243\213\347\233\230.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\350\257\273\345\217\226\346\243\213\347\233\230.png);}"));
         lbl_chessboard = new QLabel(centralWidget);
         lbl_chessboard->setObjectName(QStringLiteral("lbl_chessboard"));
         lbl_chessboard->setGeometry(QRect(350, 0, 900, 900));
@@ -78,9 +78,9 @@ public:
         btn_online->setObjectName(QStringLiteral("btn_online"));
         btn_online->setGeometry(QRect(50, 640, 241, 81));
         btn_online->setFont(font1);
-        btn_online->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\350\201\224\346\234\272\345\257\271\346\210\230.PNG);}\n"
+        btn_online->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\350\201\224\346\234\272\345\257\271\346\210\230.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\350\201\224\346\234\272\345\257\271\346\210\230\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\350\201\224\346\234\272\345\257\271\346\210\230.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\350\201\224\346\234\272\345\257\271\346\210\230.png);}"));
         lbl_background = new QLabel(centralWidget);
         lbl_background->setObjectName(QStringLiteral("lbl_background"));
         lbl_background->setGeometry(QRect(0, 0, 1600, 900));
@@ -90,79 +90,79 @@ public:
         btn_save->setObjectName(QStringLiteral("btn_save"));
         btn_save->setGeometry(QRect(50, 760, 241, 81));
         btn_save->setFont(font);
-        btn_save->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\344\277\235\345\255\230\346\243\213\347\233\230.PNG);}\n"
+        btn_save->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\344\277\235\345\255\230\346\243\213\347\233\230.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\344\277\235\345\255\230\346\243\213\347\233\230\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\344\277\235\345\255\230\346\243\213\347\233\230.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\344\277\235\345\255\230\346\243\213\347\233\230.png);}"));
         btn_pve = new QPushButton(centralWidget);
         btn_pve->setObjectName(QStringLiteral("btn_pve"));
         btn_pve->setGeometry(QRect(50, 420, 241, 81));
         btn_pve->setFont(font);
-        btn_pve->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\344\272\272\346\234\272\345\257\271\346\210\230.PNG);}\n"
+        btn_pve->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\344\272\272\346\234\272\345\257\271\346\210\230.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\344\272\272\346\234\272\345\257\271\346\210\230\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\344\272\272\346\234\272\345\257\271\346\210\230.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\344\272\272\346\234\272\345\257\271\346\210\230.png);}"));
         btn_ranking = new QPushButton(centralWidget);
         btn_ranking->setObjectName(QStringLiteral("btn_ranking"));
         btn_ranking->setGeometry(QRect(1300, 400, 241, 81));
         btn_ranking->setFont(font);
-        btn_ranking->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\346\216\222\350\241\214\346\246\234.PNG);}\n"
+        btn_ranking->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\346\216\222\350\241\214\346\246\234.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\346\216\222\350\241\214\346\246\234\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\346\216\222\350\241\214\346\246\234.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\346\216\222\350\241\214\346\246\234.png);}"));
         btn_rules = new QPushButton(centralWidget);
         btn_rules->setObjectName(QStringLiteral("btn_rules"));
         btn_rules->setGeometry(QRect(1300, 580, 241, 81));
         btn_rules->setFont(font);
-        btn_rules->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\346\270\270\346\210\217\350\247\204\345\210\231.PNG);}\n"
+        btn_rules->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\346\270\270\346\210\217\350\247\204\345\210\231.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\346\270\270\346\210\217\350\247\204\345\210\231\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\346\270\270\346\210\217\350\247\204\345\210\231.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\346\270\270\346\210\217\350\247\204\345\210\231.png);}"));
         btn_exit = new QPushButton(centralWidget);
         btn_exit->setObjectName(QStringLiteral("btn_exit"));
         btn_exit->setGeometry(QRect(1300, 760, 241, 81));
         btn_exit->setFont(font);
-        btn_exit->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\351\200\200\345\207\272.PNG);}\n"
+        btn_exit->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\351\200\200\345\207\272.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\351\200\200\345\207\272\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\351\200\200\345\207\272.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\351\200\200\345\207\272.png);}"));
         btn_prompt = new QPushButton(centralWidget);
         btn_prompt->setObjectName(QStringLiteral("btn_prompt"));
         btn_prompt->setGeometry(QRect(50, 490, 241, 81));
         btn_prompt->setFont(font);
-        btn_prompt->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\346\217\220\347\244\272.PNG);}\n"
+        btn_prompt->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\346\217\220\347\244\272.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\346\217\220\347\244\272\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\346\217\220\347\244\272.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\346\217\220\347\244\272.png);}"));
         btn_giveUp = new QPushButton(centralWidget);
         btn_giveUp->setObjectName(QStringLiteral("btn_giveUp"));
         btn_giveUp->setGeometry(QRect(50, 670, 241, 81));
         btn_giveUp->setFont(font);
-        btn_giveUp->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\350\256\244\350\276\223.PNG);}\n"
+        btn_giveUp->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\350\256\244\350\276\223.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\350\256\244\350\276\223\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\350\256\244\350\276\223.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\350\256\244\350\276\223.png);}"));
         btn_restart = new QPushButton(centralWidget);
         btn_restart->setObjectName(QStringLiteral("btn_restart"));
         btn_restart->setGeometry(QRect(50, 400, 241, 81));
         btn_restart->setFont(font);
-        btn_restart->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\351\207\215\346\226\260\345\274\200\345\247\213.PNG);}\n"
+        btn_restart->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\351\207\215\346\226\260\345\274\200\345\247\213.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\351\207\215\346\226\260\345\274\200\345\247\213\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\351\207\215\346\226\260\345\274\200\345\247\213.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\351\207\215\346\226\260\345\274\200\345\247\213.png);}"));
         btn_team = new QPushButton(centralWidget);
         btn_team->setObjectName(QStringLiteral("btn_team"));
         btn_team->setGeometry(QRect(1300, 490, 241, 81));
         btn_team->setFont(font);
-        btn_team->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\345\210\266\344\275\234\345\233\242\351\230\237.PNG);}\n"
+        btn_team->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\345\210\266\344\275\234\345\233\242\351\230\237.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\345\210\266\344\275\234\345\233\242\351\230\237\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\345\210\266\344\275\234\345\233\242\351\230\237.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\345\210\266\344\275\234\345\233\242\351\230\237.png);}"));
         btn_return = new QPushButton(centralWidget);
         btn_return->setObjectName(QStringLiteral("btn_return"));
         btn_return->setGeometry(QRect(1300, 670, 241, 81));
         btn_return->setFont(font);
-        btn_return->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\350\277\224\345\233\236.PNG);}\n"
+        btn_return->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\350\277\224\345\233\236.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\350\277\224\345\233\236\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\350\277\224\345\233\236.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\350\277\224\345\233\236.png);}"));
         btn_pvp = new QPushButton(centralWidget);
         btn_pvp->setObjectName(QStringLiteral("btn_pvp"));
         btn_pvp->setGeometry(QRect(50, 530, 241, 81));
         btn_pvp->setFont(font);
-        btn_pvp->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\345\274\200\345\247\213\346\270\270\346\210\217.PNG);}\n"
+        btn_pvp->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\345\274\200\345\247\213\346\270\270\346\210\217.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\345\274\200\345\247\213\346\270\270\346\210\217\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
-"QPushButton:pressed{border-image: url(:/MainWindow/image/\345\274\200\345\247\213\346\270\270\346\210\217.PNG);}"));
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\345\274\200\345\247\213\346\270\270\346\210\217.png);}"));
         MainWindowClass->setCentralWidget(centralWidget);
         lbl_background->raise();
         lbl_chessboard->raise();

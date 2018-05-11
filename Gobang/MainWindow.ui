@@ -30,9 +30,9 @@
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/悔棋.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/悔棋.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/悔棋（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/悔棋.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/悔棋.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -54,9 +54,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/悔棋.PNG);}</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/读取棋盘.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/读取棋盘.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/读取棋盘（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/读取棋盘.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/读取棋盘.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -97,9 +97,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/读取棋盘.PNG);}</st
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/联机对战.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/联机对战.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/联机对战（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/联机对战.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/联机对战.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -140,9 +140,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/联机对战.PNG);}</st
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/保存棋盘.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/保存棋盘.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/保存棋盘（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -164,9 +164,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/保存棋盘.PNG);}</st
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/人机对战.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/人机对战.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/人机对战（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/人机对战.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/人机对战.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -188,9 +188,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/人机对战.PNG);}</st
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/排行榜.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/排行榜.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/排行榜（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/排行榜.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/排行榜.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -212,9 +212,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/排行榜.PNG);}</strin
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/游戏规则.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/游戏规则.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/游戏规则（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/游戏规则.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/游戏规则.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -236,9 +236,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/游戏规则.PNG);}</st
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/退出.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/退出.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/退出（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/退出.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/退出.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -260,9 +260,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/退出.PNG);}</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/提示.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/提示.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/提示（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/提示.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/提示.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -284,9 +284,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/提示.PNG);}</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/认输.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/认输.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/认输（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/认输.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/认输.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -308,9 +308,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/认输.PNG);}</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/重新开始.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/重新开始.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/重新开始（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/重新开始.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/重新开始.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -332,9 +332,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/重新开始.PNG);}</st
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/制作团队.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/制作团队.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/制作团队（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/制作团队.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/制作团队.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -356,9 +356,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/制作团队.PNG);}</st
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/返回.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/返回.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/返回（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/返回.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/返回.png);}</string>
     </property>
     <property name="text">
      <string/>
@@ -380,9 +380,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/返回.PNG);}</string>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/开始游戏.PNG);}
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/开始游戏.png);}
 QPushButton:hover{border-image: url(:/MainWindow/image/开始游戏（带阴影）.png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.PNG);}</string>
+QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</string>
     </property>
     <property name="text">
      <string/>
