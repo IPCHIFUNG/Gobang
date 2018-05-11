@@ -91,6 +91,23 @@ int Gobang::getTurn()
 }
 
 /*
+	返回（x, y）位置的棋子
+
+	@author 叶志枫
+	@para int x - x 坐标
+	@para int y - y 坐标
+	@return ChessType - 返回棋子类型，越界返回-1
+*/
+int Gobang::getAtPosition(int x, int y)
+{
+	if (x < 0 || x >= BOARDLENGTH)
+		return -1;
+	if (y < 0 || y >= BOARDLENGTH)
+		return -1;
+	return board[x][y];
+}
+
+/*
 	返回储存落子顺序的双端队列
 
 	@author 叶志枫
