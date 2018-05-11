@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 */
 void MainWindow::clearBoard()
 {
+
 }
 
 /*
