@@ -148,9 +148,9 @@ void MainWindow::btnClicked()
 }
 
 /*
-按钮被点击响应事件
+	按钮被点击响应事件
 
-@author 王开阳
+	@author 王开阳
 */
 void MainWindow::gameBtnsClicked()
 {
@@ -177,9 +177,9 @@ void MainWindow::gameBtnsClicked()
 }
 
 /*
-按钮被点击响应事件
+	按钮被点击响应事件
 
-@author 王开阳
+	@author 王开阳
 */
 void MainWindow::gamePropertiesBtnsClicked()
 {
@@ -221,7 +221,7 @@ void MainWindow::boardClicked(QMouseEvent *event)
 	QPoint point = event->pos();
 	Gobang::Step step;
 
-	step.x = (point.x - 377) / 47 + 0.5;
-	step.y = (point.y - 424) / 47 + 0.5;
+	step.x = (point.x() - 377) / 47 + 0.5;
+	step.y = (point.y() - 424) / 47 + 0.5;
 	gobang.newStep(step);
 }

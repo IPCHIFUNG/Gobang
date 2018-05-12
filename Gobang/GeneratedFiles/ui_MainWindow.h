@@ -182,7 +182,6 @@ public:
         btn_pvp->raise();
 
         retranslateUi(MainWindowClass);
-        QObject::connect(btn_retract, SIGNAL(clicked()), MainWindowClass, SLOT(buttonClicked()));
 
         QMetaObject::connectSlotsByName(MainWindowClass);
     } // setupUi
