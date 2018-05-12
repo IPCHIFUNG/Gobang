@@ -30,6 +30,8 @@ private:
 
 private slots:
 	void changeButton(int index);			// tab页切换时改变按钮
+	void hostBtnClicked();					// 开启主机按钮响应
+	void connectBtnClicked();				// 连接按钮响应
 	void cancelBtnClicked();				// 取消按钮响应
 };
 

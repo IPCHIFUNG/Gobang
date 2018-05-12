@@ -11,17 +11,11 @@ public:
 	~Server();
 
 private:
-	void openListeningThread();
-	void openConnectingThread();
-
-	static void listeningThread();
-	static void connectingThread();
 
 private:
 	int port;
 	char * IPAddr;
 
-	
 };
 
 
