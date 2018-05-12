@@ -34,7 +34,7 @@ private:
 	void setGamePageBtnVisable(bool isOn);				// 设置游戏页按钮的可见性
 
 private slots:
-	void btnClicked();									// 按钮被点击响应事件
+	void btnsClicked();									// 按钮被点击响应事件
 	void gameBtnsClicked();									// 按钮被点击响应事件
 	void gamePropertiesBtnsClicked();									// 按钮被点击响应事件
 	void boardClicked(QMouseEvent *event);					// 棋盘被点击响应事件

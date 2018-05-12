@@ -6,8 +6,12 @@ ServerDialog::ServerDialog(QWidget *parent)
 {
 	ui->setupUi(this);
 
+	// 设置窗口标题
+	this->setWindowTitle(QString::fromLocal8Bit("联机对战"));
+	// 设置窗口居中
 	this->move(parent->geometry().center() - this->rect().center());
 
+	// 初始化信号与槽
 	connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(changeButton(int)));
 	connect(ui->btn_ok, SIGNAL(clicked()), this, SLOT(hostBtnClicked()));
 	connect(ui->btn_cancel, SIGNAL(clicked()), this, SLOT(cancelBtnClicked()));

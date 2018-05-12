@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
     QByteArrayData data[8];
-    char stringdata0[97];
+    char stringdata0[98];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,16 +32,16 @@ struct qt_meta_stringdata_MainWindow_t {
 static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
     {
 QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
-QT_MOC_LITERAL(1, 11, 10), // "btnClicked"
-QT_MOC_LITERAL(2, 22, 0), // ""
-QT_MOC_LITERAL(3, 23, 15), // "gameBtnsClicked"
-QT_MOC_LITERAL(4, 39, 25), // "gamePropertiesBtnsClicked"
-QT_MOC_LITERAL(5, 65, 12), // "boardClicked"
-QT_MOC_LITERAL(6, 78, 12), // "QMouseEvent*"
-QT_MOC_LITERAL(7, 91, 5) // "event"
+QT_MOC_LITERAL(1, 11, 11), // "btnsClicked"
+QT_MOC_LITERAL(2, 23, 0), // ""
+QT_MOC_LITERAL(3, 24, 15), // "gameBtnsClicked"
+QT_MOC_LITERAL(4, 40, 25), // "gamePropertiesBtnsClicked"
+QT_MOC_LITERAL(5, 66, 12), // "boardClicked"
+QT_MOC_LITERAL(6, 79, 12), // "QMouseEvent*"
+QT_MOC_LITERAL(7, 92, 5) // "event"
 
     },
-    "MainWindow\0btnClicked\0\0gameBtnsClicked\0"
+    "MainWindow\0btnsClicked\0\0gameBtnsClicked\0"
     "gamePropertiesBtnsClicked\0boardClicked\0"
     "QMouseEvent*\0event"
 };
@@ -81,7 +81,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         MainWindow *_t = static_cast<MainWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->btnClicked(); break;
+        case 0: _t->btnsClicked(); break;
         case 1: _t->gameBtnsClicked(); break;
         case 2: _t->gamePropertiesBtnsClicked(); break;
         case 3: _t->boardClicked((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
