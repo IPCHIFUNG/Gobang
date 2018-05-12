@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "ServerDialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -15,6 +16,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 	music.setMedia(QUrl::fromLocalFile("./sound/FlowerDance.mp3"));
 	soundEff.setMedia(QUrl::fromLocalFile("./sound/∆Â◊”“Ù–ßa.mp3"));
+
+	connect(ui.btn_pve, SIGNAL(clicked()), this, SLOT(gameBtnsClicked()));
+	connect(ui.btn_pvp, SIGNAL(clicked()), this, SLOT(gameBtnsClicked()));
+	connect(ui.btn_online, SIGNAL(clicked()), this, SLOT(gameBtnsClicked()));
+	connect(ui.btn_load, SIGNAL(clicked()), this, SLOT(gameBtnsClicked()));
 }
 
 /*
@@ -169,7 +175,8 @@ void MainWindow::gameBtnsClicked()
 	}
 	else if (btnName == "btn_online")
 	{
-
+		ServerDialog serverDialog = new ServerDialog(this);
+		serverDialog.exec();
 	}
 	else if (btnName == "btn_load")
 	{
