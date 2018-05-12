@@ -23,7 +23,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_server">
       <attribute name="title">
@@ -60,7 +60,7 @@
      </widget>
      <widget class="QWidget" name="tab_client">
       <attribute name="title">
-       <string>加入主机</string>
+       <string>连接至主机</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
