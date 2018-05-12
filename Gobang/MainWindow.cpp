@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 	// 初始化标题栏
 	this->setWindowTitle(QString::fromLocal8Bit("五子棋"));
 	this->setWindowIcon(QIcon(":/MainWindow/image/WHITE_64.ico"));
+	this->setFixedSize(this->width(), this->height());
 
 	// 初始化按钮
 	setHomePageBtnVisable(true);
