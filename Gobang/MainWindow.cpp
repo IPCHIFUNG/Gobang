@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(ui.btn_load, SIGNAL(clicked()), this, SLOT(gameBtnsClicked()));
 
 	connect(ui.btn_exit, SIGNAL(clicked()), this, SLOT(btnsClicked()));
+
+	gobang = Gobang();
 }
 
 /*
@@ -236,4 +238,7 @@ void MainWindow::boardClicked(QMouseEvent *event)
 	step.x = (point.x() - 377) / 47 + 0.5;
 	step.y = (point.y() - 424) / 47 + 0.5;
 	gobang.newStep(step);
+
+	showStep(step, gobang.getTurn());	// 显示棋子
+	highlightStep(step);				// 高亮棋子
 }
