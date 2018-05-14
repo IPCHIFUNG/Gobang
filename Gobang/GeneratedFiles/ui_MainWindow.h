@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MainWindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -162,7 +162,7 @@ public:
         btn_chessboard = new QPushButton(centralWidget);
         btn_chessboard->setObjectName(QStringLiteral("btn_chessboard"));
         btn_chessboard->setGeometry(QRect(350, 0, 900, 900));
-        btn_chessboard->setStyleSheet(QStringLiteral(""));
+        btn_chessboard->setStyleSheet(QStringLiteral("background: transparent;"));
         btn_chessboard->setFlat(true);
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));

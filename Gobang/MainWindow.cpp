@@ -73,8 +73,6 @@ void MainWindow::showStep(Gobang::Step step, int type)
 	case ChessType::WHITECHESS:
 		chess[step.x][step.y].setPixmap(whiteChess);
 		break;
-	default:
-		break;
 	}
 }
 
@@ -171,8 +169,6 @@ void MainWindow::showWinnerDialog(int type)
 	case ChessType::WHITECHESS:		// 白起获胜
 		break;
 	case ChessType::NOCHESS:		// 平局
-		break;
-	default:
 		break;
 	}
 }
@@ -293,13 +289,10 @@ void MainWindow::boardClicked()
 			break;
 		case ChessType::WHITECHESS:
 			break;
-		default:
-			break;
 		}
 	}
 	catch (const char* msg)
 	{
 		qDebug() << msg;
 	}
-	
 }

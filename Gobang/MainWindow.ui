@@ -379,7 +379,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true"/>
+     <string notr="true">background: transparent;</string>
     </property>
     <property name="text">
      <string/>
