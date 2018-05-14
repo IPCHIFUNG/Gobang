@@ -197,6 +197,11 @@ public:
         QObject::connect(btn_pvp, SIGNAL(clicked()), MainWindowClass, SLOT(gameBtnsClicked()));
         QObject::connect(btn_load, SIGNAL(clicked()), MainWindowClass, SLOT(gameBtnsClicked()));
         QObject::connect(btn_online, SIGNAL(clicked()), MainWindowClass, SLOT(gameBtnsClicked()));
+        QObject::connect(btn_restart, SIGNAL(clicked()), MainWindowClass, SLOT(gamePropertiesBtnsClicked()));
+        QObject::connect(btn_prompt, SIGNAL(clicked()), MainWindowClass, SLOT(gamePropertiesBtnsClicked()));
+        QObject::connect(btn_retract, SIGNAL(clicked()), MainWindowClass, SLOT(gamePropertiesBtnsClicked()));
+        QObject::connect(btn_giveUp, SIGNAL(clicked()), MainWindowClass, SLOT(gamePropertiesBtnsClicked()));
+        QObject::connect(btn_save, SIGNAL(clicked()), MainWindowClass, SLOT(gamePropertiesBtnsClicked()));
 
         QMetaObject::connectSlotsByName(MainWindowClass);
     } // setupUi

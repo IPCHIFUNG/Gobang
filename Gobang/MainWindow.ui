@@ -572,9 +572,90 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btn_restart</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>gamePropertiesBtnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>183</x>
+     <y>430</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-53</x>
+     <y>443</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_prompt</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>gamePropertiesBtnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>167</x>
+     <y>525</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-62</x>
+     <y>530</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_retract</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>gamePropertiesBtnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>623</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-63</x>
+     <y>625</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_giveUp</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>gamePropertiesBtnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>732</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-100</x>
+     <y>713</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_save</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>gamePropertiesBtnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>174</x>
+     <y>804</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-56</x>
+     <y>803</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btnsClicked()</slot>
   <slot>gameBtnsClicked()</slot>
+  <slot>gamePropertiesBtnsClicked()</slot>
  </slots>
 </ui>
