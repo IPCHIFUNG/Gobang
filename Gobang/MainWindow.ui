@@ -388,7 +388,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="lbl_chessboard">
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -420,7 +420,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
    <zorder>btn_return</zorder>
    <zorder>btn_pvp</zorder>
    <zorder>btn_chessboard</zorder>
-   <zorder>label</zorder>
+   <zorder>lbl_chessboard</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

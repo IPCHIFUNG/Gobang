@@ -29,14 +29,6 @@ MainWindow::MainWindow(QWidget *parent)
 	music.setMedia(QUrl::fromLocalFile("./sound/FlowerDance.mp3"));
 	soundEff.setMedia(QUrl::fromLocalFile("./sound/棋子音效a.mp3"));
 
-	// 初始化信号与槽
-	connect(ui.btn_pve, SIGNAL(clicked()), this, SLOT(gameBtnsClicked()));
-	connect(ui.btn_pvp, SIGNAL(clicked()), this, SLOT(gameBtnsClicked()));
-	connect(ui.btn_online, SIGNAL(clicked()), this, SLOT(gameBtnsClicked()));
-	connect(ui.btn_load, SIGNAL(clicked()), this, SLOT(gameBtnsClicked()));
-
-	connect(ui.btn_exit, SIGNAL(clicked()), this, SLOT(btnsClicked()));
-
 	gobang = Gobang();
 }
 

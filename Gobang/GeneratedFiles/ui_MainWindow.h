@@ -41,7 +41,7 @@ public:
     QPushButton *btn_return;
     QPushButton *btn_pvp;
     QPushButton *btn_chessboard;
-    QLabel *label;
+    QLabel *lbl_chessboard;
 
     void setupUi(QMainWindow *MainWindowClass)
     {
@@ -164,10 +164,10 @@ public:
         btn_chessboard->setGeometry(QRect(350, 0, 900, 900));
         btn_chessboard->setStyleSheet(QStringLiteral("background: transparent;"));
         btn_chessboard->setFlat(true);
-        label = new QLabel(centralWidget);
-        label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(350, 0, 900, 900));
-        label->setPixmap(QPixmap(QString::fromUtf8(":/MainWindow/image/70\351\200\217\346\230\216\345\272\246\346\243\213\347\233\230.png")));
+        lbl_chessboard = new QLabel(centralWidget);
+        lbl_chessboard->setObjectName(QStringLiteral("lbl_chessboard"));
+        lbl_chessboard->setGeometry(QRect(350, 0, 900, 900));
+        lbl_chessboard->setPixmap(QPixmap(QString::fromUtf8(":/MainWindow/image/70\351\200\217\346\230\216\345\272\246\346\243\213\347\233\230.png")));
         MainWindowClass->setCentralWidget(centralWidget);
         lbl_background->raise();
         btn_retract->raise();
@@ -185,7 +185,7 @@ public:
         btn_return->raise();
         btn_pvp->raise();
         btn_chessboard->raise();
-        label->raise();
+        lbl_chessboard->raise();
 
         retranslateUi(MainWindowClass);
 
@@ -211,7 +211,7 @@ public:
         btn_return->setText(QString());
         btn_pvp->setText(QString());
         btn_chessboard->setText(QString());
-        label->setText(QString());
+        lbl_chessboard->setText(QString());
     } // retranslateUi
 
 };
