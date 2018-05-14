@@ -2,8 +2,6 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QMediaPlayer>
-#include <QMouseEvent>
-#include <queue>
 #include "ui_MainWindow.h"
 #include "Gobang.h"
 
