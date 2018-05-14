@@ -146,7 +146,15 @@ void Gobang::newStep(Step step)
 	board[step.x][step.y] = turn;
 
 	steps->push_back(step);
+}
 
+/*
+	»»ÈË×ßÆå
+
+	@author Ò¶Ö¾·ã
+*/
+void Gobang::shiftTurn()
+{
 	turn = (turn + 1) % 2;
 }
 

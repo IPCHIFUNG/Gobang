@@ -19,6 +19,7 @@ public:
 
 	void initBoard();						// 初始化棋盘或用于清空棋盘
 	void newStep(Step step);				// 走一步棋
+	void shiftTurn();						// 换人走棋
 	Step AIWalk(int type);					// 机器走棋
 
 	int isOverWithRestricted();				// 判断游戏是否结束，否返回ChessType::NOCHESS, 是返回棋子对应枚举，有禁手
