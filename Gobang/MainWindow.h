@@ -3,6 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QMediaPlayer>
 #include <QFileDialog>
+#include <string>
 #include "ui_MainWindow.h"
 #include "Gobang.h"
 
@@ -35,7 +36,8 @@ private:
 
 	void setHomePageBtnVisable(bool isOn);				// 设置主页按钮的可见性
 	void setGamePageBtnVisable(bool isOn);				// 设置游戏页按钮的可见性
-
+	std::string selectFile();							// 选择读取文件
+	std::string selectDirectory();						// 选择保存目录
 	Gobang::Step getStepFromScreen();					// 从屏幕获取棋子坐标
 
 private slots:

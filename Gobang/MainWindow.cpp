@@ -206,7 +206,7 @@ void MainWindow::gameBtnsClicked()
 
 	if (btnName == "btn_pve")
 	{
-		
+
 	}
 	else if (btnName == "btn_pvp")
 	{
@@ -220,7 +220,8 @@ void MainWindow::gameBtnsClicked()
 	}
 	else if (btnName == "btn_load")
 	{
-		gobang.loadBoard();
+		std::string file = selectFile();
+		gobang.loadBoard(const_cast<char*>(file.c_str()));
 	}
 	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
@@ -254,7 +255,8 @@ void MainWindow::gamePropertiesBtnsClicked()
 	}
 	else if (btnName == "btn_save")
 	{
-		gobang.saveBoard();
+		std::string dir = selectDirectory();
+		gobang.saveBoard(const_cast<char*>(dir.c_str()));
 	}
 	else if (btnName == "btn_return")
 	{
@@ -287,4 +289,28 @@ void MainWindow::boardClicked()
 	{
 		qDebug() << msg;
 	}
+}
+
+std::string MainWindow::selectFile()
+{
+	QFileDialog fd;
+	fd.setAcceptMode(QFileDialog::AcceptOpen);	//文件对话框为保存类型
+	fd.setViewMode(QFileDialog::Detail);		//详细
+	fd.setFileMode(QFileDialog::ExistingFile);	//存在的单个文件名
+	fd.setWindowTitle("选择要保存的目录");
+	fd.setDefaultSuffix("txt");
+	QStringList filters;
+	filters << "文本文件 (*.txt)";
+	fd.setNameFilters(filters);					//文件过滤
+	return fd.selectedFiles()[0].toStdString();
+}
+
+std::string MainWindow::selectDirectory()
+{
+	QFileDialog fd;
+	fd.setAcceptMode(QFileDialog::AcceptSave);	//文件对话框为保存类型
+	fd.setViewMode(QFileDialog::Detail);		//详细
+	fd.setFileMode(QFileDialog::Directory);		//存在的文件夹
+	fd.setWindowTitle("选择要保存的目录");
+	return fd.selectedFiles()[0].toStdString();
 }
