@@ -1,6 +1,5 @@
-#include "Gobang.h"
-
 #include <stdio.h>
+#include "Gobang.h"
 
 Gobang::Gobang()
 {

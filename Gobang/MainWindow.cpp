@@ -37,9 +37,13 @@ MainWindow::MainWindow(QWidget *parent)
 */
 void MainWindow::clearBoard()
 {
-	/*std::deque<Gobang::Step>::iterator ite;
-	for (ite = gobang.getSteps().begin(); ite != gobang.getSteps().end(); ite++)
-		chess[ite->x][ite->y].setPixmap(QPixmap(""));*/
+	int size = gobang.getSteps().size();
+	auto iterator = gobang.getSteps().begin();
+	for (int i = 0; i < size; i++)
+	{
+		chess[iterator->x][iterator->y].setPixmap(QPixmap(""));
+		iterator++;
+	}
 }
 
 /*
@@ -201,7 +205,9 @@ void MainWindow::gameBtnsClicked()
 
 	if (btnName == "btn_pve")
 	{
-		
+		connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+		setHomePageBtnVisable(false);
+		setGamePageBtnVisable(true);
 	}
 	else if (btnName == "btn_pvp")
 	{
@@ -215,10 +221,15 @@ void MainWindow::gameBtnsClicked()
 	{
 		ServerDialog serverDialog = new ServerDialog(this);
 		serverDialog.exec();
+		connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+		setHomePageBtnVisable(false);
+		setGamePageBtnVisable(true);
 	}
 	else if (btnName == "btn_load")
 	{
-
+		connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+		setHomePageBtnVisable(false);
+		setGamePageBtnVisable(true);
 	}
 }
 
@@ -253,7 +264,9 @@ void MainWindow::gamePropertiesBtnsClicked()
 	}
 	else if (btnName == "btn_return")
 	{
-
+		disconnect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+		setHomePageBtnVisable(true);
+		setGamePageBtnVisable(false);
 	}
 }
 

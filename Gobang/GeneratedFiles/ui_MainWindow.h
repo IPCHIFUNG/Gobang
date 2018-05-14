@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MainWindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.0
+** Created by: Qt User Interface Compiler version 5.10.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -191,7 +191,7 @@ public:
         QObject::connect(btn_ranking, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
         QObject::connect(btn_team, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
         QObject::connect(btn_rules, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
-        QObject::connect(btn_return, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
+        QObject::connect(btn_return, SIGNAL(clicked()), MainWindowClass, SLOT(gamePropertiesBtnsClicked()));
         QObject::connect(btn_exit, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
         QObject::connect(btn_pve, SIGNAL(clicked()), MainWindowClass, SLOT(gameBtnsClicked()));
         QObject::connect(btn_pvp, SIGNAL(clicked()), MainWindowClass, SLOT(gameBtnsClicked()));

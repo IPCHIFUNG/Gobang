@@ -480,7 +480,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
    <sender>btn_return</sender>
    <signal>clicked()</signal>
    <receiver>MainWindowClass</receiver>
-   <slot>btnsClicked()</slot>
+   <slot>gamePropertiesBtnsClicked()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>1432</x>
