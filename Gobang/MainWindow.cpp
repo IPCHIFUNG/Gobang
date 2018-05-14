@@ -27,7 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 	// 读取音乐和音效
 	music.setMedia(QUrl::fromLocalFile("./sound/FlowerDance.mp3"));
-	soundEff.setMedia(QUrl::fromLocalFile("./sound/棋子音效a.mp3"));
+	soundEff.setMedia(QUrl::fromLocalFile("./sound/b.mp3"));
+	setBackgroundMusic(true);
 
 	gobang = Gobang();
 }
@@ -205,32 +206,25 @@ void MainWindow::gameBtnsClicked()
 
 	if (btnName == "btn_pve")
 	{
-		connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
-		setHomePageBtnVisable(false);
-		setGamePageBtnVisable(true);
+		
 	}
 	else if (btnName == "btn_pvp")
 	{
 		clearBoard();
 		gobang.initBoard();
-		connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
-		setHomePageBtnVisable(false);
-		setGamePageBtnVisable(true);
 	}
 	else if (btnName == "btn_online")
 	{
 		ServerDialog serverDialog = new ServerDialog(this);
 		serverDialog.exec();
-		connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
-		setHomePageBtnVisable(false);
-		setGamePageBtnVisable(true);
 	}
 	else if (btnName == "btn_load")
 	{
-		connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
-		setHomePageBtnVisable(false);
-		setGamePageBtnVisable(true);
+		
 	}
+	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	setHomePageBtnVisable(false);
+	setGamePageBtnVisable(true);
 }
 
 /*
@@ -280,8 +274,8 @@ void MainWindow::boardClicked()
 	Gobang::Step step = getStepFromScreen();
 	try
 	{
-		showStep(step, gobang.getTurn());	// 显示棋子
 		gobang.newStep(step);
+		showStep(step, gobang.getTurn());	// 显示棋子
 		playSoundEffects();
 		highlightStep(step);				// 高亮棋子
 
