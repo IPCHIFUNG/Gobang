@@ -6,6 +6,7 @@ Gobang::Gobang()
 {
 	// 初始化棋盘
 	initBoard();
+
 }
 
 Gobang::~Gobang()
@@ -202,62 +203,62 @@ int Gobang::isOver(bool isRestricted)
 {
 	Step s = steps->back();
 	int sign = (turn + 1) % 2;						// sign----棋子类别
-	int result[4], model[4];						// result---棋子数目，model---棋型
+	int result[4] = { -1,-1,-1,-1 }, model[4] = { -1,-1,-1,-1 };	// result---棋子数目，model---棋型
 
 
 /* ------------------------------------------------------------- */
 
 	if (!isRestricted) {
-		result[0] = searchNumOfChess(0, 1);		// 竖直查找
+		result[0] = searchNumOfChess(1, 0, 0);		// 竖直查找，0---竖直
 		if (result[0] == 5)
 			return sign;
 
-		result[1] = searchNumOfChess(1, 0);		// 水平查找
+		result[1] = searchNumOfChess(0, 1, 1);		// 水平查找，1---水平
 		if (result[1] == 5)
 			return sign;
 
-		result[2] = searchNumOfChess(1, 1);		// 主对角线查找
+		result[2] = searchNumOfChess(1, 1, 2);		// 主对角线查找，2---主对角线
 		if (result[2] == 5)
 			return sign;
 
-		result[3] = searchNumOfChess(1, -1);	// 副对角线查找
+		result[3] = searchNumOfChess(1, -1, 3);		// 副对角线查找，3---副对角线
 		if (result[3] == 5)
 			return sign;
 	}
 	else {
-		result[0] = searchNumOfChess(0, 1);		// 竖直查找
+		result[0] = searchNumOfChess(1, 0, 0);		// 竖直查找,0---竖直
 		if (result[0] == 5)
 			return sign;
-		else if (result[0] > 5)					// 长连禁手
+		else if (result[0] > 5)						// 长连禁手
 			return turn;
-		model[0] = getChessModel();				// 竖直类型
+		model[0] = getChessModel(0);				// 竖直类型
 
-		result[1] = searchNumOfChess(1, 0);		// 水平查找
+		result[1] = searchNumOfChess(0, 1,1);		// 水平查找，1---水平
 		if (result[1] == 5)
 			return sign;
-		else if (result[0] > 5)					// 长连禁手
+		else if (result[0] > 5)						// 长连禁手
 			return turn;
-		model[1] = getChessModel();				// 水平类型
+		model[1] = getChessModel(1);				// 水平类型
 		if (judgeRestricted(model[0], model[1]))
 			return turn;
 
-		result[2] = searchNumOfChess(1, 1);		// 主对角线查找
+		result[2] = searchNumOfChess(1, 1,2);		// 主对角线查找，2---主对角线
 		if (result[2] == 5)
 			return sign;
-		else if (result[0] > 5)					// 长连禁手
+		else if (result[0] > 5)						// 长连禁手
 			return turn;
-		model[2] = getChessModel();				// 主对角线类型
+		model[2] = getChessModel(2);				// 主对角线类型
 		if (judgeRestricted(model[0], model[2]))
 			return turn;
 		else if (judgeRestricted(model[1], model[2]))
 			return turn;
 
-		result[3] = searchNumOfChess(1, -1);	// 副对角线查找
+		result[3] = searchNumOfChess(1, -1,3);		// 副对角线查找，3---副对角线
 		if (result[3] == 5)
 			return sign;
-		else if (result[0] > 5)					// 长连禁手
+		else if (result[0] > 5)						// 长连禁手
 			return turn;
-		model[3] = getChessModel();				// 副对角线类型
+		model[3] = getChessModel(3);				// 副对角线类型
 		if (judgeRestricted(model[0], model[3]))
 			return turn;
 		else if (judgeRestricted(model[1], model[3]))
@@ -272,11 +273,11 @@ int Gobang::isOver(bool isRestricted)
 /*
 	判断棋子数量
 
-	@para m---水平查找，n---竖直查找
+	@para m---水平查找，n---竖直查找，temp---查找方向
 	@author 应禹尧
 	@return
 */
-int Gobang::searchNumOfChess(int m, int n)
+int Gobang::searchNumOfChess(int m, int n, int temp)
 {
 	Step s = steps->back();
 	int i, j;												// i---x坐标，j---y坐标
@@ -341,11 +342,11 @@ int Gobang::searchNumOfChess(int m, int n)
 		return chessNum;
 
 	if ((chessNum + blankChessNum1 == 3 || chessNum + blankChessNum2 == 3) && otherNum + blankOtherChessNum < 2)
-		setChessModel(ChessModel::LIVETHREE);		// 活三
+		setChessModel(ChessModel::LIVETHREE, temp);		// 活三
 	else if (4 == chessNum && otherNum == 0)
-		setChessModel(ChessModel::LIVEFOUR);		// 活四
+		setChessModel(ChessModel::LIVEFOUR, temp);		// 活四
 	else if ((chessNum == 4 && otherNum == 1) || chessNum + blankChessNum1 == 4 || chessNum + blankChessNum1 == 4)
-		setChessModel(ChessModel::CHONGFOUR);		// 冲四
+		setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
 
 
 	return chessNum;
@@ -358,9 +359,9 @@ int Gobang::searchNumOfChess(int m, int n)
 	@author 应禹尧
 	@return
 */
-void Gobang::setChessModel(int model)
+void Gobang::setChessModel(int model,int temp)
 {
-	cModel = model;
+	cModel[temp] = model;
 }
 
 /*
@@ -370,9 +371,9 @@ void Gobang::setChessModel(int model)
 	@author 应禹尧
 	@return
 */
-int Gobang::getChessModel()
+int Gobang::getChessModel(int temp)
 {
-	return cModel;
+	return cModel[temp];
 }
 
 /*
