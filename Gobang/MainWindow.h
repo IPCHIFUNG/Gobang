@@ -37,6 +37,8 @@ private:
 	void setHomePageBtnVisable(bool isOn);				// 设置主页按钮的可见性
 	void setGamePageBtnVisable(bool isOn);				// 设置游戏页按钮的可见性
 
+	Gobang::Step getStepFromScreen();					// 从屏幕获取棋子坐标
+
 private slots:
 	void btnsClicked();									// 按钮被点击响应事件
 	void gameBtnsClicked();									// 按钮被点击响应事件

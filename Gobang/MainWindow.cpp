@@ -138,6 +138,26 @@ void MainWindow::setGamePageBtnVisable(bool isOn)
 }
 
 /*
+	从屏幕获取棋子坐标
+
+	@author 叶志枫
+	@return Gobang::Step - 棋子坐标
+*/
+Gobang::Step MainWindow::getStepFromScreen()
+{
+	QPoint point = QWidget::mapFromGlobal(cursor().pos());
+	Gobang::Step* step = new Gobang::Step;
+	if (step == NULL)
+	{
+		qDebug() << "内存溢出";
+		exit(1);
+	}
+	step->y = (point.x() - 357) / 47;
+	step->x = (point.y() - 7) / 47;
+	return *step;
+}
+
+/*
 	显示胜方信息
 
 	@para ChessType - 胜方棋子种类
@@ -256,12 +276,7 @@ void MainWindow::gamePropertiesBtnsClicked()
 */
 void MainWindow::boardClicked()
 {
-	QPoint point = QWidget::mapFromGlobal(cursor().pos());
-	Gobang::Step step;
-
-	step.y = (point.x() - 357) / 47;
-	step.x = (point.y() - 7) / 47;
-
+	Gobang::Step step = getStepFromScreen();
 	try
 	{
 		showStep(step, gobang.getTurn());	// 显示棋子
