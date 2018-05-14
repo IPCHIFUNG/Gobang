@@ -27,7 +27,6 @@ public:
     QWidget *centralWidget;
     QPushButton *btn_retract;
     QPushButton *btn_load;
-    QLabel *lbl_chessboard;
     QPushButton *btn_online;
     QLabel *lbl_background;
     QPushButton *btn_save;
@@ -41,6 +40,8 @@ public:
     QPushButton *btn_team;
     QPushButton *btn_return;
     QPushButton *btn_pvp;
+    QPushButton *btn_chessboard;
+    QLabel *label;
 
     void setupUi(QMainWindow *MainWindowClass)
     {
@@ -69,11 +70,6 @@ public:
         btn_load->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\350\257\273\345\217\226\346\243\213\347\233\230.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\350\257\273\345\217\226\346\243\213\347\233\230\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
 "QPushButton:pressed{border-image: url(:/MainWindow/image/\350\257\273\345\217\226\346\243\213\347\233\230.png);}"));
-        lbl_chessboard = new QLabel(centralWidget);
-        lbl_chessboard->setObjectName(QStringLiteral("lbl_chessboard"));
-        lbl_chessboard->setGeometry(QRect(350, 0, 900, 900));
-        lbl_chessboard->setPixmap(QPixmap(QString::fromUtf8("image/70\351\200\217\346\230\216\345\272\246\346\243\213\347\233\230.png")));
-        lbl_chessboard->setScaledContents(true);
         btn_online = new QPushButton(centralWidget);
         btn_online->setObjectName(QStringLiteral("btn_online"));
         btn_online->setGeometry(QRect(50, 640, 241, 81));
@@ -163,9 +159,17 @@ public:
         btn_pvp->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\345\274\200\345\247\213\346\270\270\346\210\217.png);}\n"
 "QPushButton:hover{border-image: url(:/MainWindow/image/\345\274\200\345\247\213\346\270\270\346\210\217\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
 "QPushButton:pressed{border-image: url(:/MainWindow/image/\345\274\200\345\247\213\346\270\270\346\210\217.png);}"));
+        btn_chessboard = new QPushButton(centralWidget);
+        btn_chessboard->setObjectName(QStringLiteral("btn_chessboard"));
+        btn_chessboard->setGeometry(QRect(350, 0, 900, 900));
+        btn_chessboard->setStyleSheet(QStringLiteral(""));
+        btn_chessboard->setFlat(true);
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(350, 0, 900, 900));
+        label->setPixmap(QPixmap(QString::fromUtf8(":/MainWindow/image/70\351\200\217\346\230\216\345\272\246\346\243\213\347\233\230.png")));
         MainWindowClass->setCentralWidget(centralWidget);
         lbl_background->raise();
-        lbl_chessboard->raise();
         btn_retract->raise();
         btn_load->raise();
         btn_online->raise();
@@ -180,6 +184,8 @@ public:
         btn_team->raise();
         btn_return->raise();
         btn_pvp->raise();
+        btn_chessboard->raise();
+        label->raise();
 
         retranslateUi(MainWindowClass);
 
@@ -191,7 +197,6 @@ public:
         MainWindowClass->setWindowTitle(QApplication::translate("MainWindowClass", "\344\272\224\345\255\220\346\243\213\346\270\270\346\210\217", nullptr));
         btn_retract->setText(QString());
         btn_load->setText(QString());
-        lbl_chessboard->setText(QString());
         btn_online->setText(QString());
         lbl_background->setText(QString());
         btn_save->setText(QString());
@@ -205,6 +210,8 @@ public:
         btn_team->setText(QString());
         btn_return->setText(QString());
         btn_pvp->setText(QString());
+        btn_chessboard->setText(QString());
+        label->setText(QString());
     } // retranslateUi
 
 };

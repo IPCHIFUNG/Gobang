@@ -14,6 +14,17 @@ MainWindow::MainWindow(QWidget *parent)
 	setHomePageBtnVisable(true);
 	setGamePageBtnVisable(false);
 
+	// 初始化棋盘
+	blackChess = QPixmap("./image/BLACK.png");
+	whiteChess = QPixmap("./image/WHITE.png");
+	for (int i = 0; i < BOARDLENGTH; i++)
+		for (int j = 0; j < BOARDLENGTH; j++)
+		{
+			chess[i][j].setParent(ui.centralWidget);
+			chess[i][j].setGeometry(357 + j * 47, 7 + i * 47, 42, 42);
+		}
+	ui.btn_chessboard->raise();
+
 	// 读取音乐和音效
 	music.setMedia(QUrl::fromLocalFile("./sound/FlowerDance.mp3"));
 	soundEff.setMedia(QUrl::fromLocalFile("./sound/棋子音效a.mp3"));
@@ -34,9 +45,9 @@ MainWindow::MainWindow(QWidget *parent)
 */
 void MainWindow::clearBoard()
 {
-	std::deque<Gobang::Step>::iterator ite;
+	/*std::deque<Gobang::Step>::iterator ite;
 	for (ite = gobang.getSteps().begin(); ite != gobang.getSteps().end(); ite++)
-		chess[ite->x][ite->y].setPixmap(QPixmap(""));
+		chess[ite->x][ite->y].setPixmap(QPixmap(""));*/
 }
 
 /*
@@ -52,8 +63,19 @@ void MainWindow::showStep(Gobang::Step step, int type)
 		throw "step.x is out of range";
 	if (step.y < 0 || step.y > BOARDLENGTH)
 		throw "step.y is out of range";
-	if (type != ChessType::BLACKCHESS || type != ChessType::WHITECHESS)
+	if (type != ChessType::BLACKCHESS && type != ChessType::WHITECHESS)
 		throw "Invalid type";
+	switch (type)
+	{
+	case ChessType::BLACKCHESS:
+		chess[step.x][step.y].setPixmap(blackChess);
+		break;
+	case ChessType::WHITECHESS:
+		chess[step.x][step.y].setPixmap(whiteChess);
+		break;
+	default:
+		break;
+	}
 }
 
 /*
@@ -177,7 +199,9 @@ void MainWindow::gameBtnsClicked()
 	{
 		clearBoard();
 		gobang.initBoard();
-		connect(ui.lbl_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+		connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+		setHomePageBtnVisable(false);
+		setGamePageBtnVisable(true);
 	}
 	else if (btnName == "btn_online")
 	{
@@ -230,15 +254,37 @@ void MainWindow::gamePropertiesBtnsClicked()
 
 	@author 王开阳
 */
-void MainWindow::boardClicked(QMouseEvent *event)
+void MainWindow::boardClicked()
 {
-	QPoint point = event->pos();
+	QPoint point = QWidget::mapFromGlobal(cursor().pos());
 	Gobang::Step step;
 
-	step.x = (point.x() - 377) / 47 + 0.5;
-	step.y = (point.y() - 424) / 47 + 0.5;
-	gobang.newStep(step);
+	step.y = (point.x() - 357) / 47;
+	step.x = (point.y() - 7) / 47;
 
-	showStep(step, gobang.getTurn());	// 显示棋子
-	highlightStep(step);				// 高亮棋子
+	try
+	{
+		showStep(step, gobang.getTurn());	// 显示棋子
+		gobang.newStep(step);
+		playSoundEffects();
+		highlightStep(step);				// 高亮棋子
+
+		int result = gobang.isOverWithRestricted();
+		switch (result)
+		{
+		case ChessType::NOCHESS:
+			break;
+		case ChessType::BLACKCHESS:
+			break;
+		case ChessType::WHITECHESS:
+			break;
+		default:
+			break;
+		}
+	}
+	catch (const char* msg)
+	{
+		qDebug() << msg;
+	}
+	
 }

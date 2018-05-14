@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[8];
-    char stringdata0[98];
+    QByteArrayData data[6];
+    char stringdata0[79];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,14 +36,11 @@ QT_MOC_LITERAL(1, 11, 11), // "btnsClicked"
 QT_MOC_LITERAL(2, 23, 0), // ""
 QT_MOC_LITERAL(3, 24, 15), // "gameBtnsClicked"
 QT_MOC_LITERAL(4, 40, 25), // "gamePropertiesBtnsClicked"
-QT_MOC_LITERAL(5, 66, 12), // "boardClicked"
-QT_MOC_LITERAL(6, 79, 12), // "QMouseEvent*"
-QT_MOC_LITERAL(7, 92, 5) // "event"
+QT_MOC_LITERAL(5, 66, 12) // "boardClicked"
 
     },
     "MainWindow\0btnsClicked\0\0gameBtnsClicked\0"
-    "gamePropertiesBtnsClicked\0boardClicked\0"
-    "QMouseEvent*\0event"
+    "gamePropertiesBtnsClicked\0boardClicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -64,13 +61,13 @@ static const uint qt_meta_data_MainWindow[] = {
        1,    0,   34,    2, 0x08 /* Private */,
        3,    0,   35,    2, 0x08 /* Private */,
        4,    0,   36,    2, 0x08 /* Private */,
-       5,    1,   37,    2, 0x08 /* Private */,
+       5,    0,   37,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 6,    7,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -84,10 +81,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->btnsClicked(); break;
         case 1: _t->gameBtnsClicked(); break;
         case 2: _t->gamePropertiesBtnsClicked(); break;
-        case 3: _t->boardClicked((*reinterpret_cast< QMouseEvent*(*)>(_a[1]))); break;
+        case 3: _t->boardClicked(); break;
         default: ;
         }
     }
+    Q_UNUSED(_a);
 }
 
 const QMetaObject MainWindow::staticMetaObject = {

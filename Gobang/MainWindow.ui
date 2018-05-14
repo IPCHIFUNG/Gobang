@@ -62,25 +62,6 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/读取棋盘.png);}</st
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="lbl_chessboard">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>0</y>
-      <width>900</width>
-      <height>900</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>image/70透明度棋盘.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_online">
     <property name="geometry">
      <rect>
@@ -388,8 +369,42 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_chessboard">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>0</y>
+      <width>900</width>
+      <height>900</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>0</y>
+      <width>900</width>
+      <height>900</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="MainWindow.qrc">:/MainWindow/image/70透明度棋盘.png</pixmap>
+    </property>
+   </widget>
    <zorder>lbl_background</zorder>
-   <zorder>lbl_chessboard</zorder>
    <zorder>btn_retract</zorder>
    <zorder>btn_load</zorder>
    <zorder>btn_online</zorder>
@@ -404,6 +419,8 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
    <zorder>btn_team</zorder>
    <zorder>btn_return</zorder>
    <zorder>btn_pvp</zorder>
+   <zorder>btn_chessboard</zorder>
+   <zorder>label</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

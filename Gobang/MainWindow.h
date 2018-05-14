@@ -22,6 +22,10 @@ private:
 	QLabel chess[BOARDLENGTH][BOARDLENGTH];
 
 private:
+	QPixmap blackChess;
+	QPixmap whiteChess;
+
+private:
 	void clearBoard();									// 清空棋盘
 	void showStep(Gobang::Step step, int type);			// 显示一步棋
 	void highlightStep(Gobang::Step step);				// 高亮棋子
@@ -37,5 +41,5 @@ private slots:
 	void btnsClicked();									// 按钮被点击响应事件
 	void gameBtnsClicked();									// 按钮被点击响应事件
 	void gamePropertiesBtnsClicked();									// 按钮被点击响应事件
-	void boardClicked(QMouseEvent *event);					// 棋盘被点击响应事件
+	void boardClicked();					// 棋盘被点击响应事件
 };
