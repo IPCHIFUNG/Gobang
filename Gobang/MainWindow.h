@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QMediaPlayer>
+#include <QFileDialog>
 #include "ui_MainWindow.h"
 #include "Gobang.h"
 

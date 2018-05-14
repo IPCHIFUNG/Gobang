@@ -220,7 +220,7 @@ void MainWindow::gameBtnsClicked()
 	}
 	else if (btnName == "btn_load")
 	{
-		
+		gobang.loadBoard();
 	}
 	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
@@ -254,7 +254,7 @@ void MainWindow::gamePropertiesBtnsClicked()
 	}
 	else if (btnName == "btn_save")
 	{
-
+		gobang.saveBoard();
 	}
 	else if (btnName == "btn_return")
 	{
@@ -276,6 +276,7 @@ void MainWindow::boardClicked()
 	{
 		gobang.newStep(step);
 		showStep(step, gobang.getTurn());	// 显示棋子
+		gobang.shiftTurn();
 		playSoundEffects();
 		highlightStep(step);				// 高亮棋子
 
