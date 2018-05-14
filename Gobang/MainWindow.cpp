@@ -146,7 +146,7 @@ void MainWindow::setGamePageBtnVisable(bool isOn)
 Gobang::Step MainWindow::getStepFromScreen()
 {
 	QPoint point = QWidget::mapFromGlobal(cursor().pos());
-	Gobang::Step* step = new Gobang::Step;
+	Gobang::Step * step = new Gobang::Step;
 	if (step == NULL)
 	{
 		qDebug() << "ÄÚ´æÒç³ö";
