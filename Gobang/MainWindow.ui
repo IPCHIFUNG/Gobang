@@ -427,8 +427,154 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
  <resources>
   <include location="MainWindow.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btn_ranking</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>btnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1420</x>
+     <y>439</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1653</x>
+     <y>439</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_team</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>btnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1434</x>
+     <y>527</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1641</x>
+     <y>528</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_rules</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>btnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1436</x>
+     <y>621</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1638</x>
+     <y>623</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_return</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>btnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1432</x>
+     <y>711</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1642</x>
+     <y>711</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_exit</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>btnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1418</x>
+     <y>796</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1651</x>
+     <y>799</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_pve</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>gameBtnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>166</x>
+     <y>483</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-46</x>
+     <y>463</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_pvp</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>gameBtnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>158</x>
+     <y>572</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-36</x>
+     <y>573</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_load</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>gameBtnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>154</x>
+     <y>757</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-92</x>
+     <y>790</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_online</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>gameBtnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>166</x>
+     <y>663</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-94</x>
+     <y>681</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <slots>
-  <slot>buttonClicked()</slot>
+  <slot>btnsClicked()</slot>
+  <slot>gameBtnsClicked()</slot>
  </slots>
 </ui>

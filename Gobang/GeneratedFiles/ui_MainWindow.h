@@ -188,6 +188,15 @@ public:
         lbl_chessboard->raise();
 
         retranslateUi(MainWindowClass);
+        QObject::connect(btn_ranking, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
+        QObject::connect(btn_team, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
+        QObject::connect(btn_rules, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
+        QObject::connect(btn_return, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
+        QObject::connect(btn_exit, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
+        QObject::connect(btn_pve, SIGNAL(clicked()), MainWindowClass, SLOT(gameBtnsClicked()));
+        QObject::connect(btn_pvp, SIGNAL(clicked()), MainWindowClass, SLOT(gameBtnsClicked()));
+        QObject::connect(btn_load, SIGNAL(clicked()), MainWindowClass, SLOT(gameBtnsClicked()));
+        QObject::connect(btn_online, SIGNAL(clicked()), MainWindowClass, SLOT(gameBtnsClicked()));
 
         QMetaObject::connectSlotsByName(MainWindowClass);
     } // setupUi
