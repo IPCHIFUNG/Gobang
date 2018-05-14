@@ -245,5 +245,7 @@ paket-files/
 *.sln.iml  
 
 #test file
-
+Gobang/test.cpp
 Gobang/test1.cpp
+Gobang/test2.cpp
+Gobang/test3.cpp
