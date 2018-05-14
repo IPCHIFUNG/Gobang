@@ -273,15 +273,7 @@ void MainWindow::boardClicked()
 		highlightStep(step);				// ¸ßÁÁÆå×Ó
 
 		int result = gobang.isOverWithRestricted();
-		switch (result)
-		{
-		case ChessType::NOCHESS:
-			break;
-		case ChessType::BLACKCHESS:
-			break;
-		case ChessType::WHITECHESS:
-			break;
-		}
+		showWinnerDialog(result);
 	}
 	catch (const char* msg)
 	{

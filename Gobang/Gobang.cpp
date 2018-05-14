@@ -142,7 +142,7 @@ void Gobang::newStep(Step step)
 {
 	//如果该位置已经存在棋子
 	if (board[step.x][step.y] != ChessType::NOCHESS)
-		throw"Error:This loc has a chess !";
+		throw "Error:This loc has a chess !";
 
 	board[step.x][step.y] = turn;
 
