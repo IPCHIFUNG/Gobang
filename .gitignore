@@ -244,7 +244,7 @@ paket-files/
 .idea/  
 *.sln.iml  
 
-#test file
+# Test Files
 Gobang/test.cpp
 Gobang/test1.cpp
 Gobang/test2.cpp
