@@ -229,6 +229,7 @@ void MainWindow::gameBtnsClicked()
 	else if (btnName == "btn_online")
 	{
 		ServerDialog serverDialog = new ServerDialog(this);
+		serverDialog.setMainWindow(this);
 		serverDialog.exec();
 	}
 	else if (btnName == "btn_load")
