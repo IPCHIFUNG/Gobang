@@ -237,17 +237,23 @@ int Gobang::isOver(bool isRestricted)
 	}
 	else {
 		result[0] = searchNumOfChess(1, 0, 0, isRestricted);		// 竖直查找，0---竖直
-		if (result[0] > 5)											// 长连禁手
-			if(sign == ChessType::BLACKCHESS)
+		if (result[0] > 5) {										// 长连禁手
+			if (sign == ChessType::BLACKCHESS)
 				return turn;
+			else
+				return sign;
+		}
 		else if (result[0] == 5)
 			return sign;
 		model[0] = getChessModel(0);								// 竖直类型
 
 		result[1] = searchNumOfChess(0, 1, 1, isRestricted);		// 水平查找，1---水平
-		if (result[1] > 5)											// 长连禁手
+		if (result[1] > 5) {										// 长连禁手
 			if (sign == ChessType::BLACKCHESS)
 				return turn;
+			else
+				return sign;
+		}
 		else if (result[1] == 5)						
 			return sign;
 		model[1] = getChessModel(1);								// 水平类型
@@ -255,9 +261,12 @@ int Gobang::isOver(bool isRestricted)
 			return turn;
 
 		result[2] = searchNumOfChess(1, 1, 2, isRestricted);		// 主对角线查找，2---主对角线
-		if (result[2] > 5)											// 长连禁手
+		if (result[2] > 5) {										// 长连禁手
 			if (sign == ChessType::BLACKCHESS)
 				return turn;
+			else
+				return sign;
+		}
 		else if (result[2] == 5)
 			return sign;
 		model[2] = getChessModel(2);								// 主对角线类型
@@ -267,9 +276,12 @@ int Gobang::isOver(bool isRestricted)
 			return turn;
 
 		result[3] = searchNumOfChess(1, -1, 3, isRestricted);		// 副对角线查找，3---副对角线
-		if (result[3] > 5)											// 长连禁手
+		if (result[3] > 5) {										// 长连禁手
 			if (sign == ChessType::BLACKCHESS)
 				return turn;
+			else
+				return sign;
+		}
 		else if (result[3] == 5)
 			return sign;
 		model[3] = getChessModel(3);								// 副对角线类型
@@ -406,8 +418,6 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
 	}
 	
-
-
 	return chessNum;
 }
 
