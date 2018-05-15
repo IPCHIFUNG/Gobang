@@ -78,6 +78,7 @@ void MainWindow::showStep(Gobang::Step step, int type)
 */
 void MainWindow::highlightStep(Gobang::Step step)
 {
+
 }
 
 /*
@@ -182,18 +183,27 @@ void MainWindow::btnsClicked()
 	if (btnName == "btn_ranking")
 	{
 		ui.lbl_ranking->raise();
+		ui.btn_close->raise();
 	}
 	else if (btnName == "btn_team")
 	{
 		ui.lbl_team->raise();
+		ui.btn_close->raise();
 	}
 	else if (btnName == "btn_rules")
 	{
 		ui.lbl_rules->raise();
+		ui.btn_close->raise();
+	}
+	else if (btnName == "btn_close")
+	{
+		ui.lbl_ranking->lower();
+		ui.lbl_team->lower();
+		ui.lbl_rules->lower();
+		ui.btn_close->lower();
 	}
 	else if (btnName == "btn_exit")
 		exit(0);
-	ui.btn_return->setVisible(true);
 }
 
 /*
@@ -243,10 +253,17 @@ void MainWindow::gameBtnsClicked()
 		int size = gobang.getSteps().size();
 		auto iterator = gobang.getSteps().begin();
 		for (int i = 0; i < size; i++)
-		{
-			chess[iterator->x][iterator->y].setPixmap(QPixmap(""));
-			iterator++;
-		}
+			switch (i % 2)
+			{
+			case 0:
+				chess[iterator->x][iterator->y].setPixmap(blackChess);
+				iterator++;
+				break;
+			case 1:
+				chess[iterator->x][iterator->y].setPixmap(whiteChess);
+				iterator++;
+				break;
+			}
 	}
 	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
@@ -287,9 +304,6 @@ void MainWindow::gamePropertiesBtnsClicked()
 	else if (btnName == "btn_return")
 	{
 		disconnect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
-		ui.lbl_ranking->lower();
-		ui.lbl_team->lower();
-		ui.lbl_rules->lower();
 		setHomePageBtnVisable(true);
 		setGamePageBtnVisable(false);
 	}
@@ -320,6 +334,11 @@ void MainWindow::boardClicked()
 	}
 }
 
+/*
+读取存档文件界面
+
+@author 王开阳
+*/
 std::string MainWindow::selectFile()
 {
 	QFileDialog fd;
@@ -336,6 +355,11 @@ std::string MainWindow::selectFile()
 	return fd.selectedFiles()[0].toStdString();
 }
 
+/*
+保存存档文件界面
+
+@author 王开阳
+*/
 std::string MainWindow::selectDirectory()
 {
 	QFileDialog fd;
