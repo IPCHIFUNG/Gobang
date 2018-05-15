@@ -404,6 +404,66 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
      <pixmap resource="MainWindow.qrc">:/MainWindow/image/70透明度棋盘.png</pixmap>
     </property>
    </widget>
+   <widget class="QLabel" name="lbl_rules">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>0</y>
+      <width>900</width>
+      <height>900</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>image/游戏规则弹窗.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_team">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>0</y>
+      <width>900</width>
+      <height>900</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>image/制作团队弹窗.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_ranking">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>0</y>
+      <width>900</width>
+      <height>900</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>image/排行榜弹窗.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <zorder>lbl_ranking</zorder>
+   <zorder>lbl_team</zorder>
+   <zorder>lbl_rules</zorder>
    <zorder>lbl_background</zorder>
    <zorder>btn_retract</zorder>
    <zorder>btn_load</zorder>

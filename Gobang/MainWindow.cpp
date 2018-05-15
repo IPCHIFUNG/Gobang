@@ -163,7 +163,7 @@ void MainWindow::showWinnerDialog(int type)
 	{
 	case ChessType::BLACKCHESS:		// 黑棋获胜
 		break;
-	case ChessType::WHITECHESS:		// 白起获胜
+	case ChessType::WHITECHESS:		// 白棋获胜
 		break;
 	case ChessType::NOCHESS:		// 平局
 		break;
@@ -181,18 +181,19 @@ void MainWindow::btnsClicked()
 
 	if (btnName == "btn_ranking")
 	{
-
+		ui.lbl_ranking->raise();
 	}
 	else if (btnName == "btn_team")
 	{
-
+		ui.lbl_team->raise();
 	}
 	else if (btnName == "btn_rules")
 	{
-
+		ui.lbl_rules->raise();
 	}
 	else if (btnName == "btn_exit")
 		exit(0);
+	ui.btn_return->setVisible(true);
 }
 
 /*
@@ -206,7 +207,19 @@ void MainWindow::gameBtnsClicked()
 
 	if (btnName == "btn_pve")
 	{
+		clearBoard();
+		gobang.initBoard();
 
+		int choice;
+		switch (choice)
+		{
+		case ChessType::BLACKCHESS:		// 黑棋
+			gobang.AIWalk(BLACKCHESS);
+			break;
+		case ChessType::WHITECHESS:		// 白棋
+			gobang.AIWalk(WHITECHESS);
+			break;
+		}
 	}
 	else if (btnName == "btn_pvp")
 	{
@@ -265,6 +278,9 @@ void MainWindow::gamePropertiesBtnsClicked()
 	else if (btnName == "btn_return")
 	{
 		disconnect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+		ui.lbl_ranking->lower();
+		ui.lbl_team->lower();
+		ui.lbl_rules->lower();
 		setHomePageBtnVisable(true);
 		setGamePageBtnVisable(false);
 	}
@@ -298,7 +314,7 @@ void MainWindow::boardClicked()
 std::string MainWindow::selectFile()
 {
 	QFileDialog fd;
-	fd.setAcceptMode(QFileDialog::AcceptOpen);	//文件对话框为保存类型
+	fd.setAcceptMode(QFileDialog::AcceptOpen);	//文件对话框为读取类型
 	fd.setViewMode(QFileDialog::Detail);		//详细
 	fd.setFileMode(QFileDialog::ExistingFile);	//存在的单个文件名
 	fd.setWindowTitle(QString::fromLocal8Bit("选择要读取的文件"));

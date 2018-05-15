@@ -42,6 +42,9 @@ public:
     QPushButton *btn_pvp;
     QPushButton *btn_chessboard;
     QLabel *lbl_chessboard;
+    QLabel *lbl_rules;
+    QLabel *lbl_team;
+    QLabel *lbl_ranking;
 
     void setupUi(QMainWindow *MainWindowClass)
     {
@@ -168,7 +171,25 @@ public:
         lbl_chessboard->setObjectName(QStringLiteral("lbl_chessboard"));
         lbl_chessboard->setGeometry(QRect(350, 0, 900, 900));
         lbl_chessboard->setPixmap(QPixmap(QString::fromUtf8(":/MainWindow/image/70\351\200\217\346\230\216\345\272\246\346\243\213\347\233\230.png")));
+        lbl_rules = new QLabel(centralWidget);
+        lbl_rules->setObjectName(QStringLiteral("lbl_rules"));
+        lbl_rules->setGeometry(QRect(350, 0, 900, 900));
+        lbl_rules->setPixmap(QPixmap(QString::fromUtf8("image/\346\270\270\346\210\217\350\247\204\345\210\231\345\274\271\347\252\227.png")));
+        lbl_rules->setScaledContents(true);
+        lbl_team = new QLabel(centralWidget);
+        lbl_team->setObjectName(QStringLiteral("lbl_team"));
+        lbl_team->setGeometry(QRect(350, 0, 900, 900));
+        lbl_team->setPixmap(QPixmap(QString::fromUtf8("image/\345\210\266\344\275\234\345\233\242\351\230\237\345\274\271\347\252\227.png")));
+        lbl_team->setScaledContents(true);
+        lbl_ranking = new QLabel(centralWidget);
+        lbl_ranking->setObjectName(QStringLiteral("lbl_ranking"));
+        lbl_ranking->setGeometry(QRect(350, 0, 900, 900));
+        lbl_ranking->setPixmap(QPixmap(QString::fromUtf8("image/\346\216\222\350\241\214\346\246\234\345\274\271\347\252\227.png")));
+        lbl_ranking->setScaledContents(true);
         MainWindowClass->setCentralWidget(centralWidget);
+        lbl_ranking->raise();
+        lbl_team->raise();
+        lbl_rules->raise();
         lbl_background->raise();
         btn_retract->raise();
         btn_load->raise();
@@ -226,6 +247,9 @@ public:
         btn_pvp->setText(QString());
         btn_chessboard->setText(QString());
         lbl_chessboard->setText(QString());
+        lbl_rules->setText(QString());
+        lbl_team->setText(QString());
+        lbl_ranking->setText(QString());
     } // retranslateUi
 
 };
