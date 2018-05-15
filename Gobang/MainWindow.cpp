@@ -78,6 +78,7 @@ void MainWindow::showStep(Gobang::Step step, int type)
 */
 void MainWindow::highlightStep(Gobang::Step step)
 {
+
 }
 
 /*
@@ -251,10 +252,17 @@ void MainWindow::gameBtnsClicked()
 		int size = gobang.getSteps().size();
 		auto iterator = gobang.getSteps().begin();
 		for (int i = 0; i < size; i++)
-		{
-			chess[iterator->x][iterator->y].setPixmap(QPixmap(""));
-			iterator++;
-		}
+			switch (i % 2)
+			{
+			case 0:
+				chess[iterator->x][iterator->y].setPixmap(blackChess);
+				iterator++;
+				break;
+			case 1:
+				chess[iterator->x][iterator->y].setPixmap(whiteChess);
+				iterator++;
+				break;
+			}
 	}
 	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
