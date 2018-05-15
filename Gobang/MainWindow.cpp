@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "ServerDialog.h"
+#include <qmessagebox.h>
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -162,8 +163,10 @@ void MainWindow::showWinnerDialog(int type)
 	switch (type)
 	{
 	case ChessType::BLACKCHESS:		// ºÚÆå»ñÊ¤
+		QMessageBox::information(this, tr("Inquire"), QString::fromLocal8Bit("ºÚÆå"), QMessageBox::NoButton);
 		break;
 	case ChessType::WHITECHESS:		// °×Æå»ñÊ¤
+		QMessageBox::information(this, tr("Inquire"), QString::fromLocal8Bit("°×Æå"), QMessageBox::NoButton);
 		break;
 	case ChessType::NOCHESS:		// Æ½¾Ö
 		break;

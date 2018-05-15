@@ -209,63 +209,70 @@ int Gobang::isOverWithoutRestricted()
 int Gobang::isOver(bool isRestricted)
 {
 	Step s = steps->back();
-	int sign = (turn + 1) % 2;						// sign----棋子类别
+	int sign = (turn + 1) % 2;										// sign----棋子类别
 	int result[4] = { -1,-1,-1,-1 }, model[4] = { -1,-1,-1,-1 };	// result---棋子数目，model---棋型
+
+	for (int i = 0; i < 4; i++)
+		cModel[i] = -1;
 
 
 /* ------------------------------------------------------------- */
 
 	if (!isRestricted) {
-		result[0] = searchNumOfChess(1, 0, 0);		// 竖直查找，0---竖直
+		result[0] = searchNumOfChess(1, 0, 0, isRestricted);		// 竖直查找，0---竖直
 		if (result[0] == 5)
 			return sign;
 
-		result[1] = searchNumOfChess(0, 1, 1);		// 水平查找，1---水平
+		result[1] = searchNumOfChess(0, 1, 1, isRestricted);		// 水平查找，1---水平
 		if (result[1] == 5)
 			return sign;
 
-		result[2] = searchNumOfChess(1, 1, 2);		// 主对角线查找，2---主对角线
+		result[2] = searchNumOfChess(1, 1, 2, isRestricted);		// 主对角线查找，2---主对角线
 		if (result[2] == 5)
 			return sign;
 
-		result[3] = searchNumOfChess(1, -1, 3);		// 副对角线查找，3---副对角线
+		result[3] = searchNumOfChess(1, -1, 3, isRestricted);		// 副对角线查找，3---副对角线
 		if (result[3] == 5)
 			return sign;
 	}
 	else {
-		result[0] = searchNumOfChess(1, 0, 0);		// 竖直查找,0---竖直
-		if (result[0] == 5)
+		result[0] = searchNumOfChess(1, 0, 0, isRestricted);		// 竖直查找，0---竖直
+		if (result[0] > 5)											// 长连禁手
+			if(sign == ChessType::BLACKCHESS)
+				return turn;
+		else if (result[0] == 5)
 			return sign;
-		else if (result[0] > 5)						// 长连禁手
-			return turn;
-		model[0] = getChessModel(0);				// 竖直类型
+		model[0] = getChessModel(0);								// 竖直类型
 
-		result[1] = searchNumOfChess(0, 1,1);		// 水平查找，1---水平
-		if (result[1] == 5)
+		result[1] = searchNumOfChess(0, 1, 1, isRestricted);		// 水平查找，1---水平
+		if (result[1] > 5)											// 长连禁手
+			if (sign == ChessType::BLACKCHESS)
+				return turn;
+		else if (result[1] == 5)						
 			return sign;
-		else if (result[0] > 5)						// 长连禁手
-			return turn;
-		model[1] = getChessModel(1);				// 水平类型
+		model[1] = getChessModel(1);								// 水平类型
 		if (judgeRestricted(model[0], model[1]))
 			return turn;
 
-		result[2] = searchNumOfChess(1, 1,2);		// 主对角线查找，2---主对角线
-		if (result[2] == 5)
+		result[2] = searchNumOfChess(1, 1, 2, isRestricted);		// 主对角线查找，2---主对角线
+		if (result[2] > 5)											// 长连禁手
+			if (sign == ChessType::BLACKCHESS)
+				return turn;
+		else if (result[2] == 5)
 			return sign;
-		else if (result[0] > 5)						// 长连禁手
-			return turn;
-		model[2] = getChessModel(2);				// 主对角线类型
+		model[2] = getChessModel(2);								// 主对角线类型
 		if (judgeRestricted(model[0], model[2]))
 			return turn;
 		else if (judgeRestricted(model[1], model[2]))
 			return turn;
 
-		result[3] = searchNumOfChess(1, -1,3);		// 副对角线查找，3---副对角线
-		if (result[3] == 5)
+		result[3] = searchNumOfChess(1, -1, 3, isRestricted);		// 副对角线查找，3---副对角线
+		if (result[3] > 5)											// 长连禁手
+			if (sign == ChessType::BLACKCHESS)
+				return turn;
+		else if (result[3] == 5)
 			return sign;
-		else if (result[0] > 5)						// 长连禁手
-			return turn;
-		model[3] = getChessModel(3);				// 副对角线类型
+		model[3] = getChessModel(3);								// 副对角线类型
 		if (judgeRestricted(model[0], model[3]))
 			return turn;
 		else if (judgeRestricted(model[1], model[3]))
@@ -284,76 +291,121 @@ int Gobang::isOver(bool isRestricted)
 	@author 应禹尧
 	@return
 */
-int Gobang::searchNumOfChess(int m, int n, int temp)
+int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 {
 	Step s = steps->back();
 	int i, j;												// i---x坐标，j---y坐标
-	int chessNum = -1, blankNum = 0, otherNum = 0;			// chessNum---相同棋子数目，blankNum---空位数目，otherNum---不同色棋子数
-	int blankOtherChessNum = 0;								// blankOtherChessNum---空位后一个位置不同色棋子数
-	int blankChessNum1 = 0, blankChessNum2 = 0;				// blankChessNum---空位后同色棋子数
+	int chessNum = -1;										// chessNum---相同棋子数目
 	int chessTypeNow = (turn + 1) % 2;						// chessTypeNow----当前棋子类别
 
 
-
-	// 往右方及下方扫描 
-	i = s.x;
-	j = s.y;
-	while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
-		i += m;
-		j += n;
-		chessNum++;
-	}
-	if (board[i][j] == ChessType::NOCHESS) {         // 判断右方或下方是否有空位置
-		blankNum++;
-		i += m;
-		j += n;
-		if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == turn)
-			blankOtherChessNum++;
-		else if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
-			blankChessNum1++;
+	if (!isRestricted || chessTypeNow == ChessType::WHITECHESS) {
+		// 往右方及下方扫描 
+		i = s.x;
+		j = s.y;
+		while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
 			i += m;
 			j += n;
-			if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == turn)
-				blankOtherChessNum++;
+			chessNum++;
 		}
-	}
-	else
-		otherNum++;
 
-	// 往左方及上方扫描
-	i = s.x;
-	j = s.y;
-	while (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
-		i -= m;
-		j -= n;
-		chessNum++;
-	}
-	if (board[i][j] == ChessType::NOCHESS) {        // 判断左方或上方是否有空位置
-		blankNum++;
-		i -= m;
-		j -= n;
-		if (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == turn)
-			blankOtherChessNum++;
-		else if (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
-			blankChessNum2++;
+		// 往左方及上方扫描
+		i = s.x;
+		j = s.y;
+		while (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
 			i -= m;
 			j -= n;
-			if (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == turn)
-				blankOtherChessNum++;
+			chessNum++;
 		}
 	}
-	else
-		otherNum++;
+	else {
+		int blankNum = 0, otherNum = 0;						// blankNum---空位数目，otherNum---不同色棋子数
+		int blankOtherChessNum = 0;							// blankOtherChessNum---空位后一个位置不同色棋子数
+		int blankChessNum1 = 0, blankChessNum2 = 0;			// blankChessNum---空位后同色棋子数
+		int boardNum = 0;									// 墙
 
-	if (chessNum == 5)
-		return chessNum;
+		// 往右方及下方扫描 
+		i = s.x;
+		j = s.y;
+		while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
+			i += m;
+			j += n;
+			chessNum++;
+		}
+		if (board[i][j] == ChessType::NOCHESS) {         // 判断右方或下方是否有空位置
+			blankNum++;
+			i += m;
+			j += n;
+			if (board[i][j] == turn) {
+				if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH)
+					blankOtherChessNum++;
+			}
+			else if (board[i][j] == chessTypeNow) {
+				if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH) {
+					blankChessNum1++;
+					i += m;
+					j += n;
+					if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH)
+						if(board[i][j] == turn)
+							blankOtherChessNum++;
+				}
+			}
+			else if (i >= BOARDLENGTH || j < 0 || j >= BOARDLENGTH)
+				boardNum++;
+		}
+		else
+			otherNum++;
 
-	if ((chessNum + blankChessNum1 == 3 || chessNum + blankChessNum2 == 3) && otherNum + blankOtherChessNum < 2)
-		setChessModel(ChessModel::LIVETHREE, temp);		// 活三
-	else if (4 == chessNum && otherNum == 0)
-		setChessModel(ChessModel::LIVEFOUR, temp);		// 活四
-	else if ((chessNum == 4 && otherNum == 1) || chessNum + blankChessNum1 == 4 || chessNum + blankChessNum1 == 4)
-		setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
+		// 往左方及上方扫描
+		i = s.x;
+		j = s.y;
+		while (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
+			i -= m;
+			j -= n;
+			chessNum++;
+		}
+		if (board[i][j] == ChessType::NOCHESS) {        // 判断左方或上方是否有空位置
+			blankNum++;
+			i -= m;
+			j -= n;
+			if (board[i][j] == turn) {
+				if(i >= 0 && j >= 0 && j < BOARDLENGTH)
+					blankOtherChessNum++;
+			}
+			else if (board[i][j] == chessTypeNow) {
+				if (i >= 0 && j >= 0 && j < BOARDLENGTH) {
+					blankChessNum2++;
+					i -= m;
+					j -= n;
+					if (i >= 0 && j >= 0 && j < BOARDLENGTH)
+						if(board[i][j] == turn)
+							blankOtherChessNum++;
+				}
+				
+			}
+			else if (i < 0 || j < 0 || j >= BOARDLENGTH)
+				boardNum++;
+		}
+		else
+			otherNum++;
+
+		if (chessNum > 4)
+			return chessNum;
+
+		if (chessNum + blankChessNum1 == 3 && blankOtherChessNum + boardNum < 2 && otherNum == 0)
+			setChessModel(ChessModel::LIVETHREE, temp);		// 活三
+		else if(chessNum + blankChessNum2 == 3 && blankOtherChessNum + boardNum < 2 && otherNum == 0)
+			setChessModel(ChessModel::LIVETHREE, temp);		// 活三
+		else if (chessNum == 4 && otherNum == 0)
+			setChessModel(ChessModel::LIVEFOUR, temp);		// 活四
+		else if (chessNum == 4 && otherNum == 1)
+			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
+		else if(chessNum + blankChessNum1 == 4)
+			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
+		else if (chessNum + blankChessNum1 == 4)
+			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
+	}
+	
 
 
 	return chessNum;

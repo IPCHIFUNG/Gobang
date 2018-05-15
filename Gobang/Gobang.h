@@ -38,13 +38,13 @@ private:
 
 	int board[BOARDLENGTH][BOARDLENGTH];	// 棋盘信息
 	int turn;								// 轮次
-	int cModel[4] = { -1,-1,-1,-1 };		// 棋型
+	int cModel[4];		// 棋型
 
 	std::deque<Step> * steps;				// 储存落子顺序的双端队列
 	std::deque<Step> * overSteps;			// 储存导致游戏结束的落子位置
 
 	int isOver(bool isRestricted);			// 判断游戏是否结束，否返回ChessType::NOCHESS, 是返回棋子对应枚举
-	int searchNumOfChess(int m, int n,int temp);     // 判断棋子数
+	int searchNumOfChess(int m, int n, int temp, bool isRestricted);     // 判断棋子数
 	void setChessModel(int model,int temp);	// 设置棋型
 	int getChessModel(int temp);			// 获得棋型
 
