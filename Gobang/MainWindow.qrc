@@ -1,6 +1,8 @@
 <RCC>
   <qresource prefix="/MainWindow">
     <file>image/70透明度棋盘.png</file>
+    <file>image/关闭（带阴影）.png</file>
+    <file>image/关闭.png</file>
     <file>image/BLACK.png</file>
     <file>image/WHITE.png</file>
     <file>image/保存棋盘（带阴影）.png</file>

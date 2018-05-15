@@ -45,6 +45,7 @@ public:
     QLabel *lbl_rules;
     QLabel *lbl_team;
     QLabel *lbl_ranking;
+    QPushButton *btn_close;
 
     void setupUi(QMainWindow *MainWindowClass)
     {
@@ -186,10 +187,18 @@ public:
         lbl_ranking->setGeometry(QRect(350, 0, 900, 900));
         lbl_ranking->setPixmap(QPixmap(QString::fromUtf8("image/\346\216\222\350\241\214\346\246\234\345\274\271\347\252\227.png")));
         lbl_ranking->setScaledContents(true);
+        btn_close = new QPushButton(centralWidget);
+        btn_close->setObjectName(QStringLiteral("btn_close"));
+        btn_close->setGeometry(QRect(730, 750, 151, 61));
+        btn_close->setFont(font);
+        btn_close->setStyleSheet(QString::fromUtf8("QPushButton{border-image: url(:/MainWindow/image/\345\205\263\351\227\255.png);}\n"
+"QPushButton:hover{border-image: url(:/MainWindow/image/\345\205\263\351\227\255\357\274\210\345\270\246\351\230\264\345\275\261\357\274\211.png);}\n"
+"QPushButton:pressed{border-image: url(:/MainWindow/image/\345\205\263\351\227\255.png);}"));
         MainWindowClass->setCentralWidget(centralWidget);
+        btn_close->raise();
         lbl_ranking->raise();
-        lbl_team->raise();
         lbl_rules->raise();
+        lbl_team->raise();
         lbl_background->raise();
         btn_retract->raise();
         btn_load->raise();
@@ -223,6 +232,7 @@ public:
         QObject::connect(btn_retract, SIGNAL(clicked()), MainWindowClass, SLOT(gamePropertiesBtnsClicked()));
         QObject::connect(btn_giveUp, SIGNAL(clicked()), MainWindowClass, SLOT(gamePropertiesBtnsClicked()));
         QObject::connect(btn_save, SIGNAL(clicked()), MainWindowClass, SLOT(gamePropertiesBtnsClicked()));
+        QObject::connect(btn_close, SIGNAL(clicked()), MainWindowClass, SLOT(btnsClicked()));
 
         QMetaObject::connectSlotsByName(MainWindowClass);
     } // setupUi
@@ -250,6 +260,7 @@ public:
         lbl_rules->setText(QString());
         lbl_team->setText(QString());
         lbl_ranking->setText(QString());
+        btn_close->setText(QString());
     } // retranslateUi
 
 };
