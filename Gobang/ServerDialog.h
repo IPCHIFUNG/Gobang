@@ -10,6 +10,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
+#include "MainWindow.h"
 #include <QDialog>
 
 namespace Ui {
@@ -25,11 +26,15 @@ public:
 	ServerDialog(QWidget *parent = 0);
 	~ServerDialog();
 
+	void setMainWindow(MainWindow * mainWindow);
+
 private:
-	Ui::ServerDialog *ui;
+	Ui::ServerDialog * ui;
+	MainWindow * mainWindow;
 
 private slots:
 	void changeButton(int index);			// tab页切换时改变按钮
+	void loginBtnClicked();					// 登录按钮响应
 	void hostBtnClicked();					// 开启主机按钮响应
 	void connectBtnClicked();				// 连接按钮响应
 	void cancelBtnClicked();				// 取消按钮响应

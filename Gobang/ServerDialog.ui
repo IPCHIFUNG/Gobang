@@ -25,9 +25,44 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <widget class="QWidget" name="tab_online">
+      <attribute name="title">
+       <string>登录游戏大厅</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QHBoxLayout" name="hl_online_id" stretch="1,4">
+         <item>
+          <widget class="QLabel" name="lbl_online_id">
+           <property name="text">
+            <string>帐号：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_online_id"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="hi_online_pwd" stretch="1,4">
+         <item>
+          <widget class="QLabel" name="lbl_online_pwd">
+           <property name="text">
+            <string>密码：</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="le_online_pwd"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_server">
       <attribute name="title">
-       <string>作为主机开始游戏</string>
+       <string>作为局域网主机开始游戏</string>
       </attribute>
       <layout class="QVBoxLayout" name="_2">
        <item>
@@ -48,7 +83,7 @@
      </widget>
      <widget class="QWidget" name="tab_client">
       <attribute name="title">
-       <string>连接至主机</string>
+       <string>连接至局域网主机</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
@@ -140,7 +175,7 @@
         </size>
        </property>
        <property name="text">
-        <string>开启主机</string>
+        <string>登录</string>
        </property>
       </widget>
      </item>

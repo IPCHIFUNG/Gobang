@@ -31,6 +31,14 @@ class Ui_ServerDialog
 public:
     QVBoxLayout *verticalLayout_2;
     QTabWidget *tabWidget;
+    QWidget *tab_online;
+    QVBoxLayout *verticalLayout;
+    QHBoxLayout *hl_online_id;
+    QLabel *lbl_online_id;
+    QLineEdit *le_online_id;
+    QHBoxLayout *hi_online_pwd;
+    QLabel *lbl_online_pwd;
+    QLineEdit *le_online_pwd;
     QWidget *tab_server;
     QVBoxLayout *_2;
     QHBoxLayout *hl_server_port;
@@ -63,6 +71,45 @@ public:
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         tabWidget = new QTabWidget(ServerDialog);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
+        tab_online = new QWidget();
+        tab_online->setObjectName(QStringLiteral("tab_online"));
+        verticalLayout = new QVBoxLayout(tab_online);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        hl_online_id = new QHBoxLayout();
+        hl_online_id->setObjectName(QStringLiteral("hl_online_id"));
+        lbl_online_id = new QLabel(tab_online);
+        lbl_online_id->setObjectName(QStringLiteral("lbl_online_id"));
+
+        hl_online_id->addWidget(lbl_online_id);
+
+        le_online_id = new QLineEdit(tab_online);
+        le_online_id->setObjectName(QStringLiteral("le_online_id"));
+
+        hl_online_id->addWidget(le_online_id);
+
+        hl_online_id->setStretch(0, 1);
+        hl_online_id->setStretch(1, 4);
+
+        verticalLayout->addLayout(hl_online_id);
+
+        hi_online_pwd = new QHBoxLayout();
+        hi_online_pwd->setObjectName(QStringLiteral("hi_online_pwd"));
+        lbl_online_pwd = new QLabel(tab_online);
+        lbl_online_pwd->setObjectName(QStringLiteral("lbl_online_pwd"));
+
+        hi_online_pwd->addWidget(lbl_online_pwd);
+
+        le_online_pwd = new QLineEdit(tab_online);
+        le_online_pwd->setObjectName(QStringLiteral("le_online_pwd"));
+
+        hi_online_pwd->addWidget(le_online_pwd);
+
+        hi_online_pwd->setStretch(0, 1);
+        hi_online_pwd->setStretch(1, 4);
+
+        verticalLayout->addLayout(hi_online_pwd);
+
+        tabWidget->addTab(tab_online, QString());
         tab_server = new QWidget();
         tab_server->setObjectName(QStringLiteral("tab_server"));
         _2 = new QVBoxLayout(tab_server);
@@ -174,12 +221,15 @@ public:
     void retranslateUi(QDialog *ServerDialog)
     {
         ServerDialog->setWindowTitle(QApplication::translate("ServerDialog", "Dialog", nullptr));
+        lbl_online_id->setText(QApplication::translate("ServerDialog", "\345\270\220\345\217\267\357\274\232", nullptr));
+        lbl_online_pwd->setText(QApplication::translate("ServerDialog", "\345\257\206\347\240\201\357\274\232", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_online), QApplication::translate("ServerDialog", "\347\231\273\345\275\225\346\270\270\346\210\217\345\244\247\345\216\205", nullptr));
         lbl_server_port->setText(QApplication::translate("ServerDialog", "\346\234\215\345\212\241\347\253\257\345\217\243\357\274\232", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_server), QApplication::translate("ServerDialog", "\344\275\234\344\270\272\344\270\273\346\234\272\345\274\200\345\247\213\346\270\270\346\210\217", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_server), QApplication::translate("ServerDialog", "\344\275\234\344\270\272\345\261\200\345\237\237\347\275\221\344\270\273\346\234\272\345\274\200\345\247\213\346\270\270\346\210\217", nullptr));
         lbl_ip->setText(QApplication::translate("ServerDialog", "\344\270\273\346\234\272IP\357\274\232", nullptr));
         lbl_client_port->setText(QApplication::translate("ServerDialog", "\344\270\273\346\234\272\347\253\257\345\217\243\357\274\232", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_client), QApplication::translate("ServerDialog", "\350\277\236\346\216\245\350\207\263\344\270\273\346\234\272", nullptr));
-        btn_ok->setText(QApplication::translate("ServerDialog", "\345\274\200\345\220\257\344\270\273\346\234\272", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_client), QApplication::translate("ServerDialog", "\350\277\236\346\216\245\350\207\263\345\261\200\345\237\237\347\275\221\344\270\273\346\234\272", nullptr));
+        btn_ok->setText(QApplication::translate("ServerDialog", "\347\231\273\345\275\225", nullptr));
         btn_cancel->setText(QApplication::translate("ServerDialog", "\345\217\226\346\266\210", nullptr));
     } // retranslateUi
 
