@@ -238,6 +238,14 @@ void MainWindow::gameBtnsClicked()
 			gobang.loadBoard(const_cast<char*>(file.c_str()));
 		else
 			return;
+
+		int size = gobang.getSteps().size();
+		auto iterator = gobang.getSteps().begin();
+		for (int i = 0; i < size; i++)
+		{
+			chess[iterator->x][iterator->y].setPixmap(QPixmap(""));
+			iterator++;
+		}
 	}
 	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
