@@ -385,7 +385,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
      <string/>
     </property>
     <property name="flat">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QLabel" name="lbl_chessboard">
@@ -402,6 +402,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
     </property>
     <property name="pixmap">
      <pixmap resource="MainWindow.qrc">:/MainWindow/image/70透明度棋盘.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="lbl_rules">

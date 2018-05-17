@@ -167,11 +167,12 @@ public:
         btn_chessboard->setObjectName(QStringLiteral("btn_chessboard"));
         btn_chessboard->setGeometry(QRect(350, 0, 900, 900));
         btn_chessboard->setStyleSheet(QStringLiteral("background: transparent;"));
-        btn_chessboard->setFlat(true);
+        btn_chessboard->setFlat(false);
         lbl_chessboard = new QLabel(centralWidget);
         lbl_chessboard->setObjectName(QStringLiteral("lbl_chessboard"));
         lbl_chessboard->setGeometry(QRect(350, 0, 900, 900));
         lbl_chessboard->setPixmap(QPixmap(QString::fromUtf8(":/MainWindow/image/70\351\200\217\346\230\216\345\272\246\346\243\213\347\233\230.png")));
+        lbl_chessboard->setScaledContents(true);
         lbl_rules = new QLabel(centralWidget);
         lbl_rules->setObjectName(QStringLiteral("lbl_rules"));
         lbl_rules->setGeometry(QRect(350, 0, 900, 900));
