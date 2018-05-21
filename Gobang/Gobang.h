@@ -19,6 +19,7 @@ public:
 
 	void initBoard();						// 初始化棋盘或用于清空棋盘
 	void newStep(Step step);				// 走一步棋
+	Step popLastStep();						// 弹出最后一步棋
 	void shiftTurn();						// 换人走棋
 	Step AIWalk(int type);					// 机器走棋
 

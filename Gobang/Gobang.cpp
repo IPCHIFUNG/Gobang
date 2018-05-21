@@ -149,6 +149,20 @@ void Gobang::newStep(Step step)
 }
 
 /*
+	弹出最后一步棋
+
+	@author 叶志枫
+	@return step - 最后一步棋
+*/
+Gobang::Step Gobang::popLastStep()
+{
+	Gobang::Step lastStep = steps->back();
+	steps->pop_back();
+	board[lastStep.x][lastStep.y] = ChessType::NOCHESS;
+	return lastStep;
+}
+
+/*
 	换人走棋
 
 	@author 叶志枫
