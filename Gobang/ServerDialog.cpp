@@ -6,6 +6,7 @@ ServerDialog::ServerDialog(QWidget *parent)
 {
 	ui->setupUi(this);
 	okClicked = false;
+	s = NULL;
 
 	// 设置窗口标题
 	this->setWindowTitle(QString::fromLocal8Bit("联机对战"));
@@ -89,6 +90,23 @@ void ServerDialog::loginBtnClicked()
 */
 void ServerDialog::hostBtnClicked()
 {
+	QString text = ui->le_server_port->text();
+	bool ok = false;
+
+	if (text == "")
+	{
+		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("端口号不能为空"));
+		return;
+	}
+
+	int addr = text.toInt(&ok, 10);
+	if (false == ok) {
+		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("端口号必须为纯数字"));
+		return;
+	}
+
+	s = new Server(addr);
+	s->client_begin("kaishi");
 }
 
 /*
@@ -98,6 +116,25 @@ void ServerDialog::hostBtnClicked()
 */
 void ServerDialog::connectBtnClicked()
 {
+	QString text1 = ui->le_ip->text();
+	QString text2 = ui->le_client_port->text();
+	bool ok = false;
+
+	if (text1 == "" || text2 == "")
+	{
+		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("IP地址或端口输入为空"));
+		return;
+	}
+
+	int ip = text1.toInt(&ok, 10);
+	int port = text2.toInt(&ok, 10);
+	if (false == ok) {
+		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("端口号必须为纯数字"));
+		return;
+	}
+
+	//s = new Server();
+	//s->server_begin("kaishi");
 }
 
 /*

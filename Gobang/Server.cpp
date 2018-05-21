@@ -1,8 +1,8 @@
 #include "Server.h"
 
-Server::Server(sockaddr_in IPAddr, int port)
+Server::Server(char *IPAddr, int port)
 {
-	this->addr = IPAddr;
+	this->IPAddr = IPAddr;
 	this->port = port;
 }
 
@@ -29,10 +29,10 @@ void Server::server_begin(char *message)
 	s = socket(AF_INET, SOCK_STREAM, 0);
 
 	//初始化地址
-	sockaddr_in addr2;
+	sockaddr_in addr,addr2;
 	int addrSize = sizeof(addr2);
 	addr.sin_family = AF_INET;
-	addr.sin_port = port;
+	addr.sin_port = htons(port);
 	addr.sin_addr.S_un.S_addr = INADDR_ANY;
 
 	//绑定socket

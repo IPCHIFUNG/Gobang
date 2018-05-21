@@ -16,17 +16,15 @@ using namespace std;
 class Server
 {
 public:
-	Server(sockaddr_in addr, int port);
+	Server(char *IPAddr, int port);
 	Server(int port);
 	~Server();
-
-private:
 	void server_begin(char*);
 	void client_begin(char*);
+	
 private:
 	int port;
-	sockaddr_in addr;
-	//char * IPAddr;
+	char * IPAddr;
 	WSADATA data;
 };
 
