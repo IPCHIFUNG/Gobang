@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
     QByteArrayData data[9];
-    char stringdata0[106];
+    char stringdata0[109];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,12 +39,12 @@ QT_MOC_LITERAL(4, 40, 25), // "gamePropertiesBtnsClicked"
 QT_MOC_LITERAL(5, 66, 12), // "boardClicked"
 QT_MOC_LITERAL(6, 79, 10), // "closeEvent"
 QT_MOC_LITERAL(7, 90, 12), // "QCloseEvent*"
-QT_MOC_LITERAL(8, 103, 2) // "ev"
+QT_MOC_LITERAL(8, 103, 5) // "event"
 
     },
     "MainWindow\0btnsClicked\0\0gameBtnsClicked\0"
     "gamePropertiesBtnsClicked\0boardClicked\0"
-    "closeEvent\0QCloseEvent*\0ev"
+    "closeEvent\0QCloseEvent*\0event"
 };
 #undef QT_MOC_LITERAL
 

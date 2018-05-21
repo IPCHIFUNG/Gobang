@@ -3,6 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QMediaPlayer>
 #include <QFileDialog>
+#include <QCloseEvent>
 #include <string>
 #include "ui_MainWindow.h"
 #include "Gobang.h"
@@ -46,11 +47,12 @@ private slots:
 	void gameBtnsClicked();								// 按钮被点击响应事件
 	void gamePropertiesBtnsClicked();					// 按钮被点击响应事件
 	void boardClicked();								// 棋盘被点击响应事件
+	void closeEvent(QCloseEvent *event);				// 窗口关闭事件
 };
 
 /*
 	游戏类型
-
+	
 	@author 叶志枫
 */
 const enum GameType

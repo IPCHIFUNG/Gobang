@@ -388,3 +388,15 @@ std::string MainWindow::selectDirectory()
 		return "";
 	return fd.selectedFiles()[0].toStdString();
 }
+
+/*
+	窗口关闭事件
+
+	@author - 叶志枫
+	@para QCloseEvent - 关闭事件
+*/
+void MainWindow::closeEvent(QCloseEvent * event)
+{
+	event->accept();
+	//event->ignore();
+}

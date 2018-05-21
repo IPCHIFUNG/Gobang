@@ -38,7 +38,7 @@ private:
 
 	int board[BOARDLENGTH][BOARDLENGTH];	// 棋盘信息
 	int turn;								// 轮次
-	int cModel[4];		// 棋型
+	int cModel[4];							// 棋型
 
 	std::deque<Step> * steps;				// 储存落子顺序的双端队列
 	std::deque<Step> * overSteps;			// 储存导致游戏结束的落子位置
