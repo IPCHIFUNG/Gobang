@@ -156,9 +156,16 @@ void Gobang::newStep(Step step)
 */
 Gobang::Step Gobang::popLastStep()
 {
-	Gobang::Step lastStep = steps->back();
-	steps->pop_back();
-	board[lastStep.x][lastStep.y] = ChessType::NOCHESS;
+	if (!steps->empty())
+	{
+		Gobang::Step lastStep = steps->back();
+		steps->pop_back();
+		board[lastStep.x][lastStep.y] = ChessType::NOCHESS;
+		return lastStep;
+	}
+	Gobang::Step lastStep;
+	lastStep.x = -1;
+	lastStep.y = -1;
 	return lastStep;
 }
 
@@ -230,7 +237,7 @@ int Gobang::isOver(bool isRestricted)
 		cModel[i] = -1;
 
 
-/* ------------------------------------------------------------- */
+	/* ------------------------------------------------------------- */
 
 	if (!isRestricted) {
 		result[0] = searchNumOfChess(1, 0, 0, isRestricted);		// 竖直查找，0---竖直
@@ -268,7 +275,7 @@ int Gobang::isOver(bool isRestricted)
 			else
 				return sign;
 		}
-		else if (result[1] == 5)						
+		else if (result[1] == 5)
 			return sign;
 		model[1] = getChessModel(1);								// 水平类型
 		if (judgeRestricted(model[0], model[1]))
@@ -372,7 +379,7 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 					i += m;
 					j += n;
 					if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH)
-						if(board[i][j] == turn)
+						if (board[i][j] == turn)
 							blankOtherChessNum++;
 				}
 			}
@@ -395,7 +402,7 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 			i -= m;
 			j -= n;
 			if (board[i][j] == turn) {
-				if(i >= 0 && j >= 0 && j < BOARDLENGTH)
+				if (i >= 0 && j >= 0 && j < BOARDLENGTH)
 					blankOtherChessNum++;
 			}
 			else if (board[i][j] == chessTypeNow) {
@@ -404,10 +411,10 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 					i -= m;
 					j -= n;
 					if (i >= 0 && j >= 0 && j < BOARDLENGTH)
-						if(board[i][j] == turn)
+						if (board[i][j] == turn)
 							blankOtherChessNum++;
 				}
-				
+
 			}
 			else if (i < 0 || j < 0 || j >= BOARDLENGTH)
 				boardNum++;
@@ -420,18 +427,18 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 
 		if (chessNum + blankChessNum1 == 3 && blankOtherChessNum + boardNum < 2 && otherNum == 0)
 			setChessModel(ChessModel::LIVETHREE, temp);		// 活三
-		else if(chessNum + blankChessNum2 == 3 && blankOtherChessNum + boardNum < 2 && otherNum == 0)
+		else if (chessNum + blankChessNum2 == 3 && blankOtherChessNum + boardNum < 2 && otherNum == 0)
 			setChessModel(ChessModel::LIVETHREE, temp);		// 活三
 		else if (chessNum == 4 && otherNum == 0)
 			setChessModel(ChessModel::LIVEFOUR, temp);		// 活四
 		else if (chessNum == 4 && otherNum == 1)
 			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
-		else if(chessNum + blankChessNum1 == 4)
+		else if (chessNum + blankChessNum1 == 4)
 			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
 		else if (chessNum + blankChessNum1 == 4)
 			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
 	}
-	
+
 	return chessNum;
 }
 
@@ -442,7 +449,7 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 	@author 应禹尧
 	@return
 */
-void Gobang::setChessModel(int model,int temp)
+void Gobang::setChessModel(int model, int temp)
 {
 	cModel[temp] = model;
 }
