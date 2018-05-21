@@ -565,22 +565,6 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/关闭.png);}</string>
    </hints>
   </connection>
   <connection>
-   <sender>btn_return</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>gamePropertiesBtnsClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1432</x>
-     <y>711</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1642</x>
-     <y>711</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>btn_exit</sender>
    <signal>clicked()</signal>
    <receiver>MainWindowClass</receiver>
@@ -593,150 +577,6 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/关闭.png);}</string>
     <hint type="destinationlabel">
      <x>1651</x>
      <y>799</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_pve</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>gameBtnsClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>483</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-46</x>
-     <y>463</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_pvp</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>gameBtnsClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>158</x>
-     <y>572</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-36</x>
-     <y>573</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_load</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>gameBtnsClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>154</x>
-     <y>757</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-92</x>
-     <y>790</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_online</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>gameBtnsClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>663</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-94</x>
-     <y>681</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_restart</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>gamePropertiesBtnsClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>183</x>
-     <y>430</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-53</x>
-     <y>443</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_prompt</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>gamePropertiesBtnsClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>167</x>
-     <y>525</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-62</x>
-     <y>530</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_retract</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>gamePropertiesBtnsClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>164</x>
-     <y>623</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-63</x>
-     <y>625</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_giveUp</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>gamePropertiesBtnsClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>169</x>
-     <y>732</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-100</x>
-     <y>713</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_save</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindowClass</receiver>
-   <slot>gamePropertiesBtnsClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>174</x>
-     <y>804</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-56</x>
-     <y>803</y>
     </hint>
    </hints>
   </connection>
@@ -756,10 +596,178 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/关闭.png);}</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btn_return</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>returnBtnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1437</x>
+     <y>709</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1654</x>
+     <y>713</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_restart</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>restartBtnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>168</x>
+     <y>428</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-103</x>
+     <y>441</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_pve</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>pveBtnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>484</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-66</x>
+     <y>461</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_prompt</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>promptBtnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>163</x>
+     <y>519</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-100</x>
+     <y>531</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_pvp</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>pvpBtnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>151</x>
+     <y>582</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-94</x>
+     <y>574</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_retract</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>retractBtnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>163</x>
+     <y>624</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-97</x>
+     <y>621</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_online</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>onlineBtnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>148</x>
+     <y>662</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-81</x>
+     <y>680</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_giveUp</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>giveUpBtnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>725</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-86</x>
+     <y>707</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_load</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>loadBtnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>755</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-118</x>
+     <y>787</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_save</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>saveBtnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>826</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-62</x>
+     <y>797</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btnsClicked()</slot>
-  <slot>gameBtnsClicked()</slot>
-  <slot>gamePropertiesBtnsClicked()</slot>
+  <slot>pveBtnClicked()</slot>
+  <slot>pvpBtnClicked()</slot>
+  <slot>onlineBtnClicked()</slot>
+  <slot>loadBtnClicked()</slot>
+  <slot>restartBtnClicked()</slot>
+  <slot>promptBtnClicked()</slot>
+  <slot>retractBtnClicked()</slot>
+  <slot>giveUpBtnClicked()</slot>
+  <slot>saveBtnClicked()</slot>
+  <slot>returnBtnClicked()</slot>
  </slots>
 </ui>
