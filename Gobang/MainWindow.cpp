@@ -215,68 +215,20 @@ void MainWindow::btnsClicked()
 
 	@author - 王开阳 叶志枫
 */
-void MainWindow::gameBtnsClicked()
+void MainWindow::pveBtnClicked()
 {
-	QString btnName = sender()->objectName();
+	clearBoard();
+	gobang.initBoard();
 
-	// 人机对战
-	if (btnName == "btn_pve")
+	int choice;
+	switch (choice)
 	{
-		clearBoard();
-		gobang.initBoard();
-
-		int choice;
-		switch (choice)
-		{
-		case ChessType::BLACKCHESS:		// 黑棋
-			gobang.AIWalk(BLACKCHESS);
-			break;
-		case ChessType::WHITECHESS:		// 白棋
-			gobang.AIWalk(WHITECHESS);
-			break;
-		}
-	}
-	// 人人对战
-	else if (btnName == "btn_pvp")
-	{
-		clearBoard();
-		gobang.initBoard();
-	}
-	// 联机对战
-	else if (btnName == "btn_online")
-	{
-		// 创建并显示连接窗口
-		ServerDialog serverDialog = new ServerDialog(this);
-		serverDialog.setMainWindow(this);
-		serverDialog.exec();
-
-		// 用户点击取消或关闭按钮则返回
-		if (!serverDialog.isOKClicked())
-			return;
-	}
-	// 读取棋盘
-	else if (btnName == "btn_load")
-	{
-		std::string file = selectFile();
-		if (file != "")
-			gobang.loadBoard(const_cast<char*>(file.c_str()));
-		else
-			return;
-
-		int size = gobang.getSteps().size();
-		auto iterator = gobang.getSteps().begin();
-		for (int i = 0; i < size; i++)
-			switch (i % 2)
-			{
-			case 0:
-				chess[iterator->x][iterator->y].setPixmap(blackChess);
-				iterator++;
-				break;
-			case 1:
-				chess[iterator->x][iterator->y].setPixmap(whiteChess);
-				iterator++;
-				break;
-			}
+	case ChessType::BLACKCHESS:		// 黑棋
+		gobang.AIWalk(BLACKCHESS);
+		break;
+	case ChessType::WHITECHESS:		// 白棋
+		gobang.AIWalk(WHITECHESS);
+		break;
 	}
 	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
@@ -286,40 +238,133 @@ void MainWindow::gameBtnsClicked()
 /*
 	按钮被点击响应事件
 
-	@author 王开阳
+	@author - 王开阳 叶志枫
 */
-void MainWindow::gamePropertiesBtnsClicked()
+void MainWindow::pvpBtnClicked()
 {
-	QString btnName = sender()->objectName();
+	clearBoard();
+	gobang.initBoard();
 
-	if (btnName == "btn_restart")
-	{
+	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	setHomePageBtnVisable(false);
+	setGamePageBtnVisable(true);
+}
 
-	}
-	else if (btnName == "btn_prompt")
-	{
+/*
+	按钮被点击响应事件
 
-	}
-	else if (btnName == "btn_retract")
-	{
+	@author - 王开阳 叶志枫
+*/
+void MainWindow::onlineBtnClicked()
+{
+	// 创建并显示连接窗口
+	ServerDialog serverDialog = new ServerDialog(this);
+	serverDialog.setMainWindow(this);
+	serverDialog.exec();
 
-	}
-	else if (btnName == "btn_giveUp")
-	{
+	// 用户点击取消或关闭按钮则返回
+	if (!serverDialog.isOKClicked())
+		return;
 
-	}
-	else if (btnName == "btn_save")
-	{
-		std::string dir = selectDirectory();
-		if (dir != "")
-			gobang.saveBoard(const_cast<char*>(dir.c_str()));
-	}
-	else if (btnName == "btn_return")
-	{
-		disconnect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
-		setHomePageBtnVisable(true);
-		setGamePageBtnVisable(false);
-	}
+	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	setHomePageBtnVisable(false);
+	setGamePageBtnVisable(true);
+}
+
+/*
+	按钮被点击响应事件
+
+	@author - 王开阳 叶志枫
+*/
+void MainWindow::loadBtnClicked()
+{
+	std::string file = selectFile();
+	if (file != "")
+		gobang.loadBoard(const_cast<char*>(file.c_str()));
+	else
+		return;
+
+	int size = gobang.getSteps().size();
+	auto iterator = gobang.getSteps().begin();
+	for (int i = 0; i < size; i++)
+		switch (i % 2)
+		{
+		case 0:
+			chess[iterator->x][iterator->y].setPixmap(blackChess);
+			iterator++;
+			break;
+		case 1:
+			chess[iterator->x][iterator->y].setPixmap(whiteChess);
+			iterator++;
+			break;
+		}
+	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	setHomePageBtnVisable(false);
+	setGamePageBtnVisable(true);
+}
+
+/*
+	按钮被点击响应事件
+
+	@author - 王开阳 叶志枫
+*/
+void MainWindow::restartBtnClicked()
+{
+
+}
+
+/*
+	按钮被点击响应事件
+
+	@author - 王开阳 叶志枫
+*/
+void MainWindow::promptBtnClicked()
+{
+
+}
+
+/*
+	按钮被点击响应事件
+
+	@author - 王开阳 叶志枫
+*/
+void MainWindow::retractBtnClicked()
+{
+
+}
+
+/*
+	按钮被点击响应事件
+
+	@author - 王开阳 叶志枫
+*/
+void MainWindow::giveUpBtnClicked()
+{
+
+}
+
+/*
+	按钮被点击响应事件
+
+	@author - 王开阳 叶志枫
+*/
+void MainWindow::saveBtnClicked()
+{
+	std::string dir = selectDirectory();
+	if (dir != "")
+		gobang.saveBoard(const_cast<char*>(dir.c_str()));
+}
+
+/*
+	按钮被点击响应事件
+
+	@author - 王开阳 叶志枫
+*/
+void MainWindow::returnBtnClicked()
+{
+	disconnect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	setHomePageBtnVisable(true);
+	setGamePageBtnVisable(false);
 }
 
 /*

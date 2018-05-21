@@ -44,8 +44,16 @@ private:
 
 private slots:
 	void btnsClicked();									// 按钮被点击响应事件
-	void gameBtnsClicked();								// 按钮被点击响应事件
-	void gamePropertiesBtnsClicked();					// 按钮被点击响应事件
+	void pveBtnClicked();
+	void pvpBtnClicked();
+	void onlineBtnClicked();
+	void loadBtnClicked();
+	void restartBtnClicked();
+	void promptBtnClicked();
+	void retractBtnClicked();
+	void giveUpBtnClicked();
+	void saveBtnClicked();
+	void returnBtnClicked();
 	void boardClicked();								// 棋盘被点击响应事件
 	void closeEvent(QCloseEvent *event);				// 窗口关闭事件
 };
