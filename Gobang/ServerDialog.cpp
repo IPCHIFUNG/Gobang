@@ -75,7 +75,7 @@ void ServerDialog::changeButton(int index)
 /*
 	登录按钮响应
 
-	@author - 叶志枫
+	@author - 王锴贞
 */
 void ServerDialog::loginBtnClicked()
 {
@@ -85,7 +85,7 @@ void ServerDialog::loginBtnClicked()
 /*
 	开启主机按钮响应
 
-	@author - 叶志枫
+	@author - 王锴贞
 */
 void ServerDialog::hostBtnClicked()
 {
@@ -94,7 +94,7 @@ void ServerDialog::hostBtnClicked()
 /*
 	连接按钮响应
 
-	@author - 叶志枫
+	@author - 王锴贞
 */
 void ServerDialog::connectBtnClicked()
 {

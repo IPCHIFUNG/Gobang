@@ -21,7 +21,6 @@ class ServerDialog : public QDialog
 {
 	Q_OBJECT
 
-
 public:
 	ServerDialog(QWidget *parent = 0);
 	~ServerDialog();
@@ -32,7 +31,7 @@ public:
 private:
 	Ui::ServerDialog * ui;
 	MainWindow * mainWindow;
-	bool okClicked;
+	bool okClicked;							// 保存确定按钮是否被点击状态
 
 private slots:
 	void changeButton(int index);			// tab页切换时改变按钮
