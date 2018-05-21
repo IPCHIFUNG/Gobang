@@ -310,7 +310,8 @@ void MainWindow::loadBtnClicked()
 */
 void MainWindow::restartBtnClicked()
 {
-
+	clearBoard();
+	gobang.initBoard();
 }
 
 /*
@@ -330,7 +331,9 @@ void MainWindow::promptBtnClicked()
 */
 void MainWindow::retractBtnClicked()
 {
-
+	Gobang::Step step = gobang.getSteps().back();
+	chess[step.x][step.y].setPixmap(QPixmap(""));
+	gobang.getSteps().pop_back();
 }
 
 /*
