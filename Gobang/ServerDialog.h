@@ -27,10 +27,12 @@ public:
 	~ServerDialog();
 
 	void setMainWindow(MainWindow * mainWindow);
+	bool isOKClicked();
 
 private:
 	Ui::ServerDialog * ui;
 	MainWindow * mainWindow;
+	bool okClicked;
 
 private slots:
 	void changeButton(int index);			// tab页切换时改变按钮

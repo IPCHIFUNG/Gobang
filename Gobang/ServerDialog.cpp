@@ -5,6 +5,7 @@ ServerDialog::ServerDialog(QWidget *parent)
 	: QDialog(parent), ui(new Ui::ServerDialog)
 {
 	ui->setupUi(this);
+	okClicked = false;
 
 	// 设置窗口标题
 	this->setWindowTitle(QString::fromLocal8Bit("联机对战"));
@@ -25,6 +26,17 @@ ServerDialog::~ServerDialog()
 void ServerDialog::setMainWindow(MainWindow * mainWindow)
 {
 	this->mainWindow = mainWindow;
+}
+
+/*
+	返回确定按钮是否被点击
+
+	@author - 叶志枫
+	@return bool - 确定按钮是否被点击
+*/
+bool ServerDialog::isOKClicked()
+{
+	return okClicked;
 }
 
 /*
