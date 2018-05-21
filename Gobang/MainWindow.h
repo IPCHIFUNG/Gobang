@@ -16,6 +16,7 @@ public:
 
 private:
 	Ui::MainWindowClass ui;
+	GameType gameType;
 	Gobang gobang;
 	QMediaPlayer music;
 	QMediaPlayer soundEff;
@@ -45,4 +46,17 @@ private slots:
 	void gameBtnsClicked();									// 按钮被点击响应事件
 	void gamePropertiesBtnsClicked();									// 按钮被点击响应事件
 	void boardClicked();					// 棋盘被点击响应事件
+};
+
+/*
+	游戏类型
+
+	@author 叶志枫
+*/
+const enum GameType
+{
+	NONE,		// 未开始游戏
+	PVE,		// 人机对战
+	PVP,		// 人人对战
+	ONLINE		// 联机对战
 };

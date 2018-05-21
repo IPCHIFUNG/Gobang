@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 	setBackgroundMusic(true);
 
 	gobang = Gobang();
+	gameType = GameType::NONE;
 }
 
 /*
@@ -212,12 +213,13 @@ void MainWindow::btnsClicked()
 /*
 	按钮被点击响应事件
 
-	@author 王开阳
+	@author - 王开阳 叶志枫
 */
 void MainWindow::gameBtnsClicked()
 {
 	QString btnName = sender()->objectName();
 
+	// 人机对战
 	if (btnName == "btn_pve")
 	{
 		clearBoard();
@@ -234,17 +236,25 @@ void MainWindow::gameBtnsClicked()
 			break;
 		}
 	}
+	// 人人对战
 	else if (btnName == "btn_pvp")
 	{
 		clearBoard();
 		gobang.initBoard();
 	}
+	// 联机对战
 	else if (btnName == "btn_online")
 	{
+		// 创建并显示连接窗口
 		ServerDialog serverDialog = new ServerDialog(this);
 		serverDialog.setMainWindow(this);
 		serverDialog.exec();
+
+		// 用户点击取消或关闭按钮则返回
+		if (!serverDialog.isOKClicked())
+			return;
 	}
+	// 读取棋盘
 	else if (btnName == "btn_load")
 	{
 		std::string file = selectFile();
@@ -338,9 +348,9 @@ void MainWindow::boardClicked()
 }
 
 /*
-读取存档文件界面
+	读取存档文件界面
 
-@author 王开阳
+	@author 王开阳
 */
 std::string MainWindow::selectFile()
 {
@@ -359,9 +369,9 @@ std::string MainWindow::selectFile()
 }
 
 /*
-保存存档文件界面
+	保存存档文件界面
 
-@author 王开阳
+	@author 王开阳
 */
 std::string MainWindow::selectDirectory()
 {
