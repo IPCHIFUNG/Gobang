@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include<string>
+#include<qMessageBox>
 
 using namespace std;
 

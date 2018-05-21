@@ -45,10 +45,13 @@ void Server::server_begin(char *message)
 	while (true)
 	{
 		s2 = accept(s, (sockaddr*)&addr2, &addrSize);
+
 		if (s2 != NULL)
 		{
 			cout << inet_ntoa(addr2.sin_addr) << "is connected!" << endl;
 			send(s2, message, sizeof(message), 0);
+
+			//recv(s, recvBuf, sizeof(recvBuf), 0);
 
 			closesocket(s2);
 			closesocket(s);
@@ -73,21 +76,29 @@ void Server::client_begin(char *message)
 	//创建socket
 	SOCKET s;
 	s = socket(AF_INET, SOCK_STREAM, 0);
-
+	if (SOCKET_ERROR == s) {
+		QMessageBox::about(NULL, "Error1", QString::fromLocal8Bit("套接字创建错误"));
+		return;
+	}
 
 	sockaddr_in addr;
 	int addrSize = sizeof(addr);
 	addr.sin_family = AF_INET;
-	addr.sin_port = port;
-	addr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+	addr.sin_port = htons(port);
+	addr.sin_addr.S_un.S_addr = inet_addr(IPAddr);
 
 	cout << "Client is started!" << endl;
 
 	//连接服务器
-	connect(s, (sockaddr*)&addr, addrSize);
-
-	//接收消息
-	recv(s, message, sizeof(message), 0);
+	if (connect(s, (sockaddr*)&addr, addrSize) == INVALID_SOCKET) {
+		QMessageBox::about(NULL, "Error2", QString::fromLocal8Bit("连接失败"));
+		return;
+	}
+	else
+	{
+		//接收数据  
+		recv(s, message, sizeof(message), 0);
+	}
 
 	closesocket(s);
 	WSACleanup();

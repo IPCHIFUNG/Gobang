@@ -90,6 +90,7 @@ void ServerDialog::loginBtnClicked()
 */
 void ServerDialog::hostBtnClicked()
 {
+	
 	QString text = ui->le_server_port->text();
 	bool ok = false;
 
@@ -106,7 +107,7 @@ void ServerDialog::hostBtnClicked()
 	}
 
 	s = new Server(addr);
-	s->client_begin("kaishi");
+	s->server_begin("kaishi");
 }
 
 /*
@@ -126,15 +127,19 @@ void ServerDialog::connectBtnClicked()
 		return;
 	}
 
-	int ip = text1.toInt(&ok, 10);
+	char*  ip = "";
+	QByteArray ba = text1.toLatin1();
+	ip = ba.data();
 	int port = text2.toInt(&ok, 10);
+
 	if (false == ok) {
 		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("端口号必须为纯数字"));
 		return;
 	}
 
-	//s = new Server();
-	//s->server_begin("kaishi");
+	s = new Server(ip, port);
+	s->client_begin("kaishi");
+
 }
 
 /*
