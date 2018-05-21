@@ -35,6 +35,7 @@ private:
 
 	void setBackgroundMusic(bool isOn);					// 播放和暂停背景音乐
 	void playSoundEffects();							// 播放落子音效
+	void closeEvent(QCloseEvent *event);				// 窗口关闭事件
 
 	void setHomePageBtnVisable(bool isOn);				// 设置主页按钮的可见性
 	void setGamePageBtnVisable(bool isOn);				// 设置游戏页按钮的可见性
@@ -55,7 +56,6 @@ private slots:
 	void saveBtnClicked();
 	void returnBtnClicked();
 	void boardClicked();								// 棋盘被点击响应事件
-	void closeEvent(QCloseEvent *event);				// 窗口关闭事件
 };
 
 /*

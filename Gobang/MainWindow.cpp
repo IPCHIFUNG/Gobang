@@ -40,12 +40,12 @@ MainWindow::MainWindow(QWidget *parent)
 */
 void MainWindow::clearBoard()
 {
-	int size = gobang.getSteps().size();
-	auto iterator = gobang.getSteps().begin();
-	for (int i = 0; i < size; i++)
+	Gobang::Step step;
+	while (!gobang.getSteps().empty())
 	{
-		chess[iterator->x][iterator->y].setPixmap(QPixmap(""));
-		iterator++;
+		step = gobang.getSteps().front();
+		chess[step.x][step.y].setPixmap(QPixmap(""));
+		gobang.getSteps().pop_front();
 	}
 }
 
@@ -393,6 +393,18 @@ void MainWindow::boardClicked()
 }
 
 /*
+	窗口关闭事件
+
+	@author - 叶志枫
+	@para QCloseEvent - 关闭事件
+*/
+void MainWindow::closeEvent(QCloseEvent * event)
+{
+	//event->accept();
+	event->ignore();
+}
+
+/*
 	读取存档文件界面
 
 	@author 王开阳
@@ -432,16 +444,4 @@ std::string MainWindow::selectDirectory()
 	if (!fd.exec())
 		return "";
 	return fd.selectedFiles()[0].toStdString();
-}
-
-/*
-	窗口关闭事件
-
-	@author - 叶志枫
-	@para QCloseEvent - 关闭事件
-*/
-void MainWindow::closeEvent(QCloseEvent * event)
-{
-	event->accept();
-	//event->ignore();
 }
