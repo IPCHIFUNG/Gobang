@@ -40,10 +40,9 @@ MainWindow::MainWindow(QWidget *parent)
 */
 void MainWindow::clearBoard()
 {
-	Gobang::Step step;
 	while (!gobang.getSteps().empty())
 	{
-		step = gobang.getSteps().front();
+		Gobang::Step step = gobang.getSteps().front();
 		chess[step.x][step.y].setPixmap(QPixmap(""));
 		gobang.getSteps().pop_front();
 	}
@@ -165,10 +164,10 @@ void MainWindow::showWinnerDialog(int type)
 	switch (type)
 	{
 	case ChessType::BLACKCHESS:		// ºÚÆå»ñÊ¤
-		QMessageBox::information(this, tr("Inquire"), QString::fromLocal8Bit("ºÚÆå"), QMessageBox::NoButton);
+		QMessageBox::information(this, QString::fromLocal8Bit("ÓÎÏ·»ñÊ¤"), QString::fromLocal8Bit("ºÚÆå»ñÊ¤£¡"), QMessageBox::NoButton);
 		break;
 	case ChessType::WHITECHESS:		// °×Æå»ñÊ¤
-		QMessageBox::information(this, tr("Inquire"), QString::fromLocal8Bit("°×Æå"), QMessageBox::NoButton);
+		QMessageBox::information(this, QString::fromLocal8Bit("ÓÎÏ·»ñÊ¤"), QString::fromLocal8Bit("°×Æå»ñÊ¤£¡"), QMessageBox::NoButton);
 		break;
 	case ChessType::NOCHESS:		// Æ½¾Ö
 		break;
@@ -331,9 +330,9 @@ void MainWindow::promptBtnClicked()
 */
 void MainWindow::retractBtnClicked()
 {
-	Gobang::Step step = gobang.getSteps().back();
+	Gobang::Step step = gobang.popLastStep();
 	chess[step.x][step.y].setPixmap(QPixmap(""));
-	gobang.getSteps().pop_back();
+	gobang.shiftTurn();
 }
 
 /*
@@ -343,7 +342,9 @@ void MainWindow::retractBtnClicked()
 */
 void MainWindow::giveUpBtnClicked()
 {
-
+	int winner = (gobang.getTurn() + 1) % 2;
+	showWinnerDialog(winner);
+	disconnect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
 }
 
 /*
