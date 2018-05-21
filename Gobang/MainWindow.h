@@ -16,7 +16,7 @@ public:
 
 private:
 	Ui::MainWindowClass ui;
-	GameType gameType;
+	int gameType;
 	Gobang gobang;
 	QMediaPlayer music;
 	QMediaPlayer soundEff;
@@ -43,9 +43,9 @@ private:
 
 private slots:
 	void btnsClicked();									// 按钮被点击响应事件
-	void gameBtnsClicked();									// 按钮被点击响应事件
-	void gamePropertiesBtnsClicked();									// 按钮被点击响应事件
-	void boardClicked();					// 棋盘被点击响应事件
+	void gameBtnsClicked();								// 按钮被点击响应事件
+	void gamePropertiesBtnsClicked();					// 按钮被点击响应事件
+	void boardClicked();								// 棋盘被点击响应事件
 };
 
 /*
