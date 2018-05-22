@@ -21,12 +21,12 @@ public:
 	Server(int port);
 	~Server();
 	void server_begin(char*);
-	void client_begin();
+	void client_begin(char*);
 	
 private:
 	int port;
 	char * IPAddr;
-	
+	WSADATA data;
 };
 
 

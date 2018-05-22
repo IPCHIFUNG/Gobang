@@ -107,7 +107,7 @@ void ServerDialog::hostBtnClicked()
 	}
 
 	s = new Server(addr);
-	s->server_begin("hello,connect sussess!");
+	s->server_begin("kaishi");
 }
 
 /*
@@ -136,9 +136,9 @@ void ServerDialog::connectBtnClicked()
 		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("端口号必须为纯数字"));
 		return;
 	}
-	
+
 	s = new Server(ip, port);
-	s->client_begin();
+	s->client_begin("kaishi");
 
 }
 
