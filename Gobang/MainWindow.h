@@ -60,7 +60,7 @@ private slots:
 
 /*
 	游戏类型
-	
+
 	@author 叶志枫
 */
 const enum GameType

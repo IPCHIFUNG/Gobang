@@ -26,6 +26,10 @@ void Gobang::initBoard()
 			board[i][j] = ChessType::NOCHESS;
 	turn = ChessType::BLACKCHESS;
 	// 初始化双端队列
+	/*if (steps != NULL)
+		steps->clear();
+	if (overSteps != NULL)
+		overSteps->clear();*/
 	steps = new std::deque<Step>();
 	overSteps = new std::deque<Step>();
 }
@@ -115,7 +119,7 @@ int Gobang::getAtPosition(int x, int y)
 	@author 叶志枫
 	@return 双端队列
 */
-std::deque<Gobang::Step> Gobang::getSteps()
+std::deque<Gobang::Step> & Gobang::getSteps()
 {
 	return *steps;
 }
@@ -126,7 +130,7 @@ std::deque<Gobang::Step> Gobang::getSteps()
 	@author 应禹尧
 	@return 双端队列
 */
-std::deque<Gobang::Step> Gobang::getOverSteps()
+std::deque<Gobang::Step> & Gobang::getOverSteps()
 {
 
 	return *overSteps;
