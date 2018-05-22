@@ -40,11 +40,11 @@ MainWindow::MainWindow(QWidget *parent)
 */
 void MainWindow::clearBoard()
 {
-	std::deque<Gobang::Step> *steps = gobang.getSteps();
-	while (!steps->empty())
+	while (!gobang.getSteps().empty())
 	{
-		chess[steps->front().x][steps->front().y].setPixmap(QPixmap(""));
-		steps->pop_front();
+		Gobang::Step step = gobang.getSteps().front();
+		chess[step.x][step.y].setPixmap(QPixmap(""));
+		gobang.getSteps().pop_front();
 	}
 }
 
@@ -70,8 +70,6 @@ void MainWindow::showStep(Gobang::Step step, int type)
 		break;
 	case ChessType::WHITECHESS:
 		chess[step.x][step.y].setPixmap(whiteChess);
-		break;
-	default:
 		break;
 	}
 }
@@ -173,8 +171,6 @@ void MainWindow::showWinnerDialog(int type)
 		break;
 	case ChessType::NOCHESS:		// Æ½¾Ö
 		break;
-	default:
-		break;
 	}
 }
 
@@ -232,8 +228,6 @@ void MainWindow::pveBtnClicked()
 	case ChessType::WHITECHESS:		// °×Æå
 		gobang.AIWalk(WHITECHESS);
 		break;
-	default:
-		break;
 	}
 	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
@@ -289,8 +283,8 @@ void MainWindow::loadBtnClicked()
 	else
 		return;
 
-	int size = gobang.getSteps()->size();
-	auto iterator = gobang.getSteps()->begin();
+	int size = gobang.getSteps().size();
+	auto iterator = gobang.getSteps().begin();
 	for (int i = 0; i < size; i++)
 		switch (i % 2)
 		{
@@ -301,8 +295,6 @@ void MainWindow::loadBtnClicked()
 		case 1:
 			chess[iterator->x][iterator->y].setPixmap(whiteChess);
 			iterator++;
-			break;
-		default:
 			break;
 		}
 	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));

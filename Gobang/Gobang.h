@@ -31,8 +31,8 @@ public:
 
 	int getTurn();							// 返回当前轮次
 	int getAtPosition(int x, int y);		// 返回（x, y）位置的棋子
-	std::deque<Step>* getSteps();			// 返回储存落子顺序的双端队列
-	std::deque<Step>* getOverSteps();        // 返回储存导致游戏结束的落子位置的双端队列
+	std::deque<Step> getSteps();			// 返回储存落子顺序的双端队列
+	std::deque<Step> getOverSteps();        // 返回储存导致游戏结束的落子位置的双端队列
 
 
 private:
@@ -46,7 +46,7 @@ private:
 
 	int isOver(bool isRestricted);			// 判断游戏是否结束，否返回ChessType::NOCHESS, 是返回棋子对应枚举
 	int searchNumOfChess(int m, int n, int temp, bool isRestricted);     // 判断棋子数
-	void setChessModel(int model, int temp);	// 设置棋型
+	void setChessModel(int model,int temp);	// 设置棋型
 	int getChessModel(int temp);			// 获得棋型
 
 	bool judgeRestricted(int model1, int model2);	// 判断棋型
