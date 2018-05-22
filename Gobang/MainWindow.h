@@ -4,6 +4,7 @@
 #include <QMediaPlayer>
 #include <QFileDialog>
 #include <QCloseEvent>
+#include <queue>
 #include <string>
 #include "ui_MainWindow.h"
 #include "Gobang.h"
