@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Gobang.h"
+#include "AIUtil.h"
 
 Gobang::Gobang()
 {

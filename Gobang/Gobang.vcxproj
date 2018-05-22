@@ -133,6 +133,7 @@
     <ResourceCompile Include="Gobang.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIUtil.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Gobang.h" />
     <QtMoc Include="ServerDialog.h">
