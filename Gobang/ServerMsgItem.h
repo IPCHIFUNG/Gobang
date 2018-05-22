@@ -11,6 +11,7 @@ public:
 	~ServerMsgItem();
 
 	std::string convertToString();
+	static int getOperationFromString(std::string str);
 
 private:
 	int operation;

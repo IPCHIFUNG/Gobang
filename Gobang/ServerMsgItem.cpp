@@ -33,3 +33,8 @@ std::string ServerMsgItem::convertToString()
 	ss << "}";
 	return ss.str();
 }
+
+int ServerMsgItem::getOperationFromString(std::string str)
+{
+	return str[16] - '0';
+}
