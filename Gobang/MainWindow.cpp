@@ -289,8 +289,8 @@ void MainWindow::loadBtnClicked()
 	else
 		return;
 
-	int size = gobang.getSteps().size();
-	auto iterator = gobang.getSteps().begin();
+	int size = gobang.getSteps()->size();
+	auto iterator = gobang.getSteps()->begin();
 	for (int i = 0; i < size; i++)
 		switch (i % 2)
 		{
