@@ -1,5 +1,6 @@
 #include "ServerDialog.h"
 #include "ui_ServerDialog.h"
+#include<thread>
 
 ServerDialog::ServerDialog(QWidget *parent)
 	: QDialog(parent), ui(new Ui::ServerDialog)
@@ -107,7 +108,9 @@ void ServerDialog::hostBtnClicked()
 	}
 
 	s = new Server(addr);
-	s->server_begin("kaishi");
+	s->server_begin("Hello,connect success!");
+	//::thread t1(s->server_begin);
+	//t1.detach();
 }
 
 /*
@@ -136,10 +139,12 @@ void ServerDialog::connectBtnClicked()
 		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("端口号必须为纯数字"));
 		return;
 	}
-
+	
 	s = new Server(ip, port);
-	s->client_begin("kaishi");
-
+	s->client_begin();
+	//::thread t2(s->client_begin);
+	//t2.detach();
+	
 }
 
 /*

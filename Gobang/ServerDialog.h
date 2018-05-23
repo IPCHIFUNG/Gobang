@@ -13,7 +13,10 @@
 #include "MainWindow.h"
 #include"Server.h"
 #include <QDialog>
+
 #include<qMessageBox>
+
+
 
 namespace Ui {
 	class ServerDialog;

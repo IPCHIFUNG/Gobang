@@ -1,3 +1,4 @@
+
 #ifndef SERVER_H
 #define SERVER_H
 
@@ -21,12 +22,12 @@ public:
 	Server(int port);
 	~Server();
 	void server_begin(char*);
-	void client_begin(char*);
+	void client_begin();
 	
 private:
 	int port;
 	char * IPAddr;
-	WSADATA data;
+	
 };
 
 

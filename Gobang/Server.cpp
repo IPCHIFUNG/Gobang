@@ -1,3 +1,4 @@
+
 #include "Server.h"
 
 Server::Server(char *IPAddr, int port)
@@ -18,58 +19,70 @@ Server::~Server()
 
 void Server::server_begin(char *message)
 {
-	if (WSAStartup(MAKEWORD(2, 2), &data) != 0)
+	WSADATA data;
+	if (WSAStartup(MAKEWORD(2, 0), &data) != 0)
 	{
-		printf("Failed to load Winsock");
+		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端类库加载失败"));
 		return;
 	}
 
 	//创建socket
 	SOCKET s, s2;
 	s = socket(AF_INET, SOCK_STREAM, 0);
+	if (SOCKET_ERROR == s) {
+		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端套接字创建错误"));
+		return;
+	}
 
 	//初始化地址
-	sockaddr_in addr,addr2;
+	sockaddr_in addr, addr2;
 	int addrSize = sizeof(addr2);
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
 	addr.sin_addr.S_un.S_addr = INADDR_ANY;
 
 	//绑定socket
-	bind(s, (sockaddr*)&addr, addrSize);
-	listen(s, 5);                         //set max connect number is 5
+	::bind(s, (sockaddr*)&addr, addrSize);
+	/*if (retVal == SOCKET_ERROR) {
+		printf("Failed bind:%d\n", WSAGetLastError());
+		return;
+	}
+	*/
 
-	cout << "Server is started!" << endl;
+	QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("服务器开启"));
 
 	//监听
-	while (true)
-	{
-		s2 = accept(s, (sockaddr*)&addr2, &addrSize);
 
-		if (s2 != NULL)
-		{
-			cout << inet_ntoa(addr2.sin_addr) << "is connected!" << endl;
-			send(s2, message, sizeof(message), 0);
-
-			//recv(s, recvBuf, sizeof(recvBuf), 0);
-
-			closesocket(s2);
-			closesocket(s);
-			WSACleanup();
-			break;
-		}
-		else
-		{
-			Sleep(100);
-		}
+	if (listen(s, 2) == SOCKET_ERROR) {
+		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("Listen failed"));
+		return;
 	}
+	s2 = accept(s, (sockaddr*)&addr2, &addrSize);
+	if (s2 != SOCKET_ERROR)
+	{
+		QMessageBox::about(NULL, "Tip", (inet_ntoa(addr2.sin_addr)));
+		//cout << inet_ntoa(addr2.sin_addr) << "is connected!" << endl;
+		send(s2, message, sizeof(message), 0);
+
+		//recv(s, recvBuf, sizeof(recvBuf), 0);
+
+
+	}
+	//else
+	//{
+	//	Sleep(100);}
+
+	closesocket(s2);
+	closesocket(s);
+	WSACleanup();
 }
 
-void Server::client_begin(char *message)
+void Server::client_begin()
 {
-	if (WSAStartup(MAKEWORD(2, 2), &data) != 0)
+	WSADATA data;
+	if (WSAStartup(MAKEWORD(2, 0), &data) != 0)
 	{
-		printf("Failed to load Winsock");
+		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端类库加载失败"));
 		return;
 	}
 
@@ -87,7 +100,7 @@ void Server::client_begin(char *message)
 	addr.sin_port = htons(port);
 	addr.sin_addr.S_un.S_addr = inet_addr(IPAddr);
 
-	cout << "Client is started!" << endl;
+	QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("客户端开启"));
 
 	//连接服务器
 	if (connect(s, (sockaddr*)&addr, addrSize) == INVALID_SOCKET) {
@@ -96,12 +109,14 @@ void Server::client_begin(char *message)
 	}
 	else
 	{
-		//接收数据  
-		recv(s, message, sizeof(message), 0);
+		//接收数据 
+		char *message1;
+		recv(s, message1, sizeof(message1), 0);
+		//QString str = QString(QLatin1String(message1));
+		QMessageBox::about(NULL, "Sussess",message1 );
 	}
 
 	closesocket(s);
 	WSACleanup();
-
 
 }
