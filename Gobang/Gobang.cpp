@@ -203,11 +203,11 @@ Gobang::Step Gobang::AIWalk(int type)
 	AIs.x = s.x;
 	AIs.y = s.y;
 
-	AIutil->cal_chess(AIs, 1, 0, sign, 0);		// 竖直查找
+	/*AIutil->cal_chess(AIs, 1, 0, sign, 0);		// 竖直查找
 	AIutil->cal_chess(AIs, 0, 1, sign, 0);		// 水平查找
 	AIutil->cal_chess(AIs, 1, 1, sign, 0);		// 主对角线查找
 	AIutil->cal_chess(AIs, 1, -1, sign, 0);		// 副对角线查找
-
+	*/
 
 	return Step();
 }
