@@ -7,6 +7,7 @@ Gobang::Gobang()
 	// 初始化棋盘
 	initBoard();
 
+	AIutil = new AIUtil(&board[0][0]);
 }
 
 Gobang::~Gobang()
@@ -185,18 +186,27 @@ void Gobang::shiftTurn()
 }
 
 /*
-	人机对战
+人机对战
 
-	@author 应禹尧
-	@return 返回Step类型的坐标
+@author 应禹尧
+@return 返回Step类型的坐标
 */
 Gobang::Step Gobang::AIWalk(int type)
 {
 	if (type != ChessType::BLACKCHESS || type != ChessType::WHITECHESS)
 		throw "The chess type does not existing";
 
+	Step s = steps->back();
+	AIUtil::AIStep AIs;
+	int sign = (turn + 1) % 2;
 
+	AIs.x = s.x;
+	AIs.y = s.y;
 
+	AIutil->cal_chess(AIs, 1, 0, sign, 0);		// 竖直查找
+	AIutil->cal_chess(AIs, 0, 1, sign, 0);		// 水平查找
+	AIutil->cal_chess(AIs, 1, 1, sign, 0);		// 主对角线查找
+	AIutil->cal_chess(AIs, 1, -1, sign, 0);		// 副对角线查找
 
 
 	return Step();

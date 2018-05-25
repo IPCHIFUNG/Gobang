@@ -48,6 +48,9 @@
     <ClCompile Include="ServerMsgItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AIUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h">
