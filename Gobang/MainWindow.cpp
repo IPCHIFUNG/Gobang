@@ -235,7 +235,7 @@ void MainWindow::pveBtnClicked()
 	default:
 		break;
 	}
-	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
 }
@@ -250,7 +250,7 @@ void MainWindow::pvpBtnClicked()
 	clearBoard();
 	gobang.initBoard();
 
-	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
 }
@@ -271,7 +271,7 @@ void MainWindow::onlineBtnClicked()
 	if (!serverDialog.isOKClicked())
 		return;
 
-	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
 }
@@ -305,7 +305,7 @@ void MainWindow::loadBtnClicked()
 		default:
 			break;
 		}
-	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
 }
@@ -319,7 +319,7 @@ void MainWindow::restartBtnClicked()
 {
 	clearBoard();
 	gobang.initBoard();
-	connect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 }
 
 /*
@@ -356,7 +356,7 @@ void MainWindow::giveUpBtnClicked()
 {
 	int winner = (gobang.getTurn() + 1) % 2;
 	showWinnerDialog(winner);
-	disconnect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 }
 
 /*
@@ -378,7 +378,7 @@ void MainWindow::saveBtnClicked()
 */
 void MainWindow::returnBtnClicked()
 {
-	disconnect(ui.btn_chessboard, SIGNAL(clicked()), this, SLOT(boardClicked()));
+	disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(true);
 	setGamePageBtnVisable(false);
 }
@@ -416,8 +416,8 @@ void MainWindow::boardClicked()
 */
 void MainWindow::closeEvent(QCloseEvent * event)
 {
-	//event->accept();
-	event->ignore();
+	event->accept();
+	//event->ignore();
 }
 
 /*
