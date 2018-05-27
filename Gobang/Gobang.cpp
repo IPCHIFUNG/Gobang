@@ -211,6 +211,7 @@ Gobang::Step Gobang::AIWalk(int type)
 	AIutil->init_zobrist();
 	AIutil->init_hashtable();
 
+	st = AIutil->cal_zobrist();
 	AIutil->alpha_beta(turn, DEPTH, alpha, beta, st);		// ËÑË÷ 
 
 	/*if (map[comy][comx] == EMPTY_POINT) {
