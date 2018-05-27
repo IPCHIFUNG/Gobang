@@ -1,6 +1,6 @@
 #include "ServerDialog.h"
 #include "ui_ServerDialog.h"
-#include<thread>
+
 
 ServerDialog::ServerDialog(QWidget *parent)
 	: QDialog(parent), ui(new Ui::ServerDialog)
@@ -39,6 +39,11 @@ void ServerDialog::setMainWindow(MainWindow * mainWindow)
 bool ServerDialog::isOKClicked()
 {
 	return okClicked;
+}
+
+Server *ServerDialog::getServer()
+{
+	return s;
 }
 
 /*
@@ -108,9 +113,8 @@ void ServerDialog::hostBtnClicked()
 	}
 
 	s = new Server(addr);
-	s->server_begin("Hello,connect success!");
-	//::thread t1(s->server_begin);
-	//t1.detach();
+	s->server_begin();
+	
 }
 
 /*
