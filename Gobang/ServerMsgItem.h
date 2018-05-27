@@ -27,7 +27,7 @@ const enum OperationType
 	RESTART,
 	CHEAT,
 	GIVEUP,
-	ERROR,
+	ERRORR,
 	AGREE,
 	DISAGREE
 };
