@@ -196,14 +196,33 @@ Gobang::Step Gobang::AIWalk(int type)
 	if (type != ChessType::BLACKCHESS || type != ChessType::WHITECHESS)
 		throw "The chess type does not existing";
 
+	const int inf = 9000000;					// alpha_beta
 	Step s = steps->back();
 	AIUtil::AIStep AIs;
 	int sign = (turn + 1) % 2;
+	int DEPTH = 8;								// 搜索深度
+	int alpha = -inf;
+	int beta = inf;
+	LL st;
 
 	AIs.x = s.x;
 	AIs.y = s.y;
 
-	/*AIutil->cal_chess(AIs, 1, 0, sign, 0);		// 竖直查找
+	AIutil->init_zobrist();
+	AIutil->init_hashtable();
+
+	AIutil->alpha_beta(turn, DEPTH, alpha, beta, st);		// 搜索 
+
+	/*if (map[comy][comx] == EMPTY_POINT) {
+		draw_out_coor(j_cr, j_cc * 2);
+		j_cr = comy;
+		j_cc = comx;
+		set_chose(player);                         // 落子 
+		draw_coor(j_cr, j_cc * 2);
+	}*/
+
+
+	/*AIutil->cal_chess(AIs, 1, 0, sign, 0);	// 竖直查找
 	AIutil->cal_chess(AIs, 0, 1, sign, 0);		// 水平查找
 	AIutil->cal_chess(AIs, 1, 1, sign, 0);		// 主对角线查找
 	AIutil->cal_chess(AIs, 1, -1, sign, 0);		// 副对角线查找

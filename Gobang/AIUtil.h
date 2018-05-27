@@ -1,7 +1,17 @@
 #ifndef AIUTIL_H
 #define AIUTIL_H
 
+#include <stdlib.h>
+#define HASHSIZE (1<<21)
+
 typedef long long LL;
+
+typedef enum
+{
+	HASHALPHA,		//alpha
+	HASHBETA,		//beta
+	HASHEXACT
+} HashType;
 
 class AIUtil
 {
@@ -22,12 +32,22 @@ public:
 		int c4, m3;										// c4--冲四，m3--眠三
 	}Points;
 
-	void cal_chess(Points *po, AIStep *steps, int m, int n);
+	typedef struct {
+		LL check;
+		HashType type;
+		int val;
+		int depth;
+	}HashElem;
+
+	
+	void init_zobrist();
+	void init_hashtable();
 	int alpha_beta(int type, int depth, int alpha, int beta, LL st);
 
 private:
 	int *board;
-
+	LL zobrist[3][20][20];
+	HashElem hashtable[HASHSIZE];
 
 	/* cpoint[i][j][0] 表示电脑绝杀棋情况 */
 	/* cpoint[i][j][1] 表示玩家绝杀棋情况 */
@@ -48,12 +68,15 @@ private:
 	const int DEAD3 = -10;			// 死三
 	const int DEAD2 = -10;			// 死二
 	const int inf = 9000000;		// alpha_beta
-	const int unknow = 9900000;		// 
+	const int unknow = 9900000;		// 未知
 
+	LL rand14();
 	int getBoard(int x, int y);
 	int cal_all_points(AIStep *step, int *kill);
 	void cal_point(int x, int y);
 	int get_points(AIStep *step, int *kill);
+	void cal_chess(Points *po, AIStep *steps, int m, int n);
+	int find_in_hash(int depth, int alpha, int beta, LL st);
 
 };
 
@@ -63,6 +86,8 @@ const enum AIChessType
 	AIWHITECHESS,	// 白棋
 	AINOCHESS		// 无棋
 };
+
+
 
 #endif // !AIUTIL_H
 
