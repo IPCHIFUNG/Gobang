@@ -113,8 +113,9 @@ void ServerDialog::hostBtnClicked()
 	}
 
 	s = new Server(addr);
-	s->server_begin();
-	s->setMainWindow(mainWindow);
+
+	s->server_start();
+	
 	
 }
 
@@ -146,8 +147,10 @@ void ServerDialog::connectBtnClicked()
 	}
 	
 	s = new Server(ip, port);
-	s->client_begin();
-	s->setMainWindow(mainWindow);
+	s->client_start();
+
+	
+	
 }
 
 /*

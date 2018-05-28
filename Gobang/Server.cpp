@@ -1,6 +1,7 @@
 #include "Server.h"
 #include "ServerMsgItem.h"
 
+
 Server::Server(char *IPAddr, int port)
 {
 	this->IPAddr = IPAddr;
@@ -17,138 +18,90 @@ Server::Server(int port)
 
 Server::~Server()
 {
-	closesocket(s);
+	closesocket(server_s);
+	closesocket(client_s);
 	WSACleanup();
 }
 
-void Server::server_begin()
+void Server::server_start()
 {
 	WSADATA data;
-	if (WSAStartup(MAKEWORD(2, 0), &data) != 0)
+	if (WSAStartup(MAKEWORD(2, 2), &data) != 0)
 	{
 		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端类库加载失败"));
 		return;
 	}
 
-	//创建socket
-	SOCKET s2;
-	s = socket(AF_INET, SOCK_STREAM, 0);
-	if (SOCKET_ERROR == s) {
+	//初始化socket
+	server_s = socket(AF_INET, SOCK_STREAM, 0);
+	if (SOCKET_ERROR == server_s) {
 		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端套接字创建错误"));
 		return;
 	}
 
 	//初始化地址
-	sockaddr_in addr, addr2;
-	int addrSize = sizeof(addr2);
-	addr.sin_family = AF_INET;
-	addr.sin_port = htons(port);
-	addr.sin_addr.S_un.S_addr = INADDR_ANY;
+	sockaddr_in addrSrv, addrCli;
+	int addrSize = sizeof(addrCli);
+	addrSrv.sin_family = AF_INET;
+	addrSrv.sin_port = htons(port);
+	addrSrv.sin_addr.S_un.S_addr = INADDR_ANY;
 
 	//绑定socket
-	::bind(s, (sockaddr*)&addr, addrSize);
-	/*if (retVal == SOCKET_ERROR) {
-		printf("Failed bind:%d\n", WSAGetLastError());
-		return;
-	}
-	*/
-
+	::bind(server_s, (sockaddr*)&addrSrv, addrSize);
 	QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("服务器开启"));
 
 	//监听
-
-	if (listen(s, 2) == SOCKET_ERROR) {
+	if (listen(server_s, 2) == SOCKET_ERROR) {
 		QMessageBox::about(NULL, "Error", "Listen failed");
 		return;
 	}
-	s2 = accept(s, (sockaddr*)&addr2, &addrSize);
-	if (s2 == SOCKET_ERROR)
+	client_s = accept(server_s, (sockaddr*)&addrCli, &addrSize);
+	if (client_s == SOCKET_ERROR)
 	{
 		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("接收连接错误"));
 		return;
 	}
-
-	QMessageBox::about(NULL, "Tip", (inet_ntoa(addr2.sin_addr)) + QString::fromLocal8Bit("接收连接成功"));
-	
-	if (x != -1 && y != -1)
-	{
-		string str = ServerMsgItem(x, y).convertToString();
-		if (send(s2, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
-			return;
-		}
-		x = -1;
-		y = -1;
-	}
-	if (operation != -1) {
-		string str = ServerMsgItem(operation).convertToString();
-		if (send(s2, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
-			return;
-		}
-
-	}
+	QMessageBox::about(NULL, "Tip", (inet_ntoa(addrCli.sin_addr)) + QString::fromLocal8Bit("接收连接成功"));
 
 	//接收数据线程
-	thread *serverThe = new thread(receive, mainWindow,s);
+	thread *serverThe = new thread(receive, mainWindow,server_s);
 	serverThe->detach();
 
-	closesocket(s2);
 }
 
-void Server::client_begin()
+void Server::client_start()
 {
 	WSADATA data;
-	if (WSAStartup(MAKEWORD(2, 0), &data) != 0)
+	if (WSAStartup(MAKEWORD(2, 2), &data) != 0)
 	{
 		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端类库加载失败"));
 		return;
 	}
 
-	//创建socket
-	s = socket(AF_INET, SOCK_STREAM, 0);
-	if (SOCKET_ERROR == s) {
+	//初始化socket
+	server_s = socket(AF_INET, SOCK_STREAM, 0);
+	if (SOCKET_ERROR == server_s) {
 		QMessageBox::about(NULL, "Error1", QString::fromLocal8Bit("套接字创建错误"));
 		return;
 	}
 
-	sockaddr_in addr;
-	int addrSize = sizeof(addr);
-	addr.sin_family = AF_INET;
-	addr.sin_port = htons(port);
-	addr.sin_addr.S_un.S_addr = inet_addr(IPAddr);
+	sockaddr_in addrSrv;
+	int addrSize = sizeof(addrSrv);
+	addrSrv.sin_family = AF_INET;
+	addrSrv.sin_port = htons(port);
+	addrSrv.sin_addr.S_un.S_addr = inet_addr(IPAddr);
 
 	QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("客户端开启"));
 
 	//连接服务器
-	if (connect(s, (sockaddr*)&addr, addrSize) == INVALID_SOCKET) {
+	if (connect(server_s, (sockaddr*)&addrSrv, addrSize) == INVALID_SOCKET) {
 		QMessageBox::about(NULL, "Error2", QString::fromLocal8Bit("连接失败"));
 		return;
 	}
+
 	//接收数据线程
-	thread *serverThe = new thread(receive, mainWindow,s);
+	thread *serverThe = new thread(receive, mainWindow, server_s);
 	serverThe->detach();
-
-	//发送数据
-	
-	if (x != -1 && y != -1)
-	{
-		string str = ServerMsgItem(x, y).convertToString();
-
-		if (send(s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端发送失败"));
-			return;
-		}
-		x = -1;
-		y = -1;
-	}
-	if (operation != -1) {
-		string str = ServerMsgItem(operation).convertToString();
-		if (send(s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
-			return;
-		}
-	}
 }
 
 void Server::setMessage(int x,int y)
@@ -162,11 +115,11 @@ void Server::setMessage(int operation)
 	this->operation = operation;
 }
 
-void Server::receive(MainWindow *mainWindow,SOCKET s)
+void Server::receive(MainWindow *mainWindows,SOCKET server_s)
 {
 	//接收数据 
 	char recvBuf[200] = { "" };
-	int nLen = recv(s, recvBuf, sizeof(recvBuf), 0);
+	int nLen = recv(server_s, recvBuf, sizeof(recvBuf), 0);
 	if (nLen <= 0)
 	{
 		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端接收失败"));
@@ -211,6 +164,50 @@ void Server::receive(MainWindow *mainWindow,SOCKET s)
 	}
 }
 
+void Server::client_send()
+{
+	if (x != -1 && y != -1)
+	{
+		string str = ServerMsgItem(x, y).convertToString();
+
+		if (send(server_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端发送失败"));
+			return;
+		}
+		x = -1;
+		y = -1;
+	}
+	if (operation != -1) {
+		string str = ServerMsgItem(operation).convertToString();
+		if (send(server_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
+			return;
+		}
+	}
+}
+
+void Server::server_send() {
+	if (x != -1 && y != -1)
+	{
+		string str = ServerMsgItem(x, y).convertToString();
+
+		if (send(client_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端发送失败"));
+			return;
+		}
+		x = -1;
+		y = -1;
+	}
+	if (operation != -1) {
+		string str = ServerMsgItem(operation).convertToString();
+		if (send(client_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
+			return;
+		}
+	}
+}
+
+//设置主框架ui
 void Server::setMainWindow(MainWindow * mainWindow)
 {
 	this->mainWindow = mainWindow;

@@ -269,7 +269,7 @@ void MainWindow::onlineBtnClicked()
 {
 	// 创建并显示连接窗口
 	ServerDialog serverDialog = new ServerDialog(this);
-	serverDialog.setMainWindow(this);
+	//serverDialog.setMainWindow(this);
 	serverDialog.exec();
 
 	// 用户点击取消或关闭按钮则返回

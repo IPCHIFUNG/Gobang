@@ -24,21 +24,24 @@ public:
 	Server(char *IPAddr, int port);
 	Server(int port);
 	~Server();
-	void server_begin();
-	void client_begin();
+	void server_start();
+	void client_start();
 	void setMessage(int, int);
 	void setMessage(int);
-	void setMainWindow(MainWindow * mainWindow);
+	void setMainWindow(MainWindow *mainWindow);
 
 private:
-	SOCKET s;
+	SOCKET server_s;
+	SOCKET client_s;
+
 	int port;
 	char * IPAddr;
 	int x, y, operation;
-	MainWindow * mainWindow;
+	MainWindow *mainWindow;
 	
-	static void receive(MainWindow*,SOCKET s);
-	
+	static void receive(MainWindow *mainWindows, SOCKET s);
+	void server_send();
+	void client_send();
 	
 };
 
