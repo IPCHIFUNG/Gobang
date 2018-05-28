@@ -36,10 +36,10 @@ void Gobang::initBoard()
 }
 
 /*
-从文件里读取棋盘
+	从文件里读取棋盘
 
-@author 叶志枫
-@para 读取路径
+	@author 叶志枫
+	@para 读取路径
 */
 void Gobang::loadBoard(char * path)
 {
@@ -57,6 +57,7 @@ void Gobang::loadBoard(char * path)
 		steps->push_back(tmp);
 	}
 	turn = size % 2;
+	fclose(inFile);
 }
 
 /*
@@ -86,14 +87,26 @@ void Gobang::saveBoard(char * path)
 }
 
 /*
-读取排行榜
+	读取排行榜
 
-@author 王开阳
-@para 读取路径
+	@author 王开阳
+	@para 读取路径
 */
-void Gobang::readRanking(char * path)
+void Gobang::readRanking()
 {
+	FILE * inFile;
 
+	inFile = fopen("Ranking.txt", "r");
+	if (inFile == nullptr)
+		throw "Unable to open file.";
+	
+	int n;
+	for (int i = 0; i < 10 && !feof(inFile); i++)
+	{
+		fscanf(inFile, "%s\t%d\n", const_cast<char*>(ranking[i].c_str()), &n);
+		ranking[i] = ranking[i] + "\t" + std::to_string(n) + "\n";
+	}
+	fclose(inFile);
 }
 
 /*
@@ -102,9 +115,19 @@ void Gobang::readRanking(char * path)
 @author 王开阳
 @para 保存路径
 */
-void Gobang::writeRanking(char * path)
+void Gobang::writeRanking()
 {
+	FILE * outFile;
 
+	outFile = fopen("Ranking.txt", "w");
+	if (outFile == nullptr)
+		throw "Unable to open file.";
+
+	for (int i = 0; i < 10 && ranking[i]!=""; i++)
+	{
+		fprintf(outFile, "%s", ranking[i].c_str());
+	}
+	fclose(outFile);
 }
 
 /*

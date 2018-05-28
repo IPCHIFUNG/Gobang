@@ -3,6 +3,7 @@
 
 #define BOARDLENGTH 19	// 棋盘长度
 
+#include <string>
 #include <queue>
 #include "AIUtil.h"
 
@@ -29,8 +30,8 @@ public:
 
 	void saveBoard(char * path);			// 把棋盘保存到文件里
 	void loadBoard(char * path);			// 从文件里读取棋盘
-	void readRanking(char * path);			// 读取排行榜
-	void writeRanking(char * path);			// 保存排行榜
+	void readRanking();						// 读取排行榜
+	void writeRanking();					// 保存排行榜
 
 	int getTurn();							// 返回当前轮次
 	int getAtPosition(int x, int y);		// 返回（x, y）位置的棋子
@@ -44,7 +45,7 @@ private:
 	int turn;								// 轮次
 	int cModel[4];							// 棋型
 	//const int inf = 9000000;					// alpha_beta
-
+	std::string ranking[10];
 	AIUtil *AIutil;							// AI
 
 	std::deque<Step> * steps;				// 储存落子顺序的双端队列

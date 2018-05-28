@@ -4,7 +4,6 @@
 #include <QMediaPlayer>
 #include <QFileDialog>
 #include <QCloseEvent>
-#include <string>
 #include "ui_MainWindow.h"
 #include "Gobang.h"
 
@@ -18,7 +17,6 @@ public:
 private:
 	Ui::MainWindowClass ui;
 	int gameType;
-	std::string ranking;
 	Gobang gobang;
 	QMediaPlayer music;
 	QMediaPlayer soundEff;
