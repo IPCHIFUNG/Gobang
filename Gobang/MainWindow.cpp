@@ -214,7 +214,7 @@ void MainWindow::btnsClicked()
 }
 
 /*
-	按钮被点击响应事件
+	人机对战按钮被点击响应事件
 
 	@author - 王开阳 叶志枫
 */
@@ -243,10 +243,11 @@ void MainWindow::pveBtnClicked()
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
+	gameType = GameType::PVE;
 }
 
 /*
-	按钮被点击响应事件
+	人人对战响应事件
 
 	@author - 王开阳 叶志枫
 */
@@ -258,6 +259,7 @@ void MainWindow::pvpBtnClicked()
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
+	gameType = GameType::PVP;
 }
 
 /*
@@ -288,6 +290,7 @@ void MainWindow::onlineBtnClicked()
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
+	gameType = GameType::ONLINE;
 }
 
 /*
