@@ -43,6 +43,11 @@ Server *ServerDialog::getServer()
 	return s;
 }
 
+void ServerDialog::setMainWindow(MainWindow * mainWindow)
+{
+	this->mainWindow = mainWindow;
+}
+
 /*
 	tab页切换时改变按钮
 
@@ -110,9 +115,10 @@ void ServerDialog::hostBtnClicked()
 	}
 
 	s = new Server(addr);
-
 	s->server_start();
+	mainWindow->setServer(s);
 	
+	s->start();
 	
 }
 
@@ -145,6 +151,9 @@ void ServerDialog::connectBtnClicked()
 	
 	s = new Server(ip, port);
 	s->client_start();	
+	mainWindow->setServer(s);
+
+	s->start();
 	
 }
 

@@ -61,7 +61,7 @@ void Server::server_start()
 		return;
 	}
 	QMessageBox::about(NULL, "Tip", (inet_ntoa(addrCli.sin_addr)) + QString::fromLocal8Bit("接收连接成功"));
-
+	judge = false;
 }
 
 //开启客户端
@@ -94,6 +94,8 @@ void Server::client_start()
 		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("连接失败"));
 		return;
 	}
+	QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("客户端连接成功"));
+	judge = true;
 }
 
 //设置操作类型
@@ -106,6 +108,7 @@ void Server::setMessage(int operation)
 {
 	this->operation = operation;
 }
+
 
 //向服务端发送消息
 void Server::client_send()
@@ -158,51 +161,59 @@ void Server::server_send() {
 
 void Server::run()
 {
-	char recvBuf[200] = { "" };
-	int nLen = recv(server_s, recvBuf, sizeof(recvBuf), 0);
-	if (nLen <= 0)
+	while (true)
 	{
-		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端接收失败"));
-		return;
-	}
-	QMessageBox::about(NULL, "kefuduan out", recvBuf);
-
-
-	int op;
-	if (recvBuf[16] == '0')
-	{
-		emit resultReady(0);
-	}
-	else
-	{
-		switch (recvBuf[16]) {
-		case  '1':
-			op = 1;
-			break;
-		case  '2':
-			op = 2;
-			break;
-		case  '3':
-			op = 3;
-			break;
-		case  '4':
-			op = 4;
-			break;
-		case  '5':
-			op = 5;
-			break;
-		case  '6':
-			op = 6;
-			break;
-		case  '7':
-			op = 7;
-			break;
-
-		default:
-			break;
+		char recvBuf[1024] ;
+		memset(recvBuf, 0, sizeof(recvBuf));
+		int nLen;
+		if(judge)
+			nLen = recv(server_s, recvBuf, sizeof(recvBuf), 0);
+		else
+			nLen = recv(client_s, recvBuf, sizeof(recvBuf), 0);
+		if (nLen <= 0)
+		{
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端接收失败"));
+			return;
 		}
-		emit resultReady(op);
+		QMessageBox::about(NULL, "yunxing success", recvBuf);
+
+		int op;
+		if (recvBuf[16] == '0')
+		{
+			emit resultReady(0);
+		}
+		else
+		{
+			switch (recvBuf[16]) {
+			case  '1':
+				op = 1;
+				break;
+			case  '2':
+				op = 2;
+				break;
+			case  '3':
+				op = 3;
+				break;
+			case  '4':
+				op = 4;
+				break;
+			case  '5':
+				op = 5;
+				break;
+			case  '6':
+				op = 6;
+				break;
+			case  '7':
+				op = 7;
+				break;
+
+			default:
+				break;
+			}
+			emit resultReady(op);
+		}
 	}
+	
 	exec();
 	
 }
