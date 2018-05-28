@@ -192,10 +192,12 @@ void MainWindow::btnsClicked()
 	if (btnName == "btn_ranking")
 	{
 		std::string tmp = "";
+		gobang.readRanking();
 		for (int i = 0; i < 10 && gobang.getRanking(i) != ""; i++)
-			tmp = tmp + gobang.getRanking(i) + "\n";
-		ui.lbl_ranking->setText(QString::fromStdString(tmp));
+			tmp = tmp + gobang.getRanking(i);
+		ui.lbl_showranking->setText(QString::fromStdString(tmp));
 		ui.lbl_ranking->raise();
+		ui.lbl_showranking->raise();
 		ui.btn_close->raise();
 	}
 	else if (btnName == "btn_team")
@@ -210,6 +212,7 @@ void MainWindow::btnsClicked()
 	}
 	else if (btnName == "btn_close")
 	{
+		ui.lbl_showranking->lower();
 		ui.lbl_ranking->lower();
 		ui.lbl_team->lower();
 		ui.lbl_rules->lower();

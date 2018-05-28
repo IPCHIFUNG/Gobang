@@ -497,6 +497,31 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/关闭.png);}</string>
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="lbl_showranking">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>300</y>
+      <width>400</width>
+      <height>400</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>36</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <zorder>lbl_showranking</zorder>
    <zorder>btn_close</zorder>
    <zorder>lbl_ranking</zorder>
    <zorder>lbl_rules</zorder>

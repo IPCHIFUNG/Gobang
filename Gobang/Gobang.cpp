@@ -102,9 +102,11 @@ void Gobang::readRanking()
 		throw "Unable to open file.";
 
 	int n;
+	char tmp[50];
 	for (int i = 0; i < 10 && !feof(inFile); i++)
 	{
-		fscanf(inFile, "%s\t%d\n", const_cast<char*>(ranking[i].c_str()), &n);
+		fscanf(inFile, "%s\t%d\n", tmp, &n);
+		ranking[i] = tmp;
 		ranking[i] = ranking[i] + "\t" + std::to_string(n) + "\n";
 	}
 	fclose(inFile);
