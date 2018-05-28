@@ -116,7 +116,7 @@ void ServerDialog::hostBtnClicked()
 
 	s = new Server(addr);
 	s->server_start();
-	mainWindow->setServer(s);
+	//mainWindow->setServer(s);
 	
 	s->start();
 	
@@ -151,7 +151,7 @@ void ServerDialog::connectBtnClicked()
 	
 	s = new Server(ip, port);
 	s->client_start();	
-	mainWindow->setServer(s);
+	//mainWindow->setServer(s);
 
 	s->start();
 	
