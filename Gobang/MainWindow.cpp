@@ -225,23 +225,8 @@ void MainWindow::pveBtnClicked()
 	clearBoard();
 	gobang.initBoard();
 	isFirstHand = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要先手落子？"), QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
-	try {
-		switch (isFirstHand)
-		{
-		case QMessageBox::Yes:		// 白棋
-			gobang.AIWalk(ChessType::WHITECHESS);
-			break;
-		case QMessageBox::No:		// 黑棋
-			gobang.AIWalk(ChessType::BLACKCHESS);
-			break;
-		default:
-			return;
-		}
-	}
-	catch (const char *msg) {
-		QMessageBox::information(this, QString::fromLocal8Bit("出错"), QString::fromLocal8Bit(msg), QMessageBox::NoButton);
-	}
-
+	if (isFirstHand == QMessageBox::Cancel)
+		return;
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
@@ -417,11 +402,51 @@ void MainWindow::boardClicked()
 	Gobang::Step step = getStepFromScreen();
 	try
 	{
-		gobang.newStep(step);
-		showStep(step, gobang.getTurn());	// 显示棋子
-		gobang.shiftTurn();
-		playSoundEffects();
-		highlightStep(step);				// 高亮棋子
+		switch (gameType)
+		{
+		case GameType::PVE:
+			switch (isFirstHand)
+			{
+			case QMessageBox::Yes:		// AI白棋
+				step = getStepFromScreen();
+				gobang.newStep(step);
+				showStep(step, gobang.getTurn());
+				gobang.shiftTurn();
+				playSoundEffects();
+				highlightStep(step);
+				step = gobang.AIWalk(gobang.getTurn());
+				gobang.newStep(step);
+				showStep(step, gobang.getTurn());
+				gobang.shiftTurn();
+				playSoundEffects();
+				highlightStep(step);
+				break;
+			case QMessageBox::No:		// AI黑棋
+				step = gobang.AIWalk(gobang.getTurn());
+				gobang.newStep(step);
+				showStep(step, gobang.getTurn());
+				gobang.shiftTurn();
+				playSoundEffects();
+				highlightStep(step);
+				step = getStepFromScreen();
+				gobang.newStep(step);
+				showStep(step, gobang.getTurn());
+				gobang.shiftTurn();
+				playSoundEffects();
+				highlightStep(step);
+				break;
+			default:
+				break;
+			}
+			break;
+		case GameType::PVP:
+			step = getStepFromScreen();
+			break;
+		case GameType::ONLINE:
+			break;
+		default:
+			break;
+		}
 
 		int result;
 		switch (isRestricted)
