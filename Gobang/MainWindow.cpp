@@ -191,6 +191,10 @@ void MainWindow::btnsClicked()
 
 	if (btnName == "btn_ranking")
 	{
+		std::string tmp = "";
+		for (int i = 0; i < 10 && gobang.getRanking(i) != ""; i++)
+			tmp = tmp + gobang.getRanking(i) + "\n";
+		ui.lbl_ranking->setText(QString::fromStdString(tmp));
 		ui.lbl_ranking->raise();
 		ui.btn_close->raise();
 	}

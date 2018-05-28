@@ -6,7 +6,8 @@ Gobang::Gobang()
 {
 	// 初始化棋盘
 	initBoard();
-
+	for (int i = 0; i < 10; i++)
+		ranking[i] = "";
 	AIutil = new AIUtil(&board[0][0]);
 }
 
@@ -99,7 +100,7 @@ void Gobang::readRanking()
 	inFile = fopen("Ranking.txt", "r");
 	if (inFile == nullptr)
 		throw "Unable to open file.";
-	
+
 	int n;
 	for (int i = 0; i < 10 && !feof(inFile); i++)
 	{
@@ -123,11 +124,21 @@ void Gobang::writeRanking()
 	if (outFile == nullptr)
 		throw "Unable to open file.";
 
-	for (int i = 0; i < 10 && ranking[i]!=""; i++)
+	for (int i = 0; i < 10 && ranking[i] != ""; i++)
 	{
 		fprintf(outFile, "%s", ranking[i].c_str());
 	}
 	fclose(outFile);
+}
+
+/*
+	返回排行榜
+
+	@author 王开阳
+*/
+std::string Gobang::getRanking(int n)
+{
+	return ranking[n];
 }
 
 /*
