@@ -248,7 +248,6 @@ void MainWindow::pveBtnClicked()
 	catch (const char *msg) {
 		QMessageBox::information(this, QString::fromLocal8Bit("出错"), QString::fromLocal8Bit(msg), QMessageBox::NoButton);
 	}
-
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
@@ -429,14 +428,32 @@ void MainWindow::returnBtnClicked()
 */
 void MainWindow::boardClicked()
 {
-	Gobang::Step step = getStepFromScreen();
+	Gobang::Step step;
 	try
 	{
-		gobang.newStep(step);
-		showStep(step, gobang.getTurn());	// 显示棋子
-		gobang.shiftTurn();
-		playSoundEffects();
-		highlightStep(step);				// 高亮棋子
+		switch (gameType)
+		{
+		case GameType::PVE:
+			break;
+		case GameType::PVP:
+			step = getStepFromScreen();
+			gobang.newStep(step);
+			showStep(step, gobang.getTurn());
+			gobang.shiftTurn();
+			playSoundEffects();
+			highlightStep(step);
+			break;
+		case GameType::ONLINE:
+			step = gobang.AIWalk(gobang.getTurn());
+			gobang.newStep(step);
+			showStep(step, gobang.getTurn());
+			gobang.shiftTurn();
+			playSoundEffects();
+			highlightStep(step);
+			break;
+		default:
+			break;
+		}
 
 		int result;
 		switch (isRestricted)
