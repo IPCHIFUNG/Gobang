@@ -41,6 +41,7 @@ private:
 
 protected:
 	virtual void run();
+
 signals:
 	void resultReady(int value);
 };
