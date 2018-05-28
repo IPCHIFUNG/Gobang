@@ -6,9 +6,11 @@ Gobang::Gobang()
 {
 	// 初始化棋盘
 	initBoard();
+
 	for (int i = 0; i < 10; i++)
 		ranking[i] = "";
-	AIutil = new AIUtil(&board[0][0]);
+
+	AIutil = new AIUtil();
 }
 
 Gobang::~Gobang()
@@ -207,6 +209,7 @@ void Gobang::newStep(Step step)
 		throw "Error:This loc has a chess !";
 
 	board[step.x][step.y] = turn;
+	AIutil->state[step.x][step.y] = turn;
 
 	steps->push_back(step);
 }
@@ -255,6 +258,7 @@ Gobang::Step Gobang::AIWalk(int type)
 
 	const int inf = 9000000;					// alpha_beta
 	Step s = steps->back();
+	Step walk;
 	AIUtil::AIStep AIs;
 	int sign = (turn + 1) % 2;
 	int DEPTH = 8;								// 搜索深度
@@ -265,28 +269,18 @@ Gobang::Step Gobang::AIWalk(int type)
 	AIs.x = s.x;
 	AIs.y = s.y;
 
+	AIutil->copy_and_cal_points();
+
 	AIutil->init_zobrist();
 	AIutil->init_hashtable();
 
 	st = AIutil->cal_zobrist();
 	AIutil->alpha_beta(turn, DEPTH, alpha, beta, st);		// 搜索 
 
-	/*if (map[comy][comx] == EMPTY_POINT) {
-		draw_out_coor(j_cr, j_cc * 2);
-		j_cr = comy;
-		j_cc = comx;
-		set_chose(player);                         // 落子
-		draw_coor(j_cr, j_cc * 2);
-	}*/
+	walk.y = AIutil->getX();
+	walk.x = AIutil->getY();
 
-
-	/*AIutil->cal_chess(AIs, 1, 0, sign, 0);	// 竖直查找
-	AIutil->cal_chess(AIs, 0, 1, sign, 0);		// 水平查找
-	AIutil->cal_chess(AIs, 1, 1, sign, 0);		// 主对角线查找
-	AIutil->cal_chess(AIs, 1, -1, sign, 0);		// 副对角线查找
-	*/
-
-	return Step();
+	return walk;
 }
 
 /*

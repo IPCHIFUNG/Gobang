@@ -26,8 +26,10 @@ typedef struct {
 class AIUtil
 {
 public:
-	AIUtil(int *board);
+	AIUtil();
 	~AIUtil();
+
+	int state[19][19];
 
 	typedef struct AIStep
 	{
@@ -44,7 +46,7 @@ public:
 
 	typedef struct {
 		LL check;
-		HashType type;
+		HashType HashType;
 		int val;
 		int depth;
 	}HashElem;
@@ -52,16 +54,16 @@ public:
 	void init_zobrist();
 	void init_hashtable();
 	int copy_and_cal_points();
+	int getX();
+	int getY();
 	LL cal_zobrist();
 	int alpha_beta(int type, int depth, int alpha, int beta, LL st);
 
 private:
-	int *board;
-	int state[19][19];
 	LL zobrist[3][20][20];
 	HashElem hashtable[HASHSIZE];
 
-	int DEPTH;
+	int DEPTH = 8;
 	int counter;
 	int find;
 	int comy, comx;
@@ -88,14 +90,13 @@ private:
 	const int unknow = 9900000;		// δ֪
 
 	LL rand14();
-	int getBoard(int x, int y);
 	int cal_all_points(AIStep *step, int *kill);
 	void cal_point(int x, int y);
 	int get_points(AIStep *step, int *kill);
 	void cal_chess(Points *po, AIStep *steps, int m, int n);
 	int find_in_hash(int depth, int alpha, int beta, LL st);
 	void record_hash(int depth, int val, LL st, HashType type);
-	int set_order(Subpoints *od, int player);
+	int set_order(Subpoints *od);
 	void change_cpoint(int y, int x);
 
 };

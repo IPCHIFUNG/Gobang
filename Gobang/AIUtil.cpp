@@ -5,9 +5,13 @@
 /*
 	@author 应禹尧
 */
-AIUtil::AIUtil(int *board)
+AIUtil::AIUtil()
 {
-	this->board = board;
+	for (int i = 0; i < 19; i++)
+		for (int j = 0; j < 19; j++)
+			state[i][j] = 2;
+
+	//memset(state, 2, sizeof(int)*19 * 19);
 }
 
 /*
@@ -17,14 +21,6 @@ AIUtil::~AIUtil()
 {
 
 
-}
-
-/*
-	@author 应禹尧
-*/
-int AIUtil::getBoard(int x, int y)
-{
-	return board[x * 19 + y];
 }
 
 /*
@@ -73,11 +69,11 @@ LL AIUtil::cal_zobrist()
 	int i, j;
 	for (i = 0; i < 19; i++) {
 		for (j = 0; j < 19; j++) {
-			if (getBoard(i, j) == AIChessType::AINOCHESS)
+			if (state[i][j] == AIChessType::AINOCHESS)
 				z ^= zobrist[2][i][j];
-			else if (getBoard(i, j) == AIChessType::AIBLACKCHESS)
+			else if (state[i][j] == AIChessType::AIBLACKCHESS)
 				z ^= zobrist[0][i][j];
-			else if (getBoard(i, j) == AIChessType::AIWHITECHESS)
+			else if (state[i][j] == AIChessType::AIWHITECHESS)
 				z ^= zobrist[1][i][j];
 		}
 	}
@@ -89,24 +85,10 @@ int AIUtil::copy_and_cal_points()
 	int i, j;
 	int yes = 0;
 	memset(cpoint, 0, sizeof(cpoint));
+
 	for (i = 0; i < 19; i++) {
 		for (j = 0; j < 19; j++) {
-			if (getBoard(i, j) == AIChessType::AINOCHESS) {
-				state[i][j] = AIChessType::AINOCHESS;
-			}
-			else if (getBoard(i, j) == AIChessType::AIBLACKCHESS) {
-				yes++;
-				state[i][j] = AIChessType::AIBLACKCHESS;
-			}
-			else {
-				yes++;
-				state[i][j] = AIChessType::AIWHITECHESS;
-			}
-		}
-	}
-	for (i = 0; i < 19; i++) {
-		for (j = 0; j < 19; j++) {
-			if (state[i][j] == -1) {
+			if (state[i][j] == AIChessType::AINOCHESS) {
 				cal_point(i, j); /* 计算每个可落子点的分数 */
 			}
 		}
@@ -114,13 +96,23 @@ int AIUtil::copy_and_cal_points()
 	return yes;
 }
 
+int AIUtil::getX()
+{
+	return comx;
+}
+
+int AIUtil::getY()
+{
+	return comy;
+}
+
 /*
 	alpha_beta剪枝
 
-	@para type---棋子类型，depth---搜索深度，alpha，beta---极大极小值，st---
+	@para AIType---棋子类型，depth---搜索深度，alpha，beta---极大极小值，st---
 	@author 应禹尧
 */
-int AIUtil::alpha_beta(int type, int depth, int alpha, int beta, LL st) 
+int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st) 
 {
 	AIStep step[2];
 	int kill[2];
@@ -140,21 +132,21 @@ int AIUtil::alpha_beta(int type, int depth, int alpha, int beta, LL st)
 	if (depth == 0) { // 达到搜索深度限制，返回估分 
 		int s = s1 - s2;
 		record_hash(depth, s, st, HASHEXACT);
-		if (((!type) && s >= 0) || (type && s < 0)) // 如果 player 占优则返回正值，否则返回负值
+		if (((!AIType) && s >= 0) || (AIType && s < 0)) // 如果 player 占优则返回正值，否则返回负值
 			return ABS(s);
-		if (((!type) && s < 0) || (type && s >= 0))
+		if (((!AIType) && s < 0) || (AIType && s >= 0))
 			return -ABS(s);
 	}
 
-	Subpoints sp[250];
+	Subpoints sp[19 * 19];
 	LL tst;
-	int n = set_order(sp, type); // 对候选点按高分到低分排序 
+	int n = set_order(sp); // 对候选点按高分到低分排序 
 	int y, x;
 
 #if 1
 	// 己方可一步成五 || (对方不能一步成五 && 己方可一步成绝杀棋) ||  己方可一步成双活三而对方不能一步成绝杀棋
-	int self = type;
-	int opp = type ^ 1;
+	int self = AIType;
+	int opp = (AIType + 1) % 2;
 	if (kill[self] == 3 || (kill[opp] < 3 && kill[self] == 2) || (kill[self] == 1 && kill[opp] < 2)) {
 		if (depth == DEPTH) {
 			comy = step[self].y;
@@ -170,12 +162,12 @@ int AIUtil::alpha_beta(int type, int depth, int alpha, int beta, LL st)
 		tst = st;
 		y = sp[i].y;
 		x = sp[i].x;
-		state[y][x] = type; // 在 (y, x) 落子
-		st ^= zobrist[type][y][x];
+		state[y][x] = AIType; // 在 (y, x) 落子
+		st ^= zobrist[AIType][y][x];
 		change_cpoint(y, x); // (y, x) 四个方向上的得分受到影响，需要改变  
-		value = -alpha_beta(type ^ 1, depth - 1, -beta, -alpha, st);
-		state[y][x] = -1;
-		st ^= zobrist[type][y][x];
+		value = -alpha_beta(AIType ^ 1, depth - 1, -beta, -alpha, st);
+		state[y][x] = AIChessType::AINOCHESS;
+		st ^= zobrist[AIType][y][x];
 		change_cpoint(y, x);
 
 		if (value > alpha) {
@@ -217,7 +209,7 @@ int AIUtil::cal_all_points(AIStep *step, int *kill)
 
 	for (i = 0; i < 19; i++) {
 		for (j = 0; j < 19; j++) {
-			if (getBoard(i, j) == AIChessType::AINOCHESS) {
+			if (state[i][j] == AIChessType::AINOCHESS) {
 				value += cpoint[i][j][flag];
 				if (cpoint[i][j][flag - 2] >(*kill)) {
 					*kill = cpoint[i][j][flag - 2];
@@ -243,11 +235,11 @@ void AIUtil::cal_point(int x, int y)
 	tco.x = x;
 	tco.y = y;
 	
-	if (getBoard(y, x) == AIChessType::AINOCHESS) {
+	if (state[x][y] == AIChessType::AINOCHESS) {
 		tco.player = 0;
-		cpoint[y][x][2] = get_points(&tco, &cpoint[y][x][0]); // 攻击力 
+		cpoint[x][y][2] = get_points(&tco, &cpoint[x][y][0]); // 攻击力 
 		tco.player = 1;
-		cpoint[y][x][3] = get_points(&tco, &cpoint[y][x][1]); // 防御力 
+		cpoint[x][y][3] = get_points(&tco, &cpoint[x][y][1]); // 防御力 
 	}
 }
 
@@ -325,22 +317,22 @@ void AIUtil::cal_chess(Points *po, AIStep *steps, int m, int n)
 
 	i = steps->x - m;
 	j = steps->y - n;
-	while (JUDGE_EDGE(i, j) && getBoard(i, j) == player) {
+	while (JUDGE_EDGE(i, j) && state[i][j] == player) {
 		lchess[0]++;
 		i -= m;
 		j -= n;
 	}
-	while (JUDGE_EDGE(i, j) && getBoard(i, j) == AIChessType::AINOCHESS) {
+	while (JUDGE_EDGE(i, j) && state[i][j] == AIChessType::AINOCHESS) {
 		lempty[0]++;
 		i -= m;
 		j -= n;
 	}
-	while (JUDGE_EDGE(i, j) && getBoard(i, j) == player) {
+	while (JUDGE_EDGE(i, j) && state[i][j] == player) {
 		lchess[1]++;
 		i -= m;
 		j -= n;
 	}
-	while (JUDGE_EDGE(i, j) && getBoard(i, j) == AIChessType::AINOCHESS) {
+	while (JUDGE_EDGE(i, j) && state[i][j] == AIChessType::AINOCHESS) {
 		lempty[1]++;
 		i -= m;
 		j -= n;
@@ -348,22 +340,22 @@ void AIUtil::cal_chess(Points *po, AIStep *steps, int m, int n)
 
 	i = steps->x + m;
 	j = steps->y + n;
-	while (JUDGE_EDGE(i, j) && getBoard(i, j) == player) {
+	while (JUDGE_EDGE(i, j) && state[i][j] == player) {
 		rchess[0]++;
 		i += m;
 		j += n;
 	}
-	while (JUDGE_EDGE(i, j) && getBoard(i, j) == AIChessType::AINOCHESS) {
+	while (JUDGE_EDGE(i, j) && state[i][j] == AIChessType::AINOCHESS) {
 		rempty[0]++;
 		i += m;
 		j += n;
 	}
-	while (JUDGE_EDGE(i, j) && getBoard(i, j) == player) {
+	while (JUDGE_EDGE(i, j) && state[i][j] == player) {
 		rchess[1]++;
 		i += m;
 		j += n;
 	}
-	while (JUDGE_EDGE(i, j) && getBoard(i, j) == AIChessType::AINOCHESS) {
+	while (JUDGE_EDGE(i, j) && state[i][j] == AIChessType::AINOCHESS) {
 		rempty[1]++;
 		i += m;
 		j += n;
@@ -449,13 +441,13 @@ int AIUtil::find_in_hash(int depth, int alpha, int beta, LL st)
 	if (hashtable[p].check == st) {
 		//find++;
 		if (hashtable[p].depth >= depth) {
-			if (hashtable[p].type == HASHEXACT) {
+			if (hashtable[p].HashType == HASHEXACT) {
 				return val;
 			}
-			if (hashtable[p].type == HASHALPHA && val <= alpha) {
+			if (hashtable[p].HashType == HASHALPHA && val <= alpha) {
 				return alpha;
 			}
-			if (hashtable[p].type == HASHBETA && val >= beta) {
+			if (hashtable[p].HashType == HASHBETA && val >= beta) {
 				return beta;
 			}
 		}
@@ -470,14 +462,14 @@ int AIUtil::find_in_hash(int depth, int alpha, int beta, LL st)
 	@para depth---深度，
 	@author 应禹尧
 */
-void AIUtil::record_hash(int depth, int val, LL st, HashType type)
+void AIUtil::record_hash(int depth, int val, LL st, HashType AIType)
 {
 	int p = (st&(HASHSIZE - 1));
 
 	hashtable[p].check = st;
 	hashtable[p].val = val;
 	hashtable[p].depth = depth;
-	hashtable[p].type = type;
+	hashtable[p].HashType = AIType;
 }
 
 /*
@@ -500,13 +492,13 @@ int compare(const void* _a, const void* _b)
 	@para 
 	@author 应禹尧
 */
-int AIUtil::set_order(Subpoints *od, int player)
+int AIUtil::set_order(Subpoints *od)
 {
 	int i, j;
 	int n = 0;
 	for (i = 0; i < 19; i++) {
 		for (j = 0; j < 19; j++) {
-			if (getBoard(i, j) == AIChessType::AINOCHESS) {
+			if (state[i][j] == AIChessType::AINOCHESS) {
 				od[n].y = i;
 				od[n].x = j;
 				od[n].point[0] = cpoint[i][j][2];
@@ -536,20 +528,20 @@ void AIUtil::change_cpoint(int y, int x)
 	int i, j;
 
 	for (i = 0; i < 19; i++) {
-		if (getBoard(y, i) == AIChessType::AINOCHESS) {
+		if (state[y][i] == AIChessType::AINOCHESS) {
 			cal_point(y, i);
 		}
-		if (getBoard(i, x) == AIChessType::AINOCHESS) {
+		if (state[i][x] == AIChessType::AINOCHESS) {
 			cal_point(i, x);
 		}
 	}
 	for (i = 0; i < 19; i++) {
 		j = i - (y - x);
-		if (0 < j && j < 19 && getBoard(i, j) == AIChessType::AINOCHESS) {
+		if (0 < j && j < 19 && state[i][j] == AIChessType::AINOCHESS) {
 			cal_point(i, j);
 		}
 		j = (y + x) - i;
-		if (0 < j && j < 19 && getBoard(i, j) == AIChessType::AINOCHESS) {
+		if (0 < j && j < 19 && state[i][j] == AIChessType::AINOCHESS) {
 			cal_point(i, j);
 		}
 	}
