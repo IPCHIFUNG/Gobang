@@ -223,18 +223,24 @@ void MainWindow::pveBtnClicked()
 	clearBoard();
 	gobang.initBoard();
 
-	int choice;
-	switch (choice)
-	{
-	case ChessType::BLACKCHESS:		// ºÚÆå
-		gobang.AIWalk(BLACKCHESS);
-		break;
-	case ChessType::WHITECHESS:		// °×Æå
-		gobang.AIWalk(WHITECHESS);
-		break;
-	default:
-		break;
+	try {
+		int choice = ChessType::BLACKCHESS;
+		switch (choice)
+		{
+		case ChessType::BLACKCHESS:		// ºÚÆå
+			gobang.AIWalk(ChessType::BLACKCHESS);
+			break;
+		case ChessType::WHITECHESS:		// °×Æå
+			gobang.AIWalk(ChessType::WHITECHESS);
+			break;
+		default:
+			break;
+		}
 	}
+	catch (const char *msg) {
+		QMessageBox::information(this, QString::fromLocal8Bit("³ö´í"), QString::fromLocal8Bit(msg), QMessageBox::NoButton);
+	}
+	
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);

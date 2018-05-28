@@ -193,8 +193,8 @@ void Gobang::shiftTurn()
 */
 Gobang::Step Gobang::AIWalk(int type)
 {
-	if (type != ChessType::BLACKCHESS || type != ChessType::WHITECHESS)
-		throw "The chess type does not existing";
+	if (type != ChessType::BLACKCHESS && type != ChessType::WHITECHESS)
+		throw "The chess type does not exist";
 
 	const int inf = 9000000;					// alpha_beta
 	Step s = steps->back();
