@@ -25,10 +25,7 @@ ServerDialog::~ServerDialog()
 	delete ui;
 }
 
-void ServerDialog::setMainWindow(MainWindow * mainWindow)
-{
-	this->mainWindow = mainWindow;
-}
+
 
 /*
 	返回确定按钮是否被点击
@@ -147,9 +144,7 @@ void ServerDialog::connectBtnClicked()
 	}
 	
 	s = new Server(ip, port);
-	s->client_start();
-
-	
+	s->client_start();	
 	
 }
 

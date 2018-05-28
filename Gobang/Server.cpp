@@ -1,7 +1,6 @@
 #include "Server.h"
 #include "ServerMsgItem.h"
 
-
 Server::Server(char *IPAddr, int port)
 {
 	this->IPAddr = IPAddr;
@@ -22,7 +21,7 @@ Server::~Server()
 	closesocket(client_s);
 	WSACleanup();
 }
-
+//开启服务器
 void Server::server_start()
 {
 	WSADATA data;
@@ -63,12 +62,9 @@ void Server::server_start()
 	}
 	QMessageBox::about(NULL, "Tip", (inet_ntoa(addrCli.sin_addr)) + QString::fromLocal8Bit("接收连接成功"));
 
-	//接收数据线程
-	thread *serverThe = new thread(receive, mainWindow,server_s);
-	serverThe->detach();
-
 }
 
+//开启客户端
 void Server::client_start()
 {
 	WSADATA data;
@@ -94,30 +90,74 @@ void Server::client_start()
 	QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("客户端开启"));
 
 	//连接服务器
-	if (connect(server_s, (sockaddr*)&addrSrv, addrSize) == INVALID_SOCKET) {
-		QMessageBox::about(NULL, "Error2", QString::fromLocal8Bit("连接失败"));
+	if (::connect(server_s, (sockaddr*)&addrSrv, addrSize) == INVALID_SOCKET) {
+		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("连接失败"));
 		return;
 	}
-
-	//接收数据线程
-	thread *serverThe = new thread(receive, mainWindow, server_s);
-	serverThe->detach();
 }
 
+//设置操作类型
 void Server::setMessage(int x,int y)
 {
 	this->x = x;
 	this->y = y;
 }
-
 void Server::setMessage(int operation)
 {
 	this->operation = operation;
 }
 
-void Server::receive(MainWindow *mainWindows,SOCKET server_s)
+//向服务端发送消息
+void Server::client_send()
 {
-	//接收数据 
+	x = 4;
+	y = 3;
+	if (x != -1 && y != -1)
+	{
+		string str = ServerMsgItem(x, y).convertToString();
+
+		if (send(server_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端发送失败"));
+			return;
+		}
+		x = -1;
+		y = -1;
+	}
+	if (operation != -1) {
+		string str = ServerMsgItem(operation).convertToString();
+		if (send(server_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
+			return;
+		}
+	}
+}
+
+//向客户端发送消息
+void Server::server_send() {
+	x = 4;
+	y = 3;
+	if (x != -1 && y != -1)
+	{
+		string str = ServerMsgItem(x, y).convertToString();
+
+		if (send(client_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端发送失败"));
+			return;
+		}
+		x = -1;
+		y = -1;
+	}
+	if (operation != -1) {
+		string str = ServerMsgItem(operation).convertToString();
+		if (send(client_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
+			return;
+		}
+	}
+}
+
+void Server::run()
+{
 	char recvBuf[200] = { "" };
 	int nLen = recv(server_s, recvBuf, sizeof(recvBuf), 0);
 	if (nLen <= 0)
@@ -126,12 +166,12 @@ void Server::receive(MainWindow *mainWindows,SOCKET server_s)
 		return;
 	}
 	QMessageBox::about(NULL, "kefuduan out", recvBuf);
-	
+
 
 	int op;
 	if (recvBuf[16] == '0')
 	{
-
+		emit resultReady(0);
 	}
 	else
 	{
@@ -161,57 +201,15 @@ void Server::receive(MainWindow *mainWindows,SOCKET server_s)
 		default:
 			break;
 		}
+		emit resultReady(op);
 	}
+	exec();
+	
 }
 
-void Server::client_send()
-{
-	if (x != -1 && y != -1)
-	{
-		string str = ServerMsgItem(x, y).convertToString();
 
-		if (send(server_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端发送失败"));
-			return;
-		}
-		x = -1;
-		y = -1;
-	}
-	if (operation != -1) {
-		string str = ServerMsgItem(operation).convertToString();
-		if (send(server_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
-			return;
-		}
-	}
-}
 
-void Server::server_send() {
-	if (x != -1 && y != -1)
-	{
-		string str = ServerMsgItem(x, y).convertToString();
 
-		if (send(client_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端发送失败"));
-			return;
-		}
-		x = -1;
-		y = -1;
-	}
-	if (operation != -1) {
-		string str = ServerMsgItem(operation).convertToString();
-		if (send(client_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
-			return;
-		}
-	}
-}
-
-//设置主框架ui
-void Server::setMainWindow(MainWindow * mainWindow)
-{
-	this->mainWindow = mainWindow;
-}
 
 
 

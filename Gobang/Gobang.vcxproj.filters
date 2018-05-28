@@ -59,6 +59,9 @@
     <QtMoc Include="ServerDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Server.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui">
@@ -78,9 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Gobang.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AIUtil.h">

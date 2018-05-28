@@ -1,7 +1,6 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <thread>
 #include<stdio.h>
 #include <stdlib.h>
 #include<WinSock2.h>
@@ -12,23 +11,22 @@
 #include <iostream>
 #include<string>
 #include<qMessageBox>
-#include<thread>
-#include "MainWindow.h"
+#include<Qthread>
+
 
 using namespace std;
 
-class Server
+class Server : public QThread
 {
-
+	Q_OBJECT
 public:
-	Server(char *IPAddr, int port);
+	explicit Server(char *IPAddr, int port);
 	Server(int port);
 	~Server();
 	void server_start();
 	void client_start();
 	void setMessage(int, int);
 	void setMessage(int);
-	void setMainWindow(MainWindow *mainWindow);
 
 private:
 	SOCKET server_s;
@@ -37,12 +35,14 @@ private:
 	int port;
 	char * IPAddr;
 	int x, y, operation;
-	MainWindow *mainWindow;
 	
-	static void receive(MainWindow *mainWindows, SOCKET s);
 	void server_send();
 	void client_send();
-	
+
+protected:
+	virtual void run();
+signals:
+	void resultReady(int value);
 };
 
 
