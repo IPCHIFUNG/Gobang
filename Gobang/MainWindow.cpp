@@ -224,7 +224,7 @@ void MainWindow::pveBtnClicked()
 {
 	clearBoard();
 	gobang.initBoard();
-	isFirstHand = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要先手落子？"), QMessageBox::Yes, QMessageBox::No);
+	isFirstHand = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要先手落子？"), QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
 	try {
 		switch (isFirstHand)
 		{
@@ -235,7 +235,7 @@ void MainWindow::pveBtnClicked()
 			gobang.AIWalk(ChessType::BLACKCHESS);
 			break;
 		default:
-			break;
+			return;
 		}
 	}
 	catch (const char *msg) {
@@ -257,7 +257,9 @@ void MainWindow::pvpBtnClicked()
 {
 	clearBoard();
 	gobang.initBoard();
-	isRestricted = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要带禁手开始游戏？"), QMessageBox::Yes, QMessageBox::No);
+	isRestricted = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要带禁手开始游戏？"), QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
+	if (isRestricted == QMessageBox::Cancel)
+		return;
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);

@@ -454,6 +454,12 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
       <height>900</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -462,6 +468,9 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
     </property>
     <property name="scaledContents">
      <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_close">
