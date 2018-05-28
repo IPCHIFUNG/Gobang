@@ -42,6 +42,8 @@ private:
 	std::string selectFile();							// 选择读取文件
 	std::string selectDirectory();						// 选择保存目录
 	Gobang::Step getStepFromScreen();					// 从屏幕获取棋子坐标
+	int isFirstHand;
+	int isRestricted;									// 是否带禁手开始游戏
 
 private slots:
 	void btnsClicked();									// 按钮被点击响应事件

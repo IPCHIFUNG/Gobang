@@ -222,16 +222,15 @@ void MainWindow::pveBtnClicked()
 {
 	clearBoard();
 	gobang.initBoard();
-
+	isFirstHand = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要先手落子？"), QMessageBox::Yes, QMessageBox::No);
 	try {
-		int choice = ChessType::BLACKCHESS;
-		switch (choice)
+		switch (isFirstHand)
 		{
-		case ChessType::BLACKCHESS:		// 黑棋
-			gobang.AIWalk(ChessType::BLACKCHESS);
-			break;
-		case ChessType::WHITECHESS:		// 白棋
+		case QMessageBox::Yes:		// 白棋
 			gobang.AIWalk(ChessType::WHITECHESS);
+			break;
+		case QMessageBox::No:		// 黑棋
+			gobang.AIWalk(ChessType::BLACKCHESS);
 			break;
 		default:
 			break;
@@ -240,7 +239,7 @@ void MainWindow::pveBtnClicked()
 	catch (const char *msg) {
 		QMessageBox::information(this, QString::fromLocal8Bit("出错"), QString::fromLocal8Bit(msg), QMessageBox::NoButton);
 	}
-	
+
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
@@ -255,7 +254,7 @@ void MainWindow::pvpBtnClicked()
 {
 	clearBoard();
 	gobang.initBoard();
-
+	isRestricted = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要带禁手开始游戏？"), QMessageBox::Yes, QMessageBox::No);
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
@@ -426,7 +425,18 @@ void MainWindow::boardClicked()
 		playSoundEffects();
 		highlightStep(step);				// 高亮棋子
 
-		int result = gobang.isOverWithRestricted();
+		int result;
+		switch (isRestricted)
+		{
+		case QMessageBox::Yes:
+			result = gobang.isOverWithRestricted();
+			break;
+		case QMessageBox::No:
+			result = gobang.isOverWithoutRestricted();
+			break;
+		default:
+			break;
+		}
 		showWinnerDialog(result);
 	}
 	catch (const char* msg)
