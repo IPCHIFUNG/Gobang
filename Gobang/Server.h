@@ -28,7 +28,8 @@ public:
 	void client_start();
 	void setMessage(int, int);
 	void setMessage(int);
-
+	void server_send(int x, int y);
+	void client_send(int x, int y);
 private:
 	SOCKET server_s;
 	SOCKET client_s;
@@ -37,8 +38,10 @@ private:
 	int port;
 	char * IPAddr;
 	int x, y, operation;
-	void server_send();
-	void client_send();
+	
+private:
+	void sendMessage(SOCKET target, string msg);
+
 
 protected:
 	virtual void run();

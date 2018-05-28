@@ -31,13 +31,12 @@ public:
 	~ServerDialog();
 
 	bool isOKClicked();
-	Server *getServer();
 	void setMainWindow(MainWindow *mainWindow);
 private:
 	Ui::ServerDialog * ui;
 	MainWindow *mainWindow;
 	bool okClicked;							// 保存确定按钮是否被点击状态
-	Server *s;
+	
 
 private slots:
 	void changeButton(int index);			// tab页切换时改变按钮

@@ -191,13 +191,7 @@ void MainWindow::btnsClicked()
 
 	if (btnName == "btn_ranking")
 	{
-		std::string tmp = "";
-		gobang.readRanking();
-		for (int i = 0; i < 10 && gobang.getRanking(i) != ""; i++)
-			tmp = tmp + gobang.getRanking(i);
-		ui.lbl_showranking->setText(QString::fromStdString(tmp));
 		ui.lbl_ranking->raise();
-		ui.lbl_showranking->raise();
 		ui.btn_close->raise();
 	}
 	else if (btnName == "btn_team")
@@ -212,7 +206,6 @@ void MainWindow::btnsClicked()
 	}
 	else if (btnName == "btn_close")
 	{
-		ui.lbl_showranking->lower();
 		ui.lbl_ranking->lower();
 		ui.lbl_team->lower();
 		ui.lbl_rules->lower();
@@ -248,6 +241,7 @@ void MainWindow::pveBtnClicked()
 	catch (const char *msg) {
 		QMessageBox::information(this, QString::fromLocal8Bit("出错"), QString::fromLocal8Bit(msg), QMessageBox::NoButton);
 	}
+
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
@@ -281,20 +275,12 @@ void MainWindow::onlineBtnClicked()
 {
 	// 创建并显示连接窗口
 	ServerDialog serverDialog = new ServerDialog(this);
-	// serverDialog.setMainWindow(this);
+	serverDialog.setMainWindow(this);
 	serverDialog.exec();
 
 	// 用户点击取消或关闭按钮则返回
 	if (!serverDialog.isOKClicked())
 		return;
-
-	//设置棋子位置
-	Gobang::Step step = getStepFromScreen();
-	if (!serverDialog.isOKClicked())
-	{
-		Server *s = serverDialog.getServer();
-		s->setMessage(step.x, step.y);
-	}
 
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
@@ -428,32 +414,14 @@ void MainWindow::returnBtnClicked()
 */
 void MainWindow::boardClicked()
 {
-	Gobang::Step step;
+	Gobang::Step step = getStepFromScreen();
 	try
 	{
-		switch (gameType)
-		{
-		case GameType::PVE:
-			break;
-		case GameType::PVP:
-			step = getStepFromScreen();
-			gobang.newStep(step);
-			showStep(step, gobang.getTurn());
-			gobang.shiftTurn();
-			playSoundEffects();
-			highlightStep(step);
-			break;
-		case GameType::ONLINE:
-			step = gobang.AIWalk(gobang.getTurn());
-			gobang.newStep(step);
-			showStep(step, gobang.getTurn());
-			gobang.shiftTurn();
-			playSoundEffects();
-			highlightStep(step);
-			break;
-		default:
-			break;
-		}
+		gobang.newStep(step);
+		showStep(step, gobang.getTurn());	// 显示棋子
+		gobang.shiftTurn();
+		playSoundEffects();
+		highlightStep(step);				// 高亮棋子
 
 		int result;
 		switch (isRestricted)
@@ -548,3 +516,4 @@ std::string MainWindow::selectDirectory()
 		return "";
 	return fd.selectedFiles()[0].toStdString();
 }
+

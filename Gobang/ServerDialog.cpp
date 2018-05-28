@@ -7,7 +7,6 @@ ServerDialog::ServerDialog(QWidget *parent)
 {
 	ui->setupUi(this);
 	okClicked = false;
-	s = NULL;
 
 	// 设置窗口标题
 	this->setWindowTitle(QString::fromLocal8Bit("联机对战"));
@@ -38,10 +37,7 @@ bool ServerDialog::isOKClicked()
 	return okClicked;
 }
 
-Server *ServerDialog::getServer()
-{
-	return s;
-}
+
 
 void ServerDialog::setMainWindow(MainWindow * mainWindow)
 {
@@ -114,11 +110,11 @@ void ServerDialog::hostBtnClicked()
 		return;
 	}
 
-	s = new Server(addr);
-	s->server_start();
+	mainWindow->s = new Server(addr);
+	mainWindow->s->server_start();
 	//mainWindow->setServer(s);
 	
-	s->start();
+	mainWindow->s->start();
 	
 }
 
@@ -149,11 +145,11 @@ void ServerDialog::connectBtnClicked()
 		return;
 	}
 	
-	s = new Server(ip, port);
-	s->client_start();	
+	mainWindow->s = new Server(ip, port);
+	mainWindow->s->client_start();
 	//mainWindow->setServer(s);
 
-	s->start();
+	mainWindow->s->start();
 	
 }
 

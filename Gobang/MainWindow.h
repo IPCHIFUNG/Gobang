@@ -4,8 +4,10 @@
 #include <QMediaPlayer>
 #include <QFileDialog>
 #include <QCloseEvent>
+#include <string>
 #include "ui_MainWindow.h"
 #include "Gobang.h"
+#include "Server.h"
 
 class MainWindow : public QMainWindow
 {
@@ -13,10 +15,11 @@ class MainWindow : public QMainWindow
 
 public:
 	MainWindow(QWidget *parent = Q_NULLPTR);
-
+	Server *s;
 private:
 	Ui::MainWindowClass ui;
 	int gameType;
+	std::string ranking;
 	Gobang gobang;
 	QMediaPlayer music;
 	QMediaPlayer soundEff;

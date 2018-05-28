@@ -109,54 +109,25 @@ void Server::setMessage(int operation)
 	this->operation = operation;
 }
 
-
 //向服务端发送消息
-void Server::client_send()
+void Server::client_send(int x, int y)
 {
-	x = 4;
-	y = 3;
-	if (x != -1 && y != -1)
-	{
-		string str = ServerMsgItem(x, y).convertToString();
-
-		if (send(server_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端发送失败"));
-			return;
-		}
-		x = -1;
-		y = -1;
-	}
-	if (operation != -1) {
-		string str = ServerMsgItem(operation).convertToString();
-		if (send(server_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
-			return;
-		}
-	}
+	string msg = ServerMsgItem(x, y).convertToString();
+	sendMessage(server_s, msg);
+	
 }
 
 //向客户端发送消息
-void Server::server_send() {
-	x = 4;
-	y = 3;
-	if (x != -1 && y != -1)
-	{
-		string str = ServerMsgItem(x, y).convertToString();
+void Server::server_send(int x, int y)
+{
+	string msg = ServerMsgItem(x, y).convertToString();
+	sendMessage(client_s, msg);
+}
 
-		if (send(client_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端发送失败"));
-			return;
-		}
-		x = -1;
-		y = -1;
-	}
-	if (operation != -1) {
-		string str = ServerMsgItem(operation).convertToString();
-		if (send(client_s, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
-			return;
-		}
-	}
+void Server::sendMessage(SOCKET target, string msg)
+{
+	if (send(client_s, msg.data(), msg.length(), 0) == SOCKET_ERROR)
+		throw "Send error";
 }
 
 void Server::run()
