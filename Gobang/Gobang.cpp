@@ -36,11 +36,34 @@ void Gobang::initBoard()
 }
 
 /*
+从文件里读取棋盘
+
+@author 叶志枫
+@para 读取路径
+*/
+void Gobang::loadBoard(char * path)
+{
+	FILE * inFile;
+
+	inFile = fopen(path, "r");
+	if (inFile == nullptr)
+		throw "Unable to open file.";
+	int size = 0;
+	fscanf(inFile, "%d\n", &size);
+	Step tmp;
+	for (int i = 0; i < size; i++)
+	{
+		fscanf(inFile, "%d\t%d\n", &tmp.x, &tmp.y);
+		steps->push_back(tmp);
+	}
+	turn = size % 2;
+}
+
+/*
 	把棋盘保存到文件里
 
 	@author 叶志枫
 	@para 保存路径
-	@throw char *
 */
 void Gobang::saveBoard(char * path)
 {
@@ -63,27 +86,25 @@ void Gobang::saveBoard(char * path)
 }
 
 /*
-	从文件里读取棋盘
+读取排行榜
 
-	@author 叶志枫
-	@para 保存路径
+@author 王开阳
+@para 读取路径
 */
-void Gobang::loadBoard(char * path)
+void Gobang::readRanking(char * path)
 {
-	FILE * inFile;
 
-	inFile = fopen(path, "r");
-	if (inFile == nullptr)
-		throw "Unable to open file.";
-	int size = 0;
-	fscanf(inFile, "%d\n", &size);
-	Step tmp;
-	for (int i = 0; i < size; i++)
-	{
-		fscanf(inFile, "%d\t%d\n", &tmp.x, &tmp.y);
-		steps->push_back(tmp);
-	}
-	turn = size % 2;
+}
+
+/*
+保存排行榜
+
+@author 王开阳
+@para 保存路径
+*/
+void Gobang::writeRanking(char * path)
+{
+
 }
 
 /*
@@ -218,7 +239,7 @@ Gobang::Step Gobang::AIWalk(int type)
 		draw_out_coor(j_cr, j_cc * 2);
 		j_cr = comy;
 		j_cc = comx;
-		set_chose(player);                         // 落子 
+		set_chose(player);                         // 落子
 		draw_coor(j_cr, j_cc * 2);
 	}*/
 

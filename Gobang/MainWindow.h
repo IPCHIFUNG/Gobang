@@ -40,8 +40,7 @@ private:
 	void setGamePageBtnVisable(bool isOn);		// 设置游戏页按钮的可见性
 	std::string selectFile();					// 选择读取文件
 	std::string selectDirectory();				// 选择保存目录
-	void readRanking();
-	void writeRanking();
+
 	Gobang::Step getStepFromScreen();			// 从屏幕获取棋子坐标
 	int isFirstHand;							// 是否先手开始游戏
 	int isRestricted;							// 是否带禁手开始游戏
