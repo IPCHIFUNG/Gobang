@@ -271,6 +271,15 @@ void MainWindow::onlineBtnClicked()
 	if (!serverDialog.isOKClicked())
 		return;
 
+	//ÉèÖÃÆå×ÓÎ»ÖÃ
+	Gobang::Step step = getStepFromScreen();
+	if (!serverDialog.isOKClicked())
+	{
+		Server *s = serverDialog.getServer();
+		s->setMessage(step.x, step.y);
+	}
+
+
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);

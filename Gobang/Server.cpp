@@ -10,8 +10,8 @@ Server::Server(char *IPAddr, int port)
 Server::Server(int port)
 {
 	this->port = port;
-	x = 2;
-	y = 3;
+	x = -1;
+	y = -1;
 	operation = -1;
 }
 
@@ -64,43 +64,35 @@ void Server::server_begin()
 	s2 = accept(s, (sockaddr*)&addr2, &addrSize);
 	if (s2 == SOCKET_ERROR)
 	{
-		
+		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("接收连接错误"));
+		return;
 	}
-	
-	while (true) {
-		
-		QMessageBox::about(NULL, "Tip", (inet_ntoa(addr2.sin_addr)) + QString::fromLocal8Bit("接收连接成功"));
 
-		if (x != -1 && y != -1)
-		{
-			string str = ServerMsgItem(x, y).convertToString();
-			if (send(s2, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-				QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
-				return;
-			}
-			x = -1;
-			y = -1;
+	QMessageBox::about(NULL, "Tip", (inet_ntoa(addr2.sin_addr)) + QString::fromLocal8Bit("接收连接成功"));
+	
+	if (x != -1 && y != -1)
+	{
+		string str = ServerMsgItem(x, y).convertToString();
+		if (send(s2, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
+			return;
 		}
-		if (operation != -1) {
-			string str = ServerMsgItem(operation).convertToString();
-			if (send(s2, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
-				QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
-				return;
-			}
+		x = -1;
+		y = -1;
+	}
+	if (operation != -1) {
+		string str = ServerMsgItem(operation).convertToString();
+		if (send(s2, str.data(), sizeof(str), 0) == SOCKET_ERROR) {
+			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("服务端发送失败"));
+			return;
 		}
 
-		char recvBuf[] = {""};
-		int nLen=recv(s, recvBuf, sizeof(recvBuf), 0);
-		if (nLen <= 0)
-		{
-			QMessageBox::about(NULL, "Error", "Recv failed");
-			break;
-		}
-		//getOperation(recvBuf);
-		QMessageBox::about(NULL, "fuwuduan Out", recvBuf);
-		
-	
 	}
+
+	//接收数据线程
+	thread *serverThe = new thread(receive, mainWindow,s);
+	serverThe->detach();
+
 	closesocket(s2);
 }
 
@@ -114,7 +106,6 @@ void Server::client_begin()
 	}
 
 	//创建socket
-	
 	s = socket(AF_INET, SOCK_STREAM, 0);
 	if (SOCKET_ERROR == s) {
 		QMessageBox::about(NULL, "Error1", QString::fromLocal8Bit("套接字创建错误"));
@@ -134,23 +125,12 @@ void Server::client_begin()
 		QMessageBox::about(NULL, "Error2", QString::fromLocal8Bit("连接失败"));
 		return;
 	}
-	
-	//接收数据 
-	//char *message1 = "";
-	//recv(s, message1, sizeof(message1), 0);
-	//QString str = QString(QLatin1String(message1));
-	//QMessageBox::about(NULL, "Sussess", message1);
-	char recvBuf[] = { "" };
-	int nLen = recv(s, recvBuf, sizeof(recvBuf), 0);
-	if (nLen <= 0)
-	{
-		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端接收失败"));
-		return;
-	}
-	QMessageBox::about(NULL, "kefuduan out",recvBuf);
-	//getOperation(recvBuf);
+	//接收数据线程
+	thread *serverThe = new thread(receive, mainWindow,s);
+	serverThe->detach();
 
 	//发送数据
+	
 	if (x != -1 && y != -1)
 	{
 		string str = ServerMsgItem(x, y).convertToString();
@@ -169,9 +149,6 @@ void Server::client_begin()
 			return;
 		}
 	}
-	
-	
-
 }
 
 void Server::setMessage(int x,int y)
@@ -185,16 +162,27 @@ void Server::setMessage(int operation)
 	this->operation = operation;
 }
 
-int Server::getOperation(char buffer[])
+void Server::receive(MainWindow *mainWindow,SOCKET s)
 {
+	//接收数据 
+	char recvBuf[200] = { "" };
+	int nLen = recv(s, recvBuf, sizeof(recvBuf), 0);
+	if (nLen <= 0)
+	{
+		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端接收失败"));
+		return;
+	}
+	QMessageBox::about(NULL, "kefuduan out", recvBuf);
+	
+
 	int op;
-	if (buffer[16] == '0')
+	if (recvBuf[16] == '0')
 	{
 
 	}
 	else
 	{
-		switch (buffer[16]) {
+		switch (recvBuf[16]) {
 		case  '1':
 			op = 1;
 			break;
@@ -216,13 +204,22 @@ int Server::getOperation(char buffer[])
 		case  '7':
 			op = 7;
 			break;
-			
+
 		default:
 			break;
 		}
 	}
-	
-	return 0;
 }
+
+void Server::setMainWindow(MainWindow * mainWindow)
+{
+	this->mainWindow = mainWindow;
+}
+
+
+
+
+
+
 
 

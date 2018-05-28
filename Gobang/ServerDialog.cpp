@@ -114,6 +114,7 @@ void ServerDialog::hostBtnClicked()
 
 	s = new Server(addr);
 	s->server_begin();
+	s->setMainWindow(mainWindow);
 	
 }
 
@@ -146,9 +147,7 @@ void ServerDialog::connectBtnClicked()
 	
 	s = new Server(ip, port);
 	s->client_begin();
-	//::thread t2(s->client_begin);
-	//t2.detach();
-	
+	s->setMainWindow(mainWindow);
 }
 
 /*
