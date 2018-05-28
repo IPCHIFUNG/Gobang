@@ -29,6 +29,8 @@ public:
 
 	void saveBoard(char * path);			// 把棋盘保存到文件里
 	void loadBoard(char * path);			// 从文件里读取棋盘
+	void readRanking(char * path);			// 读取排行榜
+	void writeRanking(char * path);			// 保存排行榜
 
 	int getTurn();							// 返回当前轮次
 	int getAtPosition(int x, int y);		// 返回（x, y）位置的棋子
