@@ -186,10 +186,10 @@ void Gobang::shiftTurn()
 }
 
 /*
-人机对战
+	人机对战
 
-@author 应禹尧
-@return 返回Step类型的坐标
+	@author 应禹尧
+	@return 返回Step类型的坐标
 */
 Gobang::Step Gobang::AIWalk(int type)
 {
