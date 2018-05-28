@@ -33,7 +33,7 @@ public:
 	int getTurn();							// 返回当前轮次
 	int getAtPosition(int x, int y);		// 返回（x, y）位置的棋子
 	std::deque<Step> & getSteps();			// 返回储存落子顺序的双端队列
-	std::deque<Step> & getOverSteps();        // 返回储存导致游戏结束的落子位置的双端队列
+	std::deque<Step> & getOverSteps();      // 返回储存导致游戏结束的落子位置的双端队列
 
 
 private:

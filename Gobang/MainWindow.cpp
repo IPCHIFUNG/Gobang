@@ -105,6 +105,7 @@ void MainWindow::setBackgroundMusic(bool isOn)
 */
 void MainWindow::playSoundEffects()
 {
+	soundEff.stop();
 	soundEff.play();
 }
 
@@ -172,6 +173,7 @@ void MainWindow::showWinnerDialog(int type)
 		QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！"), QMessageBox::NoButton);
 		break;
 	case ChessType::NOCHESS:		// 平局
+		QMessageBox::information(this, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
 		break;
 	default:
 		break;
@@ -269,7 +271,7 @@ void MainWindow::onlineBtnClicked()
 {
 	// 创建并显示连接窗口
 	ServerDialog serverDialog = new ServerDialog(this);
-	//serverDialog.setMainWindow(this);
+	// serverDialog.setMainWindow(this);
 	serverDialog.exec();
 
 	// 用户点击取消或关闭按钮则返回
@@ -283,7 +285,6 @@ void MainWindow::onlineBtnClicked()
 		Server *s = serverDialog.getServer();
 		s->setMessage(step.x, step.y);
 	}
-
 
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
@@ -437,7 +438,27 @@ void MainWindow::boardClicked()
 		default:
 			break;
 		}
-		showWinnerDialog(result);
+
+		switch (result)
+		{
+		case ChessType::BLACKCHESS:
+			showWinnerDialog(ChessType::BLACKCHESS);
+			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+			break;
+		case ChessType::WHITECHESS:
+			showWinnerDialog(ChessType::WHITECHESS);
+			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+			break;
+		case ChessType::NOCHESS:
+			if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
+			{
+				showWinnerDialog(ChessType::NOCHESS);
+				disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+			}
+			break;
+		default:
+			break;
+		}
 	}
 	catch (const char* msg)
 	{
