@@ -186,15 +186,15 @@ void Gobang::shiftTurn()
 }
 
 /*
-人机对战
+	人机对战
 
-@author 应禹尧
-@return 返回Step类型的坐标
+	@author 应禹尧
+	@return 返回Step类型的坐标
 */
 Gobang::Step Gobang::AIWalk(int type)
 {
-	if (type != ChessType::BLACKCHESS || type != ChessType::WHITECHESS)
-		throw "The chess type does not existing";
+	if (type != ChessType::BLACKCHESS && type != ChessType::WHITECHESS)
+		throw "The chess type does not exist";
 
 	const int inf = 9000000;					// alpha_beta
 	Step s = steps->back();
@@ -211,6 +211,7 @@ Gobang::Step Gobang::AIWalk(int type)
 	AIutil->init_zobrist();
 	AIutil->init_hashtable();
 
+	st = AIutil->cal_zobrist();
 	AIutil->alpha_beta(turn, DEPTH, alpha, beta, st);		// 搜索 
 
 	/*if (map[comy][comx] == EMPTY_POINT) {

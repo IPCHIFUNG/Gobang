@@ -2,7 +2,10 @@
 #define AIUTIL_H
 
 #include <stdlib.h>
+#include <cstring>
 #define HASHSIZE (1<<21)
+#define ABS(x) \
+	((x)<(0)?(-x):(x))
 
 typedef long long LL;
 
@@ -12,6 +15,13 @@ typedef enum
 	HASHBETA,		//beta
 	HASHEXACT
 } HashType;
+
+typedef struct {
+	int y, x;
+	int chose;
+	int point[2]; /* 该点黑棋白棋得分 */
+	int kill[2]; /* 该点情形，3 为成五，2 为绝杀，1 为双活三 */
+}Subpoints;
 
 class AIUtil
 {
@@ -39,15 +49,22 @@ public:
 		int depth;
 	}HashElem;
 
-	
 	void init_zobrist();
 	void init_hashtable();
+	int copy_and_cal_points();
+	LL cal_zobrist();
 	int alpha_beta(int type, int depth, int alpha, int beta, LL st);
 
 private:
 	int *board;
+	int state[19][19];
 	LL zobrist[3][20][20];
 	HashElem hashtable[HASHSIZE];
+
+	int DEPTH;
+	int counter;
+	int find;
+	int comy, comx;
 
 	/* cpoint[i][j][0] 表示电脑绝杀棋情况 */
 	/* cpoint[i][j][1] 表示玩家绝杀棋情况 */
@@ -77,6 +94,9 @@ private:
 	int get_points(AIStep *step, int *kill);
 	void cal_chess(Points *po, AIStep *steps, int m, int n);
 	int find_in_hash(int depth, int alpha, int beta, LL st);
+	void record_hash(int depth, int val, LL st, HashType type);
+	int set_order(Subpoints *od, int player);
+	void change_cpoint(int y, int x);
 
 };
 
