@@ -14,6 +14,7 @@
 #include<Qthread>
 
 
+
 using namespace std;
 
 class Server : public QThread
@@ -32,10 +33,10 @@ private:
 	SOCKET server_s;
 	SOCKET client_s;
 
+	bool judge;
 	int port;
 	char * IPAddr;
 	int x, y, operation;
-	
 	void server_send();
 	void client_send();
 

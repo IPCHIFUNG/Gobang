@@ -32,7 +32,7 @@ public:
 
 	bool isOKClicked();
 	Server *getServer();
-
+	void setMainWindow(MainWindow *mainWindow);
 private:
 	Ui::ServerDialog * ui;
 	MainWindow *mainWindow;
