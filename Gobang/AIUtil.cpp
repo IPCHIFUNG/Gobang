@@ -1,3 +1,4 @@
+#include "Gobang.h"
 #include "AIUtil.h"
 #define JUDGE_EDGE(y, x) \
 	((y < 0 || y > 18 || x < 0 || x > 18) ? 0 : 1)
@@ -7,11 +8,6 @@
 */
 AIUtil::AIUtil()
 {
-	for (int i = 0; i < 19; i++)
-		for (int j = 0; j < 19; j++)
-			state[i][j] = 2;
-
-	//memset(state, 2, sizeof(int)*19 * 19);
 }
 
 /*

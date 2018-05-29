@@ -45,7 +45,6 @@ private:
 	int board[BOARDLENGTH][BOARDLENGTH];	// 棋盘信息
 	int turn;								// 轮次
 	int cModel[4];							// 棋型
-	//const int inf = 9000000;					// alpha_beta
 	std::string ranking[10];
 	AIUtil *AIutil;							// AI
 

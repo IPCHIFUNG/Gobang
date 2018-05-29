@@ -4,13 +4,12 @@
 
 Gobang::Gobang()
 {
+	AIutil = new AIUtil();
 	// 初始化棋盘
 	initBoard();
 
 	for (int i = 0; i < 10; i++)
 		ranking[i] = "";
-
-	AIutil = new AIUtil();
 }
 
 Gobang::~Gobang()
@@ -28,6 +27,11 @@ void Gobang::initBoard()
 	for (int i = 0; i < BOARDLENGTH; i++)
 		for (int j = 0; j < BOARDLENGTH; j++)
 			board[i][j] = ChessType::NOCHESS;
+
+	for (int i = 0; i < 19; i++)
+		for (int j = 0; j < 19; j++)
+			AIutil->state[i][j] = 2;
+
 	turn = ChessType::BLACKCHESS;
 	// 初始化双端队列
 	/*if (steps != NULL)
@@ -227,6 +231,7 @@ Gobang::Step Gobang::popLastStep()
 		Gobang::Step lastStep = steps->back();
 		steps->pop_back();
 		board[lastStep.x][lastStep.y] = ChessType::NOCHESS;
+		AIutil->state[lastStep.x][lastStep.y] = ChessType::NOCHESS;
 		return lastStep;
 	}
 	Gobang::Step lastStep;
@@ -261,7 +266,7 @@ Gobang::Step Gobang::AIWalk(int type)
 	Step walk;
 	AIUtil::AIStep AIs;
 	int sign = (turn + 1) % 2;
-	int DEPTH = 2;								// 搜索深度
+	int DEPTH = 6;								// 搜索深度
 	int alpha = -inf;
 	int beta = inf;
 	LL st;
