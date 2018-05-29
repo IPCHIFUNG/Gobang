@@ -63,7 +63,7 @@ private:
 	LL zobrist[3][20][20];
 	HashElem hashtable[HASHSIZE];
 
-	int DEPTH = 8;
+	int DEPTH = 2;
 	int counter;
 	int find;
 	int comy, comx;

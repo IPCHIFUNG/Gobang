@@ -441,6 +441,11 @@ void MainWindow::boardClicked()
 			break;
 		case GameType::PVP:
 			step = getStepFromScreen();
+			gobang.newStep(step);
+			showStep(step, gobang.getTurn());
+			gobang.shiftTurn();
+			playSoundEffects();
+			highlightStep(step);
 			break;
 		case GameType::ONLINE:
 			break;

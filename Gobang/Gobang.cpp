@@ -261,7 +261,7 @@ Gobang::Step Gobang::AIWalk(int type)
 	Step walk;
 	AIUtil::AIStep AIs;
 	int sign = (turn + 1) % 2;
-	int DEPTH = 8;								// 搜索深度
+	int DEPTH = 2;								// 搜索深度
 	int alpha = -inf;
 	int beta = inf;
 	LL st;
