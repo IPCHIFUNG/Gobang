@@ -47,7 +47,7 @@ protected:
 	virtual void run();
 
 signals:
-	void resultReady(int value);
+	void msg_rec(int operation, int x, int y);
 };
 
 

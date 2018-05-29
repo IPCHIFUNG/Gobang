@@ -24,8 +24,6 @@ ServerDialog::~ServerDialog()
 	delete ui;
 }
 
-
-
 /*
 	返回确定按钮是否被点击
 
@@ -112,7 +110,6 @@ void ServerDialog::hostBtnClicked()
 
 	mainWindow->s = new Server(addr);
 	mainWindow->s->server_start();
-	//mainWindow->setServer(s);
 	
 	mainWindow->s->start();
 	
@@ -147,7 +144,6 @@ void ServerDialog::connectBtnClicked()
 	
 	mainWindow->s = new Server(ip, port);
 	mainWindow->s->client_start();
-	//mainWindow->setServer(s);
 
 	mainWindow->s->start();
 	

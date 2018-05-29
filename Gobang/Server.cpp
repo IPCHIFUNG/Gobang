@@ -148,46 +148,36 @@ void Server::run()
 		}
 		QMessageBox::about(NULL, "yunxing success", recvBuf);
 
-		int op;
-		if (recvBuf[16] == '0')
+		int op = ServerMsgItem::getOperationFromString(recvBuf);
+		switch (op)
 		{
-			emit resultReady(0);
-		}
-		else
-		{
-			switch (recvBuf[16]) {
-			case  '1':
-				op = 1;
-				break;
-			case  '2':
-				op = 2;
-				break;
-			case  '3':
-				op = 3;
-				break;
-			case  '4':
-				op = 4;
-				break;
-			case  '5':
-				op = 5;
-				break;
-			case  '6':
-				op = 6;
-				break;
-			case  '7':
-				op = 7;
-				break;
+		case OperationType::WALK:
+			try
+			{
+				int x = ServerMsgItem::getXFromString(recvBuf);
+				int y = ServerMsgItem::getYFromString(recvBuf);
+				emit msg_rec(WALK, x, y);
 
-			default:
-				break;
 			}
-			emit resultReady(op);
+			catch (const std::exception&)
+			{
+				QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("数据转化失败（run）"));
+			}
+			
+			break;
+		default:
+			if (op < 0 || op > 7)
+				throw"invalue operation";
+			emit msg_rec(op, -1, -1);
+			break;
 		}
 	}
 	
 	exec();
 	
 }
+
+
 
 
 

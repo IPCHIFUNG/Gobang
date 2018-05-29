@@ -12,6 +12,8 @@ public:
 
 	std::string convertToString();
 	static int getOperationFromString(std::string str);
+	static int getXFromString(std::string str);
+	static int getYFromString(std::string str);
 
 private:
 	int operation;
@@ -27,7 +29,7 @@ const enum OperationType
 	RESTART,
 	CHEAT,
 	GIVEUP,
-	ERRORR,
+	ERR,
 	AGREE,
 	DISAGREE
 };
