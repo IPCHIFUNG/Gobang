@@ -25,7 +25,13 @@ std::string ServerMsgItem::convertToString()
 	switch (operation)
 	{
 	case OperationType::WALK:
-		ss << "{x:" << x << "}{y:" << y << "}";
+		ss << "{x:";
+		if (x < 10)
+			ss << "0";
+		ss << x << "}{y:";
+		if (y < 10)
+			ss << "0";
+		ss << y << "}";
 		break;
 	default:
 		break;
@@ -37,4 +43,18 @@ std::string ServerMsgItem::convertToString()
 int ServerMsgItem::getOperationFromString(std::string str)
 {
 	return str[16] - '0';
+}
+
+int ServerMsgItem::getXFromString(std::string str)
+{
+	if (OperationType::WALK != ServerMsgItem::getOperationFromString(str))
+		throw "Error in conerting";
+	return (str[21] - '0') * 10 + (str[22] - '0');
+}
+
+int ServerMsgItem::getYFromString(std::string str)
+{
+	if (OperationType::WALK != ServerMsgItem::getOperationFromString(str))
+		throw "Error in conerting";
+	return (str[27] - '0') * 10 + (str[28] - '0');
 }

@@ -13,8 +13,6 @@
 #include<qMessageBox>
 #include<Qthread>
 
-
-
 using namespace std;
 
 class Server : public QThread
@@ -24,30 +22,26 @@ public:
 	explicit Server(char *IPAddr, int port);
 	Server(int port);
 	~Server();
-	void server_start();
-	void client_start();
-	void setMessage(int, int);
-	void setMessage(int);
-	void server_send(int x, int y);
-	void client_send(int x, int y);
+public:
+	void server_start();                  //开启服务端
+	void client_start();                  //开启客户端
+	void msg_send(int x, int y,int operation);          //网络发送信息
+
 private:
 	SOCKET server_s;
 	SOCKET client_s;
-
-	bool judge;
 	int port;
 	char * IPAddr;
-	int x, y, operation;
+	bool judge;
 	
 private:
-	void sendMessage(SOCKET target, string msg);
-
+	void sendMessage(SOCKET target, string msg);        //
 
 protected:
 	virtual void run();
 
 signals:
-	void resultReady(int value);
+	void msg_rec(int operation, int x, int y);
 };
 
 

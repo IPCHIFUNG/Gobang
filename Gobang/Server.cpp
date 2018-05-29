@@ -98,30 +98,18 @@ void Server::client_start()
 	judge = true;
 }
 
-//设置操作类型
-void Server::setMessage(int x,int y)
+//发送消息
+void Server::msg_send(int x, int y,int operation)
 {
-	this->x = x;
-	this->y = y;
-}
-void Server::setMessage(int operation)
-{
-	this->operation = operation;
-}
-
-//向服务端发送消息
-void Server::client_send(int x, int y)
-{
-	string msg = ServerMsgItem(x, y).convertToString();
-	sendMessage(server_s, msg);
-	
-}
-
-//向客户端发送消息
-void Server::server_send(int x, int y)
-{
-	string msg = ServerMsgItem(x, y).convertToString();
-	sendMessage(client_s, msg);
+	string msg;
+	if (operation == 0)
+		msg = ServerMsgItem(x, y).convertToString();
+	else
+		msg = ServerMsgItem(operation).convertToString();
+	if(judge)
+		sendMessage(server_s, msg);
+	else
+		sendMessage(client_s, msg);
 }
 
 void Server::sendMessage(SOCKET target, string msg)
@@ -148,46 +136,35 @@ void Server::run()
 		}
 		QMessageBox::about(NULL, "yunxing success", recvBuf);
 
-		int op;
-		if (recvBuf[16] == '0')
+		int op = ServerMsgItem::getOperationFromString(recvBuf);
+		switch (op)
 		{
-			emit resultReady(0);
-		}
-		else
-		{
-			switch (recvBuf[16]) {
-			case  '1':
-				op = 1;
-				break;
-			case  '2':
-				op = 2;
-				break;
-			case  '3':
-				op = 3;
-				break;
-			case  '4':
-				op = 4;
-				break;
-			case  '5':
-				op = 5;
-				break;
-			case  '6':
-				op = 6;
-				break;
-			case  '7':
-				op = 7;
-				break;
-
-			default:
-				break;
+		case OperationType::WALK:
+			try
+			{
+				int x = ServerMsgItem::getXFromString(recvBuf);
+				int y = ServerMsgItem::getYFromString(recvBuf);
+				emit msg_rec(WALK, x, y);
 			}
-			emit resultReady(op);
+			catch (const std::exception&)
+			{
+				QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("数据转化失败（run）"));
+			}
+			
+			break;
+		default:
+			if (op < 0 || op > 7)
+				throw"invalue operation";
+			emit msg_rec(op, -1, -1);
+			break;
 		}
 	}
 	
 	exec();
 	
 }
+
+
 
 
 
