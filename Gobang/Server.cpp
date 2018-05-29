@@ -98,30 +98,18 @@ void Server::client_start()
 	judge = true;
 }
 
-//设置操作类型
-void Server::setMessage(int x,int y)
+//发送消息
+void Server::msg_send(int x, int y,int operation)
 {
-	this->x = x;
-	this->y = y;
-}
-void Server::setMessage(int operation)
-{
-	this->operation = operation;
-}
-
-//向服务端发送消息
-void Server::client_send(int x, int y)
-{
-	string msg = ServerMsgItem(x, y).convertToString();
-	sendMessage(server_s, msg);
-	
-}
-
-//向客户端发送消息
-void Server::server_send(int x, int y)
-{
-	string msg = ServerMsgItem(x, y).convertToString();
-	sendMessage(client_s, msg);
+	string msg;
+	if (operation == 0)
+		msg = ServerMsgItem(x, y).convertToString();
+	else
+		msg = ServerMsgItem(operation).convertToString();
+	if(judge)
+		sendMessage(server_s, msg);
+	else
+		sendMessage(client_s, msg);
 }
 
 void Server::sendMessage(SOCKET target, string msg)
@@ -157,7 +145,6 @@ void Server::run()
 				int x = ServerMsgItem::getXFromString(recvBuf);
 				int y = ServerMsgItem::getYFromString(recvBuf);
 				emit msg_rec(WALK, x, y);
-
 			}
 			catch (const std::exception&)
 			{
