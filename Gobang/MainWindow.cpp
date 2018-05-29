@@ -399,7 +399,9 @@ void MainWindow::returnBtnClicked()
 */
 void MainWindow::boardClicked()
 {
-	Gobang::Step step = getStepFromScreen();
+	ChessThread *thread1;
+	ChessThread *thread2;
+	Gobang::Step step;
 	try
 	{
 		switch (gameType)
@@ -408,32 +410,13 @@ void MainWindow::boardClicked()
 			switch (isFirstHand)
 			{
 			case QMessageBox::Yes:		// AI°×Æå
-				step = getStepFromScreen();
-				gobang.newStep(step);
-				showStep(step, gobang.getTurn());
-				gobang.shiftTurn();
-				playSoundEffects();
-				highlightStep(step);
-				step = gobang.AIWalk(gobang.getTurn());
-				gobang.newStep(step);
-				showStep(step, gobang.getTurn());
-				gobang.shiftTurn();
-				playSoundEffects();
-				highlightStep(step);
+				thread1 = new ChessThread(*this, gobang, PlayerType::HUMAN);
+				thread1->run();
+				thread2 = new ChessThread(*this, gobang, PlayerType::AI);
+				thread2->run();
 				break;
 			case QMessageBox::No:		// AIºÚÆå
-				step = gobang.AIWalk(gobang.getTurn());
-				gobang.newStep(step);
-				showStep(step, gobang.getTurn());
-				gobang.shiftTurn();
-				playSoundEffects();
-				highlightStep(step);
-				step = getStepFromScreen();
-				gobang.newStep(step);
-				showStep(step, gobang.getTurn());
-				gobang.shiftTurn();
-				playSoundEffects();
-				highlightStep(step);
+
 				break;
 			default:
 				break;
