@@ -3,6 +3,9 @@
 #include "MainWindow.h"
 #include <Qthread>
 
+class MainWindow;
+class Gobang;
+
 class ChessThread :public QThread
 {
 public:

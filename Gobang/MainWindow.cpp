@@ -410,25 +410,34 @@ void MainWindow::boardClicked()
 			switch (isFirstHand)
 			{
 			case QMessageBox::Yes:		// AI°×Æå
-				thread1 = new ChessThread(*this, gobang, PlayerType::HUMAN);
-				thread1->run();
-				thread2 = new ChessThread(*this, gobang, PlayerType::AI);
-				thread2->run();
+				thread1 = new ChessThread(std::ref(*this), std::ref(gobang), PlayerType::HUMAN);
+				thread1->start();
+				thread2 = new ChessThread(std::ref(*this), std::ref(gobang), PlayerType::AI);
+				thread2->start();
+				thread1->wait();
+				thread2->wait();
+				delete thread1;
+				delete thread2;
 				break;
 			case QMessageBox::No:		// AIºÚÆå
-
+				thread1 = new ChessThread(std::ref(*this), std::ref(gobang), PlayerType::AI);
+				thread1->start();
+				thread2 = new ChessThread(std::ref(*this), std::ref(gobang), PlayerType::HUMAN);
+				thread2->start();
+				thread1->wait();
+				thread2->wait();
+				delete thread1;
+				delete thread2;
 				break;
 			default:
 				break;
 			}
 			break;
 		case GameType::PVP:
-			step = getStepFromScreen();
-			gobang.newStep(step);
-			showStep(step, gobang.getTurn());
-			gobang.shiftTurn();
-			playSoundEffects();
-			highlightStep(step);
+			thread1 = new ChessThread(std::ref(*this), std::ref(gobang), PlayerType::HUMAN);
+			thread1->start();
+			thread1->wait();
+			delete thread1;
 			break;
 		case GameType::ONLINE:
 			break;

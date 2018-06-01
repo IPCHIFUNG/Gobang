@@ -30,6 +30,8 @@ public:
 private:
 	SOCKET server_s;
 	SOCKET client_s;
+	int x, y;
+	int operation;
 	int port;
 	char * IPAddr;
 	bool judge;
