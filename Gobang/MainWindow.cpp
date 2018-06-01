@@ -444,40 +444,6 @@ void MainWindow::boardClicked()
 		default:
 			break;
 		}
-
-		int result;
-		switch (isRestricted)
-		{
-		case QMessageBox::Yes:
-			result = gobang.isOverWithRestricted();
-			break;
-		case QMessageBox::No:
-			result = gobang.isOverWithoutRestricted();
-			break;
-		default:
-			break;
-		}
-
-		switch (result)
-		{
-		case ChessType::BLACKCHESS:
-			showWinnerDialog(ChessType::BLACKCHESS);
-			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
-			break;
-		case ChessType::WHITECHESS:
-			showWinnerDialog(ChessType::WHITECHESS);
-			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
-			break;
-		case ChessType::NOCHESS:
-			if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
-			{
-				showWinnerDialog(ChessType::NOCHESS);
-				disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
-			}
-			break;
-		default:
-			break;
-		}
 	}
 	catch (const char* msg)
 	{

@@ -22,8 +22,10 @@ public:
 	void highlightStep(Gobang::Step step);		// 高亮棋子
 	void showWinnerDialog(int type);			// 显示胜方信息
 	Server *s;
-private:
 	Ui::MainWindowClass ui;
+	int isRestricted;							// 是否带禁手开始游戏
+
+private:
 	int gameType;
 	std::string ranking;
 	Gobang gobang;
@@ -44,7 +46,6 @@ private:
 	std::string selectDirectory();				// 选择保存目录
 
 	int isFirstHand;							// 是否先手开始游戏
-	int isRestricted;							// 是否带禁手开始游戏
 
 private slots:
 	void btnsClicked();							// 按钮被点击响应事件

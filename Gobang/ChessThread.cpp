@@ -23,4 +23,38 @@ void ChessThread::run()
 		gobang.shiftTurn();
 		MWin.playSoundEffects();
 		MWin.highlightStep(step);
+
+		int result;
+		switch (MWin.isRestricted)
+		{
+		case QMessageBox::Yes:
+			result = gobang.isOverWithRestricted();
+			break;
+		case QMessageBox::No:
+			result = gobang.isOverWithoutRestricted();
+			break;
+		default:
+			break;
+		}
+
+		switch (result)
+		{
+		case ChessType::BLACKCHESS:
+			MWin.showWinnerDialog(ChessType::BLACKCHESS);
+			disconnect(MWin.ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+			break;
+		case ChessType::WHITECHESS:
+			MWin.showWinnerDialog(ChessType::WHITECHESS);
+			disconnect(MWin.ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+			break;
+		case ChessType::NOCHESS:
+			if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
+			{
+				MWin.showWinnerDialog(ChessType::NOCHESS);
+				disconnect(MWin.ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+			}
+			break;
+		default:
+			break;
+		}
 }
