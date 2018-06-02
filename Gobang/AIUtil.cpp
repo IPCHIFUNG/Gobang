@@ -116,14 +116,13 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 	step[0].player = AIChessType::AIBLACKCHESS;		// 黑子
 	step[1].player = AIChessType::AIWHITECHESS;		// 白子
 
-
 	if ((value = find_in_hash(depth, alpha, beta, st)) != unknow)
 		return value;
 
-	if (depth == 0) {								// 达到搜索深度，返回价值 
+	if (depth == 0) {										// 达到搜索深度，返回价值 
 		int s = s1 - s2;
 		record_hash(depth, s, st, HASHEXACT);
-		if (((!AIType) && s >= 0) || (AIType && s < 0)) // 如果 player 占优则返回正值，否则返回负值
+		if (((!AIType) && s >= 0) || (AIType && s < 0))		// 如果玩家占优则返回正值，否则返回负值
 			return abs(s);
 		if (((!AIType) && s < 0) || (AIType && s >= 0))
 			return -abs(s);
@@ -131,7 +130,7 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 
 	Subpoints sp[19 * 19];
 	LL tst;
-	int n = set_order(sp); // 对候选点按高分到低分排序 
+	int n = set_order(sp);									// 对候选点按高分到低分排序 
 	int y, x;
 
 
@@ -149,13 +148,13 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 	}
 
 
-	for (int i = 0; i < 10 && i < n; i++) { // 最多选择 20 个候选点 
+	for (int i = 0; i < 54 && i < n; i++) {									// 最多选择 4层--54,6层--36,8层--18 个候选点 
 		tst = st;
 		y = sp[i].y;
 		x = sp[i].x;
-		state[y][x] = AIType; // 在 (y, x) 落子
+		state[y][x] = AIType;												// 在 (y, x) 落子
 		st ^= zobrist[AIType][y][x];
-		change_cpoint(y, x); // (y, x) 四个方向上的得分受到影响，需要改变  
+		change_cpoint(y, x);												// (y, x) 四个方向上的得分受到影响，需要改变  
 		value = -alpha_beta(AIType ^ 1, depth - 1, -beta, -alpha, st);
 		state[y][x] = AIChessType::AINOCHESS;
 		st ^= zobrist[AIType][y][x];
@@ -184,12 +183,12 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 /*
 	计算所有点价值
 
-	@para step---落子信息，kill---
+	@para step---落子信息，kill---绝杀信息
 	@author 应禹尧
 */
 int AIUtil::cal_all_points(AIStep *step, int *kill) 
 {
-	int i, j, flag;
+	int flag;
 	int value = 0;
 
 	*kill = 0;
@@ -198,8 +197,8 @@ int AIUtil::cal_all_points(AIStep *step, int *kill)
 	else
 		flag = 2;
 
-	for (i = 0; i < 19; i++) {
-		for (j = 0; j < 19; j++) {
+	for (int i = 0; i < 19; i++) {
+		for (int j = 0; j < 19; j++) {
 			if (state[i][j] == AIChessType::AINOCHESS) {
 				value += cpoint[i][j][flag];
 				if (cpoint[i][j][flag - 2] >(*kill)) {
@@ -484,10 +483,10 @@ int compare(const void* _a, const void* _b)
 */
 int AIUtil::set_order(Subpoints *od)
 {
-	int i, j;
 	int n = 0;
-	for (i = 0; i < 19; i++) {
-		for (j = 0; j < 19; j++) {
+
+	for (int i = 0; i < 19; i++) {
+		for (int j = 0; j < 19; j++) {
 			if (state[i][j] == AIChessType::AINOCHESS) {
 				od[n].y = i;
 				od[n].x = j;
@@ -499,9 +498,9 @@ int AIUtil::set_order(Subpoints *od)
 			}
 		}
 	}
-#if 1
+
 	qsort(od, n, sizeof(Subpoints), compare);
-#endif
+
 	return n;
 }
 
