@@ -40,6 +40,7 @@ void Gobang::initBoard()
 		overSteps->clear();*/
 	steps = new std::deque<Step>();
 	overSteps = new std::deque<Step>();
+	isFirstStep = true;
 }
 
 /*
@@ -260,31 +261,46 @@ Gobang::Step Gobang::AIWalk(int type)
 {
 	if (type != ChessType::BLACKCHESS && type != ChessType::WHITECHESS)
 		throw "The chess type does not exist";
-
-	const int inf = 9000000;					// alpha_beta
-	Step s = steps->back();
+	
 	Step walk;
-	AIUtil::AIStep AIs;
-	int sign = (turn + 1) % 2;
-	int DEPTH = 6;								// 搜索深度
-	int alpha = -inf;
-	int beta = inf;
-	LL st;
 
-	AIs.x = s.x;
-	AIs.y = s.y;
+	if (isFirstStep) {
+		isFirstStep = false;
 
-	AIutil->copy_and_cal_points();
+		if (board[9][9] == ChessType::NOCHESS) {	// AI第一次落子
+			walk.x = 9;
+			walk.y = 9;
+		}
+		else {
+			walk.x = 10;
+			walk.y = 9;
+		}
+	}
+	else {
+		const int inf = 9000000;					// alpha_beta
+		Step s = steps->back();
+		AIUtil::AIStep AIs;
+		int sign = (turn + 1) % 2;
+		int DEPTH = 8;								// 搜索深度
+		int alpha = -inf;
+		int beta = inf;
+		LL st;
 
-	AIutil->init_zobrist();
-	AIutil->init_hashtable();
+		AIs.x = s.x;
+		AIs.y = s.y;
 
-	st = AIutil->cal_zobrist();
-	AIutil->alpha_beta(turn, DEPTH, alpha, beta, st);		// 搜索 
+		AIutil->copy_and_cal_points();
 
-	walk.y = AIutil->getX();
-	walk.x = AIutil->getY();
+		AIutil->init_zobrist();
+		AIutil->init_hashtable();
 
+		st = AIutil->cal_zobrist();
+		AIutil->alpha_beta(turn, DEPTH, alpha, beta, st);		// 搜索 
+
+		walk.y = AIutil->getX();
+		walk.x = AIutil->getY();
+	}
+	
 	return walk;
 }
 

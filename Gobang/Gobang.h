@@ -47,6 +47,7 @@ private:
 	int cModel[4];							// 棋型
 	std::string ranking[10];
 	AIUtil *AIutil;							// AI
+	bool isFirstStep;						// 判断电脑是否为第一次落子
 
 	std::deque<Step> * steps;				// 储存落子顺序的双端队列
 	std::deque<Step> * overSteps;			// 储存导致游戏结束的落子位置
