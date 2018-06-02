@@ -10,9 +10,6 @@ Server::Server(char *IPAddr, int port)
 Server::Server(int port)
 {
 	this->port = port;
-	x = -1;
-	y = -1;
-	operation = -1;
 }
 
 Server::~Server()
