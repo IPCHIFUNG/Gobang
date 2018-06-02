@@ -20,12 +20,14 @@ public:
 	void showStep(Gobang::Step step, int type);	// 显示一步棋
 	void playSoundEffects();					// 播放落子音效
 	void highlightStep(Gobang::Step step);		// 高亮棋子
-	void showWinnerDialog(int type);			// 显示胜方信息
+	void showWinnerDialog();			// 显示胜方信息
+	Gobang & getGobang();
+	int getIsRestricted();
+	void setWinner(int w);
 	Server *s;
-	Ui::MainWindowClass ui;
-	int isRestricted;							// 是否带禁手开始游戏
 
 private:
+	Ui::MainWindowClass ui;
 	int gameType;
 	std::string ranking;
 	Gobang gobang;
@@ -44,8 +46,9 @@ private:
 	void setGamePageBtnVisable(bool isOn);		// 设置游戏页按钮的可见性
 	std::string selectFile();					// 选择读取文件
 	std::string selectDirectory();				// 选择保存目录
-
+	int isRestricted;							// 是否带禁手开始游戏
 	int isFirstHand;							// 是否先手开始游戏
+	int winner;
 
 private slots:
 	void btnsClicked();							// 按钮被点击响应事件
