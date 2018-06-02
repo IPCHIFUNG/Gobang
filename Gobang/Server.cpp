@@ -18,7 +18,12 @@ Server::~Server()
 	closesocket(client_s);
 	WSACleanup();
 }
-//开启服务器
+
+/*
+    开启服务器
+
+	@author 王锴贞
+*/
 void Server::server_start()
 {
 	WSADATA data;
@@ -61,7 +66,11 @@ void Server::server_start()
 	judge = false;
 }
 
-//开启客户端
+/*
+    开启客户端
+
+    @author 王锴贞
+*/
 void Server::client_start()
 {
 	WSADATA data;
@@ -95,7 +104,14 @@ void Server::client_start()
 	judge = true;
 }
 
-//发送消息
+/*
+    向ui发送信息
+
+	@author 王锴贞
+	@para x,y 下一步棋子位置
+	@para operation 棋子操作
+    
+*/
 void Server::msg_send(int x, int y,int operation)
 {
 	string msg;
@@ -109,12 +125,25 @@ void Server::msg_send(int x, int y,int operation)
 		sendMessage(client_s, msg);
 }
 
+/*
+    发送信息函数
+
+	@author 王锴贞
+    @para target 目标套接字
+    @para msg 目标信息
+    
+*/
 void Server::sendMessage(SOCKET target, string msg)
 {
-	if (send(client_s, msg.data(), msg.length(), 0) == SOCKET_ERROR)
+	if (send(target, msg.data(), msg.length(), 0) == SOCKET_ERROR)
 		throw "Send error";
 }
 
+/*
+    接收消息线程 
+
+    @author 王锴贞
+*/
 void Server::run()
 {
 	while (true)
