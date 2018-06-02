@@ -4,8 +4,6 @@
 #include <stdlib.h>
 #include <cstring>
 #define HASHSIZE (1<<21)
-#define ABS(x) \
-	((x)<(0)?(-x):(x))
 
 typedef long long LL;
 
@@ -63,9 +61,7 @@ private:
 	LL zobrist[3][20][20];
 	HashElem hashtable[HASHSIZE];
 
-	int DEPTH = 8;
-	int counter;
-	int find;
+	int DEPTH = 4;
 	int comy, comx;
 
 	/* cpoint[i][j][0] 表示电脑绝杀棋情况 */
