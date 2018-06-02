@@ -2,6 +2,7 @@
 #define GOBANG_H
 
 #define BOARDLENGTH 19	// ∆Â≈Ã≥§∂»
+#define INF 9000000
 
 #include <string>
 #include <queue>

@@ -277,17 +277,11 @@ Gobang::Step Gobang::AIWalk(int type)
 		}
 	}
 	else {
-		const int inf = 9000000;					// alpha_beta
-		Step s = steps->back();
 		AIUtil::AIStep AIs;
-		int sign = (turn + 1) % 2;
-		int DEPTH = 8;								// 搜索深度
-		int alpha = -inf;
-		int beta = inf;
+		int DEPTH = 4;								// 搜索深度
+		int alpha = -INF;
+		int beta = INF;
 		LL st;
-
-		AIs.x = s.x;
-		AIs.y = s.y;
 
 		AIutil->copy_and_cal_points();
 
