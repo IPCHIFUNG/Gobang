@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 	gobang = Gobang();
 	gameType = GameType::NONE;
+	winner = ChessType::NOCHESS;
 }
 
 /*
@@ -162,22 +163,42 @@ Gobang::Step MainWindow::getStepFromScreen()
 
 	@para ChessType - 胜方棋子种类
 */
-void MainWindow::showWinnerDialog(int type)
+void MainWindow::showWinnerDialog()
 {
-	switch (type)
+	switch (winner)
 	{
-	case ChessType::BLACKCHESS:		// 黑棋获胜
+	case ChessType::BLACKCHESS:
 		QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！"), QMessageBox::NoButton);
+		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		break;
-	case ChessType::WHITECHESS:		// 白棋获胜
+	case ChessType::WHITECHESS:
 		QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！"), QMessageBox::NoButton);
+		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		break;
-	case ChessType::NOCHESS:		// 平局
-		QMessageBox::information(this, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
+	case ChessType::NOCHESS:
+		if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
+		{
+			QMessageBox::information(this, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
+			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+		}
 		break;
 	default:
 		break;
 	}
+}
+
+Gobang & MainWindow::getGobang()
+{
+	return gobang;
+}
+
+int MainWindow::getIsRestricted()
+{
+	return isRestricted;
+}
+void MainWindow::setWinner(int w)
+{
+	winner = w;
 }
 
 /*
@@ -363,8 +384,8 @@ void MainWindow::retractBtnClicked()
 */
 void MainWindow::giveUpBtnClicked()
 {
-	int winner = (gobang.getTurn() + 1) % 2;
-	showWinnerDialog(winner);
+	winner = (gobang.getTurn() + 1) % 2;
+	showWinnerDialog();
 	disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 }
 
@@ -410,22 +431,26 @@ void MainWindow::boardClicked()
 			switch (isFirstHand)
 			{
 			case QMessageBox::Yes:		// AI白棋
-				thread1 = new ChessThread(std::ref(*this), std::ref(gobang), PlayerType::HUMAN);
+				thread1 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
 				thread1->start();
-				thread2 = new ChessThread(std::ref(*this), std::ref(gobang), PlayerType::AI);
-				thread2->start();
 				thread1->wait();
+				showWinnerDialog();
+				thread2 = new ChessThread(std::ref(*this), PlayerType::AI);
+				thread2->start();
 				thread2->wait();
+				showWinnerDialog();
 				delete thread1;
 				delete thread2;
 				break;
 			case QMessageBox::No:		// AI黑棋
-				thread1 = new ChessThread(std::ref(*this), std::ref(gobang), PlayerType::AI);
+				thread1 = new ChessThread(std::ref(*this), PlayerType::AI);
 				thread1->start();
-				thread2 = new ChessThread(std::ref(*this), std::ref(gobang), PlayerType::HUMAN);
-				thread2->start();
 				thread1->wait();
+				showWinnerDialog();
+				thread2 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
+				thread2->start();
 				thread2->wait();
+				showWinnerDialog();
 				delete thread1;
 				delete thread2;
 				break;
@@ -434,9 +459,10 @@ void MainWindow::boardClicked()
 			}
 			break;
 		case GameType::PVP:
-			thread1 = new ChessThread(std::ref(*this), std::ref(gobang), PlayerType::HUMAN);
+			thread1 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
 			thread1->start();
 			thread1->wait();
+			showWinnerDialog();
 			delete thread1;
 			break;
 		case GameType::ONLINE:
