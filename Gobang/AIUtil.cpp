@@ -147,11 +147,16 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 		return alpha;
 	}
 
+	int candidates = 18;													// 最多选择 4层--54,6层--36,8层--18 个候选点 
+	if (DEPTH == 4)
+		candidates *= 3;
+	else if (DEPTH == 6)
+		candidates *= 2;
 
-	for (int i = 0; i < 54 && i < n; i++) {									// 最多选择 4层--54,6层--36,8层--18 个候选点 
+	for (int i = 0; i < candidates && i < n; i++) {									
 		tst = st;
-		y = sp[i].y;
 		x = sp[i].x;
+		y = sp[i].y;
 		state[y][x] = AIType;												// 在 (y, x) 落子
 		st ^= zobrist[AIType][y][x];
 		change_cpoint(y, x);												// (y, x) 四个方向上的得分受到影响，需要改变  
