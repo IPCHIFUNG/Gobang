@@ -92,7 +92,7 @@ void ServerDialog::loginBtnClicked()
 */
 void ServerDialog::hostBtnClicked()
 {
-	
+
 	QString text = ui->le_server_port->text();
 	bool ok = false;
 
@@ -110,9 +110,10 @@ void ServerDialog::hostBtnClicked()
 
 	mainWindow->s = new Server(addr);
 	mainWindow->s->server_start();
-	
+
 	mainWindow->s->start();
-	
+	okClicked = true;
+	this->close();
 }
 
 /*
@@ -141,12 +142,13 @@ void ServerDialog::connectBtnClicked()
 		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("端口号必须为纯数字"));
 		return;
 	}
-	
+
 	mainWindow->s = new Server(ip, port);
 	mainWindow->s->client_start();
 
 	mainWindow->s->start();
-	
+	okClicked = true;
+	this->close();
 }
 
 /*

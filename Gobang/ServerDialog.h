@@ -4,8 +4,8 @@
 	可作为主机创建服务器，也可连接至服务器
 
 	@author - 叶志枫
-                                                                     */
-/* ----------------------------------------------------------------- */
+																	 */
+																	 /* ----------------------------------------------------------------- */
 
 #ifndef DIALOG_H
 #define DIALOG_H
@@ -36,7 +36,7 @@ private:
 	Ui::ServerDialog * ui;
 	MainWindow *mainWindow;
 	bool okClicked;							// 保存确定按钮是否被点击状态
-	
+
 
 private slots:
 	void changeButton(int index);			// tab页切换时改变按钮
