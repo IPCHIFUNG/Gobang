@@ -19,7 +19,7 @@ public:
 	Gobang::Step getStepFromScreen();			// 从屏幕获取棋子坐标
 	void showStep(Gobang::Step step, int type);	// 显示一步棋
 	void playSoundEffects();					// 播放落子音效
-	void highlightStep(Gobang::Step step);		// 高亮棋子
+	void highlightStep(Gobang::Step step, int type);		// 高亮棋子
 	void showWinnerDialog();			// 显示胜方信息
 	Gobang & getGobang();
 	int getIsRestricted();
@@ -34,8 +34,11 @@ private:
 	QMediaPlayer music;
 	QMediaPlayer soundEff;
 	QLabel chess[BOARDLENGTH][BOARDLENGTH];
+
 	QPixmap blackChess;
 	QPixmap whiteChess;
+	QPixmap HLBlackChess;
+	QPixmap HLWhiteChess;
 
 private:
 	void clearBoard();							// 清空棋盘

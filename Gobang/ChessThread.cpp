@@ -20,9 +20,9 @@ void ChessThread::run()
 	}
 	MWin.getGobang().newStep(step);
 	MWin.showStep(step, MWin.getGobang().getTurn());
+	MWin.highlightStep(step, MWin.getGobang().getTurn());
 	MWin.getGobang().shiftTurn();
 	MWin.playSoundEffects();
-	MWin.highlightStep(step);
 
 	switch (MWin.getIsRestricted())
 	{

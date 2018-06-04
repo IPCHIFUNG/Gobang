@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
 	// 初始化棋盘
 	blackChess = QPixmap("./image/BLACK.png");
 	whiteChess = QPixmap("./image/WHITE.png");
+	HLBlackChess = QPixmap("./image/BLACK(highlight).png");
+	HLWhiteChess = QPixmap("./image/WHITE(highlight).png");
 	for (int i = 0; i < BOARDLENGTH; i++)
 		for (int j = 0; j < BOARDLENGTH; j++)
 		{
@@ -73,16 +75,53 @@ void MainWindow::showStep(Gobang::Step step, int type)
 		chess[step.x][step.y].setPixmap(whiteChess);
 		break;
 	default:
+		chess[step.x][step.y].setPixmap(QPixmap(""));
 		break;
 	}
 }
 
 /*
 	高亮棋子
-*/
-void MainWindow::highlightStep(Gobang::Step step)
-{
 
+	@author 叶志枫
+	@para step - 需要高亮的棋子
+	@para type - 需要高亮的棋子类型
+*/
+void MainWindow::highlightStep(Gobang::Step step, int type)
+{
+	static int x = -1;
+	static int y = -1;
+	static int last_type = -1;
+	if (-1 != x && -1 != y && -1 != last_type)
+	{
+		if (ChessType::BLACKCHESS == last_type)
+			chess[x][y].setPixmap(blackChess);
+		else if (ChessType::WHITECHESS == last_type)
+			chess[x][y].setPixmap(whiteChess);
+		else
+			chess[x][y].setPixmap(QPixmap(""));
+	}
+	if (step.x < 0 || step.x > BOARDLENGTH)
+		throw "step.x is out of range";
+	if (step.y < 0 || step.y > BOARDLENGTH)
+		throw "step.y is out of range";
+	if (type != ChessType::BLACKCHESS && type != ChessType::WHITECHESS)
+		throw "Invalid type";
+	x = step.x;
+	y = step.y;
+	last_type = type;
+	switch (type)
+	{
+	case ChessType::BLACKCHESS:
+		chess[step.x][step.y].setPixmap(HLBlackChess);
+		break;
+	case ChessType::WHITECHESS:
+		chess[step.x][step.y].setPixmap(HLWhiteChess);
+		break;
+	default:
+		chess[step.x][step.y].setPixmap(QPixmap(""));
+		break;
+	}
 }
 
 /*
@@ -352,9 +391,9 @@ void MainWindow::promptBtnClicked()
 		Gobang::Step new_step = gobang.AIWalk(gobang.getTurn());
 		gobang.newStep(new_step);
 		showStep(new_step, gobang.getTurn());
+		highlightStep(new_step, gobang.getTurn());
 		gobang.shiftTurn();
 		playSoundEffects();
-		highlightStep(new_step);
 	}
 	catch (const char* msg)
 	{
