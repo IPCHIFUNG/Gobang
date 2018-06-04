@@ -5,11 +5,13 @@ Server::Server(char *IPAddr, int port)
 {
 	this->IPAddr = IPAddr;
 	this->port = port;
+	operation = -1;
 }
 
 Server::Server(int port)
 {
 	this->port = port;
+	operation = -1;
 }
 
 Server::~Server()
@@ -123,6 +125,44 @@ void Server::msg_send(int x, int y,int operation)
 		sendMessage(server_s, msg);
 	else
 		sendMessage(client_s, msg);
+}
+
+/*
+    设置线程接受的消息
+
+    @author 王锴贞
+    @para x,y 下一步棋子位置
+    @para operation 棋子操作
+
+*/
+void Server::setRecv_mes(int x, int y, int nextOperation)
+{
+	this->x = x;
+	this->y = y;
+	operation = nextOperation;
+}
+
+/*
+    获得operation
+
+    @author 王锴贞
+*/
+int Server::getRecv_mes_op()
+{
+	return operation;
+}
+
+/*
+    获得下一步位置
+
+    @author 王锴贞
+*/
+Gobang::Step Server::getRecv_mes_step()
+{
+	Gobang::Step step;
+	step.x = x;
+	step.y = y;
+	return step;
 }
 
 /*
