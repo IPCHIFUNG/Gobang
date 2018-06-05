@@ -23,6 +23,7 @@ public:
 	void showWinnerDialog();			// 显示胜方信息
 	Gobang & getGobang();
 	int getIsRestricted();
+	int getGameType();
 	void setWinner(int w);
 	Server *s;
 

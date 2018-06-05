@@ -235,6 +235,12 @@ int MainWindow::getIsRestricted()
 {
 	return isRestricted;
 }
+
+int MainWindow::getGameType()
+{
+	return gameType;
+}
+
 void MainWindow::setWinner(int w)
 {
 	winner = w;
@@ -505,6 +511,11 @@ void MainWindow::boardClicked()
 			delete thread1;
 			break;
 		case GameType::ONLINE:
+			thread1 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
+			thread1->start();
+			thread1->wait();
+			showWinnerDialog();
+			delete thread1;
 			break;
 		default:
 			break;

@@ -7,13 +7,28 @@ ChessThread::ChessThread(MainWindow & mwin, int t) :MWin(mwin)
 
 void ChessThread::run()
 {
-	switch (type)
+	switch (MWin.getGameType())
 	{
-	case PlayerType::HUMAN:
+	case GameType::PVE:
+		switch (type)
+		{
+		case PlayerType::HUMAN:
+			step = MWin.getStepFromScreen();
+			break;
+		case PlayerType::AI:
+			step = MWin.getGobang().AIWalk(MWin.getGobang().getTurn());
+			break;
+		default:
+			break;
+		}
+		break;
+	case GameType::PVP:
 		step = MWin.getStepFromScreen();
 		break;
-	case PlayerType::AI:
-		step = MWin.getGobang().AIWalk(MWin.getGobang().getTurn());
+	case GameType::ONLINE:
+		step = MWin.getStepFromScreen();
+		MWin.s->msg_send(step.x, step.y, 1);
+		step = MWin.s->getRecv_mes_step();
 		break;
 	default:
 		break;
