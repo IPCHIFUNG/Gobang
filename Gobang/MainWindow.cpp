@@ -347,10 +347,17 @@ void MainWindow::onlineBtnClicked()
 void MainWindow::loadBtnClicked()
 {
 	std::string file = selectFile();
-	if (file != "")
-		gobang.loadBoard(const_cast<char*>(file.c_str()));
-	else
-		return;
+	try
+	{
+		if (file != "")
+			gobang.loadBoard(const_cast<char*>(file.c_str()));
+		else
+			return;
+	}
+	catch (const char* msg)
+	{
+		qDebug() << msg;
+	}
 
 	int size = gobang.getSteps().size();
 	auto iterator = gobang.getSteps().begin();
@@ -442,8 +449,15 @@ void MainWindow::giveUpBtnClicked()
 void MainWindow::saveBtnClicked()
 {
 	std::string dir = selectDirectory();
-	if (dir != "")
-		gobang.saveBoard(const_cast<char*>(dir.c_str()));
+	try
+	{
+		if (dir != "")
+			gobang.saveBoard(const_cast<char*>(dir.c_str()));
+	}
+	catch (const char* msg)
+	{
+		qDebug() << msg;
+	}
 }
 
 /*
