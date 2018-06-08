@@ -81,3 +81,23 @@ const enum GameType
 	PVP,		// 人人对战
 	ONLINE		// 联机对战
 };
+
+/* ---------------------------------------------- */
+/*
+	AI走棋线程（调用Start以开启线程）
+                                     -By 叶志枫   */
+/* ---------------------------------------------- */
+
+class AItelligence
+{
+public:
+	AItelligence();
+	~AItelligence();
+	bool Start(MainWindow *mainapp, int color);
+	void Main();
+	
+	MainWindow *mainapp;
+
+private:
+	int color;
+};

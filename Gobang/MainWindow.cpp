@@ -595,3 +595,51 @@ std::string MainWindow::selectDirectory()
 	return fd.selectedFiles()[0].toStdString();
 }
 
+#include <thread>
+#include <chrono>
+
+AItelligence::AItelligence()
+{
+}
+
+AItelligence::~AItelligence()
+{
+}
+
+/*
+	开启AI走棋线程
+
+	@author 叶志枫
+	@para color - 电脑执棋颜色
+*/
+bool AItelligence::Start(MainWindow *mainapp, int color)
+{
+	this->mainapp = mainapp;
+	this->color = color;
+	thread th(&AItelligence::Main, this);
+	th.detach();
+	return true;
+}
+
+/*
+	AI走棋线程
+
+	@author 叶志枫
+*/
+void AItelligence::Main()
+{
+	while (GameType::PVE == mainapp->getGameType())
+	{
+		if (mainapp->getGobang().getTurn() != color)
+		{
+			this_thread::sleep_for(std::chrono::milliseconds(100));
+			continue;
+		}
+		Gobang::Step new_step = mainapp->getGobang().AIWalk(color);
+		mainapp->getGobang().newStep(new_step);
+		mainapp->showStep(new_step, color);
+		mainapp->highlightStep(new_step, color);
+		mainapp->playSoundEffects();
+		mainapp->getGobang().shiftTurn();
+	}
+}
