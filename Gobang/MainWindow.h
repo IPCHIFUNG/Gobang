@@ -12,12 +12,12 @@
 #include <string>
 
 class MainWindow;
+
 /* ---------------------------------------------- */
 /*
 		AI走棋线程（调用Start以开启线程）
                                      -By 叶志枫   */
 /* ---------------------------------------------- */
-
 class AIThread
 {
 public:
@@ -32,20 +32,23 @@ private:
 	int color;
 };
 
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
 public:
 	MainWindow(QWidget *parent = Q_NULLPTR);
-	Gobang::Step getStepFromScreen();			// 从屏幕获取棋子坐标
-	void showStep(Gobang::Step step, int type);	// 显示一步棋
-	void playSoundEffects();					// 播放落子音效
+	Gobang::Step getStepFromScreen();						// 从屏幕获取棋子坐标
+	void walkAStep(Gobang::Step new_step);
+	void showStep(Gobang::Step step, int type);				// 显示一步棋
+	void playSoundEffects();								// 播放落子音效
 	void highlightStep(Gobang::Step step, int type);		// 高亮棋子
-	void showWinnerDialog();			// 显示胜方信息
-	Gobang & getGobang();
-	int getIsRestricted();
-	int getGameType();
+	void showWinnerDialog();								// 显示胜方信息
+
+	Gobang & getGobang() { return gobang; };
+	int getIsRestricted() { return isRestricted; };
+	int getGameType() { return gameType; };
 	void setWinner(int w);
 	Server *s;
 
@@ -85,7 +88,7 @@ private slots:
 	void pvpBtnClicked();
 	void onlineBtnClicked();
 	void loadBtnClicked();
-	void restartBtnClicked();
+	void restartBtnClicked();					// 重新开始按钮被点击响应事件
 	void promptBtnClicked();
 	void retractBtnClicked();
 	void giveUpBtnClicked();
@@ -106,4 +109,3 @@ const enum GameType
 	PVP,		// 人人对战
 	ONLINE		// 联机对战
 };
-

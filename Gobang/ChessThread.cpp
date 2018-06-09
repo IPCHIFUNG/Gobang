@@ -1,7 +1,5 @@
 #include "ChessThread.h"
 
-
-
 ChessThread::ChessThread(MainWindow & mwin, int t) :MWin(mwin)
 {
 	type = t;

@@ -40,15 +40,52 @@ MainWindow::MainWindow(QWidget *parent)
 
 /*
 	清空棋盘
+
+	@author 叶志枫
 */
 void MainWindow::clearBoard()
 {
+	// 初始化高亮棋子保存信息
+	Gobang::Step temp; temp.x = -1; temp.y = -1;
+	highlightStep(temp, -2);
+	// 清理棋盘
 	std::deque<Gobang::Step> &steps = gobang.getSteps();
 	while (!steps.empty())
 	{
 		chess[steps.front().x][steps.front().y].setPixmap(QPixmap(""));
 		steps.pop_front();
 	}
+}
+
+/*
+	打包走棋操作
+
+	@author 叶志枫
+*/
+void MainWindow::walkAStep(Gobang::Step new_step)
+{
+	gobang.newStep(new_step);
+	showStep(new_step, gobang.getTurn());
+	highlightStep(new_step, gobang.getTurn());
+	playSoundEffects();
+	switch (isRestricted)
+	{
+	case QMessageBox::Yes:
+		setWinner(gobang.isOverWithRestricted());
+		break;
+	case QMessageBox::No:
+		setWinner(gobang.isOverWithoutRestricted());
+		break;
+	default:
+		break;
+	}
+	showWinnerDialog();
+	if (winner != ChessType::NOCHESS)
+	{
+		gameType = GameType::NONE;
+		return;
+	}
+	gobang.shiftTurn();
 }
 
 /*
@@ -92,6 +129,11 @@ void MainWindow::highlightStep(Gobang::Step step, int type)
 	static int x = -1;
 	static int y = -1;
 	static int last_type = -1;
+	if (-2 == type)
+	{
+		x = -1; y = -1; last_type = -1;
+		return;
+	}
 	if (-1 != x && -1 != y && -1 != last_type)
 	{
 		if (ChessType::BLACKCHESS == last_type)
@@ -215,30 +257,15 @@ void MainWindow::showWinnerDialog()
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		break;
 	case ChessType::NOCHESS:
-		if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
+		/*if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
 		{
 			QMessageBox::information(this, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
 			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
-		}
+		}*/
 		break;
 	default:
 		break;
 	}
-}
-
-Gobang & MainWindow::getGobang()
-{
-	return gobang;
-}
-
-int MainWindow::getIsRestricted()
-{
-	return isRestricted;
-}
-
-int MainWindow::getGameType()
-{
-	return gameType;
 }
 
 void MainWindow::setWinner(int w)
@@ -385,12 +412,13 @@ void MainWindow::loadBtnClicked()
 }
 
 /*
-	按钮被点击响应事件
+	重新开始按钮被点击响应事件
 
 	@author - 王开阳 叶志枫
 */
 void MainWindow::restartBtnClicked()
 {
+	// 清理棋盘
 	clearBoard();
 	gobang.initBoard();
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
@@ -494,11 +522,7 @@ void MainWindow::boardClicked()
 			if (getGobang().getTurn() == computerColor)
 				return;
 			new_step = getStepFromScreen();
-			gobang.newStep(new_step);
-			showStep(new_step, gobang.getTurn());
-			highlightStep(new_step, gobang.getTurn());
-			playSoundEffects();
-			gobang.shiftTurn();
+			walkAStep(new_step);
 			break;
 		case GameType::PVP:
 			thread1 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
@@ -619,10 +643,6 @@ void AIThread::Main()
 			continue;
 		}
 		Gobang::Step new_step = mainapp->getGobang().AIWalk(color);
-		mainapp->getGobang().newStep(new_step);
-		mainapp->showStep(new_step, color);
-		mainapp->highlightStep(new_step, color);
-		mainapp->playSoundEffects();
-		mainapp->getGobang().shiftTurn();
+		mainapp->walkAStep(new_step);
 	}
 }
