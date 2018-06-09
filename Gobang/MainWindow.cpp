@@ -291,12 +291,16 @@ void MainWindow::pveBtnClicked()
 	clearBoard();
 	gobang.initBoard();
 	isFirstHand = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要先手落子？"), QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
+	computerColor = ChessType::WHITECHESS;
 	if (isFirstHand == QMessageBox::Cancel)
 		return;
+	if (isFirstHand == QMessageBox::No)
+		computerColor = ChessType::BLACKCHESS;
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
 	gameType = GameType::PVE;
+	computer.Start(this, computerColor);
 }
 
 /*
@@ -481,41 +485,20 @@ void MainWindow::boardClicked()
 {
 	ChessThread *thread1;
 	ChessThread *thread2;
-	Gobang::Step step;
+	Gobang::Step new_step;
 	try
 	{
 		switch (gameType)
 		{
 		case GameType::PVE:
-			switch (isFirstHand)
-			{
-			case QMessageBox::Yes:		// AI白棋
-				thread1 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
-				thread1->start();
-				thread1->wait();
-				showWinnerDialog();
-				thread2 = new ChessThread(std::ref(*this), PlayerType::AI);
-				thread2->start();
-				thread2->wait();
-				showWinnerDialog();
-				delete thread1;
-				delete thread2;
-				break;
-			case QMessageBox::No:		// AI黑棋
-				thread1 = new ChessThread(std::ref(*this), PlayerType::AI);
-				thread1->start();
-				thread1->wait();
-				showWinnerDialog();
-				thread2 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
-				thread2->start();
-				thread2->wait();
-				showWinnerDialog();
-				delete thread1;
-				delete thread2;
-				break;
-			default:
-				break;
-			}
+			if (getGobang().getTurn() == computerColor)
+				return;
+			new_step = getStepFromScreen();
+			gobang.newStep(new_step);
+			showStep(new_step, gobang.getTurn());
+			highlightStep(new_step, gobang.getTurn());
+			playSoundEffects();
+			gobang.shiftTurn();
 			break;
 		case GameType::PVP:
 			thread1 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
@@ -598,11 +581,11 @@ std::string MainWindow::selectDirectory()
 #include <thread>
 #include <chrono>
 
-AItelligence::AItelligence()
+AIThread::AIThread()
 {
 }
 
-AItelligence::~AItelligence()
+AIThread::~AIThread()
 {
 }
 
@@ -612,11 +595,11 @@ AItelligence::~AItelligence()
 	@author 叶志枫
 	@para color - 电脑执棋颜色
 */
-bool AItelligence::Start(MainWindow *mainapp, int color)
+bool AIThread::Start(MainWindow *mainapp, int color)
 {
 	this->mainapp = mainapp;
 	this->color = color;
-	thread th(&AItelligence::Main, this);
+	thread th(&AIThread::Main, this);
 	th.detach();
 	return true;
 }
@@ -626,7 +609,7 @@ bool AItelligence::Start(MainWindow *mainapp, int color)
 
 	@author 叶志枫
 */
-void AItelligence::Main()
+void AIThread::Main()
 {
 	while (GameType::PVE == mainapp->getGameType())
 	{

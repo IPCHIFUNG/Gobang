@@ -1,14 +1,36 @@
 #pragma once
 
+#include "ui_MainWindow.h"
+#include "Gobang.h"
+#include "Server.h"
+#include "ChessThread.h"
+
 #include <QtWidgets/QMainWindow>
 #include <QMediaPlayer>
 #include <QFileDialog>
 #include <QCloseEvent>
 #include <string>
-#include "ui_MainWindow.h"
-#include "Gobang.h"
-#include "Server.h"
-#include "ChessThread.h"
+
+class MainWindow;
+/* ---------------------------------------------- */
+/*
+		AI走棋线程（调用Start以开启线程）
+                                     -By 叶志枫   */
+/* ---------------------------------------------- */
+
+class AIThread
+{
+public:
+	AIThread();
+	~AIThread();
+	bool Start(MainWindow *mainapp, int color);
+	void Main();
+
+	MainWindow *mainapp;
+
+private:
+	int color;
+};
 
 class MainWindow : public QMainWindow
 {
@@ -54,6 +76,9 @@ private:
 	int isFirstHand;							// 是否先手开始游戏
 	int winner;
 
+	AIThread computer;
+	int computerColor;
+
 private slots:
 	void btnsClicked();							// 按钮被点击响应事件
 	void pveBtnClicked();
@@ -82,22 +107,3 @@ const enum GameType
 	ONLINE		// 联机对战
 };
 
-/* ---------------------------------------------- */
-/*
-	AI走棋线程（调用Start以开启线程）
-                                     -By 叶志枫   */
-/* ---------------------------------------------- */
-
-class AItelligence
-{
-public:
-	AItelligence();
-	~AItelligence();
-	bool Start(MainWindow *mainapp, int color);
-	void Main();
-	
-	MainWindow *mainapp;
-
-private:
-	int color;
-};
