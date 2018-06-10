@@ -343,76 +343,76 @@ int Gobang::isOver(bool isRestricted)
 	if (!isRestricted) {
 		result[0] = searchNumOfChess(1, 0, 0, isRestricted);		// 竖直查找，0---竖直
 		if (result[0] == 5)
-			return sign;
+			return turn;
 
 		result[1] = searchNumOfChess(0, 1, 1, isRestricted);		// 水平查找，1---水平
 		if (result[1] == 5)
-			return sign;
+			return turn;
 
 		result[2] = searchNumOfChess(1, 1, 2, isRestricted);		// 主对角线查找，2---主对角线
 		if (result[2] == 5)
-			return sign;
+			return turn;
 
 		result[3] = searchNumOfChess(1, -1, 3, isRestricted);		// 副对角线查找，3---副对角线
 		if (result[3] == 5)
-			return sign;
+			return turn;
 	}
 	else {
 		result[0] = searchNumOfChess(1, 0, 0, isRestricted);		// 竖直查找，0---竖直
 		if (result[0] > 5) {										// 长连禁手
-			if (sign == ChessType::BLACKCHESS)
-				return turn;
-			else
+			if (turn == ChessType::BLACKCHESS)
 				return sign;
+			else
+				return turn;
 		}
 		else if (result[0] == 5)
-			return sign;
+			return turn;
 		model[0] = getChessModel(0);								// 竖直类型
 
 		result[1] = searchNumOfChess(0, 1, 1, isRestricted);		// 水平查找，1---水平
 		if (result[1] > 5) {										// 长连禁手
-			if (sign == ChessType::BLACKCHESS)
-				return turn;
-			else
+			if (turn == ChessType::BLACKCHESS)
 				return sign;
+			else
+				return turn;
 		}
 		else if (result[1] == 5)
-			return sign;
+			return turn;
 		model[1] = getChessModel(1);								// 水平类型
 		if (judgeRestricted(model[0], model[1]))
-			return turn;
+			return sign;
 
 		result[2] = searchNumOfChess(1, 1, 2, isRestricted);		// 主对角线查找，2---主对角线
 		if (result[2] > 5) {										// 长连禁手
-			if (sign == ChessType::BLACKCHESS)
-				return turn;
-			else
+			if (turn == ChessType::BLACKCHESS)
 				return sign;
+			else
+				return turn;
 		}
 		else if (result[2] == 5)
-			return sign;
+			return turn;
 		model[2] = getChessModel(2);								// 主对角线类型
 		if (judgeRestricted(model[0], model[2]))
-			return turn;
+			return sign;
 		else if (judgeRestricted(model[1], model[2]))
-			return turn;
+			return sign;
 
 		result[3] = searchNumOfChess(1, -1, 3, isRestricted);		// 副对角线查找，3---副对角线
 		if (result[3] > 5) {										// 长连禁手
-			if (sign == ChessType::BLACKCHESS)
-				return turn;
-			else
+			if (turn == ChessType::BLACKCHESS)
 				return sign;
+			else
+				return turn;
 		}
 		else if (result[3] == 5)
-			return sign;
+			return turn;
 		model[3] = getChessModel(3);								// 副对角线类型
 		if (judgeRestricted(model[0], model[3]))
-			return turn;
+			return sign;
 		else if (judgeRestricted(model[1], model[3]))
-			return turn;
+			return sign;
 		else if (judgeRestricted(model[2], model[3]))
-			return turn;
+			return sign;
 	}
 
 	return ChessType::NOCHESS;
@@ -433,11 +433,11 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 	int chessTypeNow = (turn + 1) % 2;						// chessTypeNow----当前棋子类别
 
 
-	if (!isRestricted || chessTypeNow == ChessType::WHITECHESS) {
+	if (!isRestricted || turn == ChessType::WHITECHESS) {
 		// 往右方及下方扫描 
 		i = s.x;
 		j = s.y;
-		while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
+		while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == turn) {
 			i += m;
 			j += n;
 			chessNum++;
@@ -446,7 +446,7 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 		// 往左方及上方扫描
 		i = s.x;
 		j = s.y;
-		while (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
+		while (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == turn) {
 			i -= m;
 			j -= n;
 			chessNum++;
@@ -461,7 +461,7 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 		// 往右方及下方扫描 
 		i = s.x;
 		j = s.y;
-		while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
+		while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == turn) {
 			i += m;
 			j += n;
 			chessNum++;
@@ -470,17 +470,17 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 			blankNum++;
 			i += m;
 			j += n;
-			if (board[i][j] == turn) {
+			if (board[i][j] == chessTypeNow) {
 				if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH)
 					blankOtherChessNum++;
 			}
-			else if (board[i][j] == chessTypeNow) {
+			else if (board[i][j] == turn) {
 				if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH) {
 					blankChessNum1++;
 					i += m;
 					j += n;
 					if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH)
-						if (board[i][j] == turn)
+						if (board[i][j] == chessTypeNow)
 							blankOtherChessNum++;
 				}
 			}
@@ -493,7 +493,7 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 		// 往左方及上方扫描
 		i = s.x;
 		j = s.y;
-		while (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == chessTypeNow) {
+		while (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == turn) {
 			i -= m;
 			j -= n;
 			chessNum++;
@@ -502,17 +502,17 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 			blankNum++;
 			i -= m;
 			j -= n;
-			if (board[i][j] == turn) {
+			if (board[i][j] == chessTypeNow) {
 				if (i >= 0 && j >= 0 && j < BOARDLENGTH)
 					blankOtherChessNum++;
 			}
-			else if (board[i][j] == chessTypeNow) {
+			else if (board[i][j] == turn) {
 				if (i >= 0 && j >= 0 && j < BOARDLENGTH) {
 					blankChessNum2++;
 					i -= m;
 					j -= n;
 					if (i >= 0 && j >= 0 && j < BOARDLENGTH)
-						if (board[i][j] == turn)
+						if (board[i][j] == chessTypeNow)
 							blankOtherChessNum++;
 				}
 
