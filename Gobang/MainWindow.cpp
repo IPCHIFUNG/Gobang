@@ -286,16 +286,16 @@ void MainWindow::btnsClicked()
 			ui.btn_music->setStyleSheet("QPushButton{border-image: url(:/MainWindow/image/music(close).png);}"
 				"QPushButton:hover{border-image: url(:/MainWindow/image/music.png);}"
 				"QPushButton:pressed{border-image: url(:/MainWindow/image/music(close).png);}");
-			isMusicOn = false;
 			music.pause();
+			isMusicOn = false;
 		}
 		else
 		{
 			ui.btn_music->setStyleSheet("QPushButton{border-image: url(:/MainWindow/image/music.png);}"
 				"QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}"
 				"QPushButton:pressed{border-image: url(:/MainWindow/image/music.png);}");
-			isMusicOn = true;
 			music.play();
+			isMusicOn = true;
 		}
 	}
 	else if (btnName == "btn_close")
