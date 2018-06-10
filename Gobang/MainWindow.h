@@ -24,11 +24,13 @@ public:
 	~AIThread();
 	bool Start(MainWindow *mainapp, int color);
 	void Main();
+	bool isThinking() { return isCalculating; };
 
 	MainWindow *mainapp;
 
 private:
 	int color;
+	bool isCalculating = false;
 };
 
 
