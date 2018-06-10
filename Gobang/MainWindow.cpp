@@ -284,16 +284,14 @@ void MainWindow::btnsClicked()
 		if (isMusicOn)
 		{
 			ui.btn_music->setStyleSheet("QPushButton{border-image: url(:/MainWindow/image/music(close).png);}"
-				"QPushButton:hover{border-image: url(:/MainWindow/image/music.png);}"
-				"QPushButton:pressed{border-image: url(:/MainWindow/image/music(close).png);}");
+				"QPushButton:hover{border-image: url(:/MainWindow/image/music.png);}");
 			music.pause();
 			isMusicOn = false;
 		}
 		else
 		{
 			ui.btn_music->setStyleSheet("QPushButton{border-image: url(:/MainWindow/image/music.png);}"
-				"QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}"
-				"QPushButton:pressed{border-image: url(:/MainWindow/image/music.png);}");
+				"QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}");
 			music.play();
 			isMusicOn = true;
 		}
