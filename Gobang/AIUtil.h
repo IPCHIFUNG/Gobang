@@ -61,7 +61,7 @@ private:
 	LL zobrist[3][20][20];
 	HashElem hashtable[HASHSIZE];
 
-	int DEPTH = 4;
+	int DEPTH = 8;
 	int comy, comx;
 
 	/* cpoint[i][j][0] 表示电脑绝杀棋情况 */
@@ -82,6 +82,7 @@ private:
 	const int DEAD4 = -10;			// 死四
 	const int DEAD3 = -10;			// 死三
 	const int DEAD2 = -10;			// 死二
+	const int BAN = 0;				// 禁手
 	const int inf = 9000000;		// alpha_beta
 	const int unknow = 9900000;		// 未知
 

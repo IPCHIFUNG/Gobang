@@ -68,7 +68,6 @@ void MainWindow::walkAStep(Gobang::Step new_step)
 	gobang.newStep(new_step);
 	showStep(new_step, gobang.getTurn());
 	highlightStep(new_step, gobang.getTurn());
-	gobang.shiftTurn();
 	playSoundEffects();
 	switch (isRestricted)
 	{
@@ -87,6 +86,7 @@ void MainWindow::walkAStep(Gobang::Step new_step)
 		gameType = GameType::NONE;
 		return;
 	}
+	gobang.shiftTurn();
 }
 
 /*
@@ -432,12 +432,21 @@ void MainWindow::promptBtnClicked()
 {
 	try
 	{
-		Gobang::Step new_step = gobang.AIWalk(gobang.getTurn());
-		gobang.newStep(new_step);
-		showStep(new_step, gobang.getTurn());
-		highlightStep(new_step, gobang.getTurn());
-		gobang.shiftTurn();
-		playSoundEffects();
+		Gobang::Step new_step;
+		switch (gameType)
+		{
+		case GameType::PVE:
+			if (gobang.getTurn() == computerColor)
+				return;
+			new_step = gobang.AIWalk(gobang.getTurn());
+			walkAStep(new_step);
+			break;
+		default:
+			new_step = gobang.AIWalk(gobang.getTurn());
+			walkAStep(new_step);
+			break;
+		}
+		
 	}
 	catch (const char* msg)
 	{
@@ -452,11 +461,28 @@ void MainWindow::promptBtnClicked()
 */
 void MainWindow::retractBtnClicked()
 {
-	Gobang::Step step = gobang.popLastStep();
-	if (step.x != -1 && step.y != -1)
+	Gobang::Step step;
+	switch (gameType)
 	{
-		chess[step.x][step.y].setPixmap(QPixmap(""));
-		gobang.shiftTurn();
+	case GameType::PVE:
+		if (gobang.getTurn() == computerColor)
+			return;
+		step = gobang.popLastStep();
+		if (step.x != -1 && step.y != -1)
+			chess[step.x][step.y].setPixmap(QPixmap(""));
+		step = gobang.popLastStep();
+		if (step.x != -1 && step.y != -1)
+			chess[step.x][step.y].setPixmap(QPixmap(""));
+		highlightStep(step, -2);
+		break;
+	default:
+		step = gobang.popLastStep();
+		if (step.x != -1 && step.y != -1)
+		{
+			chess[step.x][step.y].setPixmap(QPixmap(""));
+			gobang.shiftTurn();
+		}
+		break;
 	}
 }
 

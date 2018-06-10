@@ -147,13 +147,8 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 		return alpha;
 	}
 
-	int candidates = 18;													// 最多选择 4层--54,6层--36,8层--18 个候选点 
-	if (DEPTH == 4)
-		candidates *= 3;
-	else if (DEPTH == 6)
-		candidates *= 2;
-
-	for (int i = 0; i < candidates && i < n; i++) {									
+	// 最多选18 个候选点 
+	for (int i = 0; i < 10 && i < n; i++) {									
 		tst = st;
 		x = sp[i].x;
 		y = sp[i].y;
@@ -269,8 +264,15 @@ int AIUtil::get_points(AIStep *step, int *kill) {
 	if (po.g5 >= 1) {										// 成五 
 		*kill = 3;
 		value = CHENG5;
+		return value;
 	}
-	else if (po.l4 >= 1 || zc4 >= 2 || (zc4 && zl3)) {		// 绝杀 
+	if (player == AIChessType::AIBLACKCHESS) {			// 禁手
+		if (zl3 >= 2 || (po.l4 + zc4 >= 2)) {
+			value = BAN;
+			return value;
+		}
+	}
+	if (po.l4 >= 1 || zc4 >= 2 || (zc4 && zl3)) {		// 绝杀 
 		*kill = 2;
 		value = LIVE4;
 	}
