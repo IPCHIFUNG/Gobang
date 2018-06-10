@@ -31,7 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
 	// 读取音乐和音效
 	music.setMedia(QUrl::fromLocalFile("./sound/FlowerDance.mp3"));
 	soundEff.setMedia(QUrl::fromLocalFile("./sound/b.mp3"));
-	setBackgroundMusic(true);
+	music.play();
+	isMusicOn = true;
 
 	gobang = Gobang();
 	gameType = GameType::NONE;
@@ -71,10 +72,10 @@ void MainWindow::walkAStep(Gobang::Step new_step)
 	switch (isRestricted)
 	{
 	case QMessageBox::Yes:
-		setWinner(gobang.isOverWithRestricted());
+		winner = gobang.isOverWithRestricted();
 		break;
 	case QMessageBox::No:
-		setWinner(gobang.isOverWithoutRestricted());
+		winner = gobang.isOverWithoutRestricted();
 		break;
 	default:
 		break;
@@ -167,20 +168,6 @@ void MainWindow::highlightStep(Gobang::Step step, int type)
 }
 
 /*
-	播放和暂停背景音乐
-
-	@author 王开阳
-	@para 是否播放音乐
-*/
-void MainWindow::setBackgroundMusic(bool isOn)
-{
-	if (isOn)
-		music.play();
-	else
-		music.pause();
-}
-
-/*
 	播放落子音效
 
 	@author 王开阳
@@ -257,20 +244,15 @@ void MainWindow::showWinnerDialog()
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		break;
 	case ChessType::NOCHESS:
-		/*if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
+		if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
 		{
 			QMessageBox::information(this, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
 			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
-		}*/
+		}
 		break;
 	default:
 		break;
 	}
-}
-
-void MainWindow::setWinner(int w)
-{
-	winner = w;
 }
 
 /*
@@ -296,6 +278,25 @@ void MainWindow::btnsClicked()
 	{
 		ui.lbl_rules->raise();
 		ui.btn_close->raise();
+	}
+	else if (btnName == "btn_music")
+	{
+		if (isMusicOn)
+		{
+			ui.btn_music->setStyleSheet("QPushButton{border-image: url(:/MainWindow/image/music(close).png);}"
+				"QPushButton:hover{border-image: url(:/MainWindow/image/music.png);}"
+				"QPushButton:pressed{border-image: url(:/MainWindow/image/music(close).png);}");
+			music.pause();
+			isMusicOn = false;
+		}
+		else
+		{
+			ui.btn_music->setStyleSheet("QPushButton{border-image: url(:/MainWindow/image/music.png);}"
+				"QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}"
+				"QPushButton:pressed{border-image: url(:/MainWindow/image/music.png);}");
+			music.play();
+			isMusicOn = true;
+		}
 	}
 	else if (btnName == "btn_close")
 	{
@@ -433,12 +434,21 @@ void MainWindow::promptBtnClicked()
 {
 	try
 	{
-		Gobang::Step new_step = gobang.AIWalk(gobang.getTurn());
-		gobang.newStep(new_step);
-		showStep(new_step, gobang.getTurn());
-		highlightStep(new_step, gobang.getTurn());
-		gobang.shiftTurn();
-		playSoundEffects();
+		Gobang::Step new_step;
+		switch (gameType)
+		{
+		case GameType::PVE:
+			if (gobang.getTurn() == computerColor)
+				return;
+			new_step = gobang.AIWalk(gobang.getTurn());
+			walkAStep(new_step);
+			break;
+		default:
+			new_step = gobang.AIWalk(gobang.getTurn());
+			walkAStep(new_step);
+			break;
+		}
+		
 	}
 	catch (const char* msg)
 	{
@@ -453,11 +463,28 @@ void MainWindow::promptBtnClicked()
 */
 void MainWindow::retractBtnClicked()
 {
-	Gobang::Step step = gobang.popLastStep();
-	if (step.x != -1 && step.y != -1)
+	Gobang::Step step;
+	switch (gameType)
 	{
-		chess[step.x][step.y].setPixmap(QPixmap(""));
-		gobang.shiftTurn();
+	case GameType::PVE:
+		if (gobang.getTurn() == computerColor)
+			return;
+		step = gobang.popLastStep();
+		if (step.x != -1 && step.y != -1)
+			chess[step.x][step.y].setPixmap(QPixmap(""));
+		step = gobang.popLastStep();
+		if (step.x != -1 && step.y != -1)
+			chess[step.x][step.y].setPixmap(QPixmap(""));
+		highlightStep(step, -2);
+		break;
+	default:
+		step = gobang.popLastStep();
+		if (step.x != -1 && step.y != -1)
+		{
+			chess[step.x][step.y].setPixmap(QPixmap(""));
+			gobang.shiftTurn();
+		}
+		break;
 	}
 }
 
@@ -511,32 +538,22 @@ void MainWindow::returnBtnClicked()
 */
 void MainWindow::boardClicked()
 {
-	ChessThread *thread1;
-	ChessThread *thread2;
 	Gobang::Step new_step;
 	try
 	{
 		switch (gameType)
 		{
 		case GameType::PVE:
-			if (getGobang().getTurn() == computerColor)
+			if (gobang.getTurn() == computerColor)
 				return;
 			new_step = getStepFromScreen();
 			walkAStep(new_step);
 			break;
 		case GameType::PVP:
-			thread1 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
-			thread1->start();
-			thread1->wait();
-			showWinnerDialog();
-			delete thread1;
+			new_step = getStepFromScreen();
+			walkAStep(new_step);
 			break;
 		case GameType::ONLINE:
-			thread1 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
-			thread1->start();
-			thread1->wait();
-			showWinnerDialog();
-			delete thread1;
 			break;
 		default:
 			break;

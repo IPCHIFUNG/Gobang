@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="/MainWindow">
+    <file>image/music(close).png</file>
+    <file>image/music.png</file>
     <file>image/70透明度棋盘.png</file>
     <file>image/关闭（带阴影）.png</file>
     <file>image/关闭.png</file>
