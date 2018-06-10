@@ -90,6 +90,31 @@ void MainWindow::walkAStep(Gobang::Step new_step)
 }
 
 /*
+	显示棋子信息
+
+	@author 王开阳
+*/
+void MainWindow::showInf(Gobang::Step step)
+{
+	QString s = ui.text_chessinf->toPlainText();
+	switch (gobang.getTurn())
+	{
+	case ChessType::BLACKCHESS:
+		s += QString::fromLocal8Bit("白棋(") + QString::number(step.x) + "," + QString::number(step.y) + ")\n";
+		break;
+	case ChessType::WHITECHESS:
+		s += QString::fromLocal8Bit("黑棋(") + QString::number(step.x) + "," + QString::number(step.y) + ")\n";
+		break;
+	default:
+		break;
+	}
+	ui.text_chessinf->setText(s);
+	QTextCursor cursor = ui.text_chessinf->textCursor();
+	cursor.movePosition(QTextCursor::End);
+	ui.text_chessinf->setTextCursor(cursor);
+}
+
+/*
 	显示一步棋
 
 	@author 王开阳
@@ -280,7 +305,6 @@ void MainWindow::btnsClicked()
 		ui.btn_close->raise();
 	}
 	else if (btnName == "btn_music")
-	{
 		if (isMusicOn)
 		{
 			ui.btn_music->setStyleSheet("QPushButton{border-image: url(:/MainWindow/image/music(close).png);}"
@@ -295,7 +319,6 @@ void MainWindow::btnsClicked()
 			music.play();
 			isMusicOn = true;
 		}
-	}
 	else if (btnName == "btn_close")
 	{
 		ui.lbl_ranking->lower();
@@ -446,7 +469,7 @@ void MainWindow::promptBtnClicked()
 			walkAStep(new_step);
 			break;
 		}
-		
+
 	}
 	catch (const char* msg)
 	{
@@ -546,10 +569,12 @@ void MainWindow::boardClicked()
 				return;
 			new_step = getStepFromScreen();
 			walkAStep(new_step);
+			showInf(new_step);
 			break;
 		case GameType::PVP:
 			new_step = getStepFromScreen();
 			walkAStep(new_step);
+			showInf(new_step);
 			break;
 		case GameType::ONLINE:
 			break;
@@ -659,5 +684,6 @@ void AIThread::Main()
 		}
 		Gobang::Step new_step = mainapp->getGobang().AIWalk(color);
 		mainapp->walkAStep(new_step);
+		mainapp->showInf(new_step);
 	}
 }

@@ -524,8 +524,8 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/关闭.png);}</string>
    <widget class="QPushButton" name="btn_music">
     <property name="geometry">
      <rect>
-      <x>1520</x>
-      <y>10</y>
+      <x>1500</x>
+      <y>20</y>
       <width>71</width>
       <height>51</height>
      </rect>
@@ -536,6 +536,25 @@ QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}</stri
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="text_chessinf">
+    <property name="geometry">
+     <rect>
+      <x>1290</x>
+      <y>100</y>
+      <width>271</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255, 60);</string>
     </property>
    </widget>
    <zorder>lbl_showranking</zorder>
@@ -561,6 +580,7 @@ QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}</stri
    <zorder>btn_chessboard</zorder>
    <zorder>lbl_chessboard</zorder>
    <zorder>btn_music</zorder>
+   <zorder>text_chessinf</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
