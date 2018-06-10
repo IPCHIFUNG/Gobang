@@ -65,14 +65,13 @@ private:
 
 private:
 	void clearBoard();							// 清空棋盘
-	void setBackgroundMusic();					// 播放和暂停背景音乐
 	void closeEvent(QCloseEvent *event);		// 窗口关闭事件
 
 	void setHomePageBtnVisable(bool isOn);		// 设置主页按钮的可见性
 	void setGamePageBtnVisable(bool isOn);		// 设置游戏页按钮的可见性
 	std::string selectFile();					// 选择读取文件
 	std::string selectDirectory();				// 选择保存目录
-	bool isMusicOn;								// 背景音乐开关
+	bool isMusicOn;								// 播放和暂停背景音乐
 	int isRestricted;							// 是否带禁手开始游戏
 	int isFirstHand;							// 是否先手开始游戏
 	int winner;									// 获胜玩家棋子颜色
