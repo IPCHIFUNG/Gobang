@@ -31,7 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
 	// 读取音乐和音效
 	music.setMedia(QUrl::fromLocalFile("./sound/FlowerDance.mp3"));
 	soundEff.setMedia(QUrl::fromLocalFile("./sound/b.mp3"));
-	setBackgroundMusic(true);
+	isMusicOn = true;
+	music.play();
 
 	gobang = Gobang();
 	gameType = GameType::NONE;
@@ -172,9 +173,9 @@ void MainWindow::highlightStep(Gobang::Step step, int type)
 	@author 王开阳
 	@para 是否播放音乐
 */
-void MainWindow::setBackgroundMusic(bool isOn)
+void MainWindow::setBackgroundMusic()
 {
-	if (isOn)
+	if (isMusicOn)
 		music.play();
 	else
 		music.pause();
@@ -291,6 +292,25 @@ void MainWindow::btnsClicked()
 	{
 		ui.lbl_rules->raise();
 		ui.btn_close->raise();
+	}
+	else if (btnName == "btn_music")
+	{
+		if (isMusicOn)
+		{
+			ui.btn_music->setStyleSheet("QPushButton{border-image: url(:/MainWindow/image/music.png);}"
+				"QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}"
+				"QPushButton:pressed{border-image: url(:/MainWindow/image/music.png);}");
+			isMusicOn = false;
+			music.play();
+		}
+		else
+		{
+			ui.btn_music->setStyleSheet("QPushButton{border-image: url(:/MainWindow/image/music(close).png);}"
+				"QPushButton:hover{border-image: url(:/MainWindow/image/music.png);}"
+				"QPushButton:pressed{border-image: url(:/MainWindow/image/music(close).png);}");
+			isMusicOn = true;
+			music.pause();
+		}
 	}
 	else if (btnName == "btn_close")
 	{
