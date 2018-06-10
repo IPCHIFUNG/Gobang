@@ -524,16 +524,15 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/关闭.png);}</string>
    <widget class="QPushButton" name="btn_music">
     <property name="geometry">
      <rect>
-      <x>1380</x>
-      <y>20</y>
-      <width>81</width>
-      <height>61</height>
+      <x>1520</x>
+      <y>10</y>
+      <width>71</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton{border-image: url(:/MainWindow/image/music.png);}
-QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}
-QPushButton:pressed{border-image: url(:/MainWindow/image/music.png);}</string>
+QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}</string>
     </property>
     <property name="text">
      <string/>
