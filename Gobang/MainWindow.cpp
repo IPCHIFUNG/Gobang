@@ -67,14 +67,15 @@ void MainWindow::walkAStep(Gobang::Step new_step)
 	gobang.newStep(new_step);
 	showStep(new_step, gobang.getTurn());
 	highlightStep(new_step, gobang.getTurn());
+	gobang.shiftTurn();
 	playSoundEffects();
 	switch (isRestricted)
 	{
 	case QMessageBox::Yes:
-		setWinner(gobang.isOverWithRestricted());
+		winner = gobang.isOverWithRestricted();
 		break;
 	case QMessageBox::No:
-		setWinner(gobang.isOverWithoutRestricted());
+		winner = gobang.isOverWithoutRestricted();
 		break;
 	default:
 		break;
@@ -85,7 +86,6 @@ void MainWindow::walkAStep(Gobang::Step new_step)
 		gameType = GameType::NONE;
 		return;
 	}
-	gobang.shiftTurn();
 }
 
 /*
@@ -257,20 +257,15 @@ void MainWindow::showWinnerDialog()
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		break;
 	case ChessType::NOCHESS:
-		/*if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
+		if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
 		{
 			QMessageBox::information(this, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
 			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
-		}*/
+		}
 		break;
 	default:
 		break;
 	}
-}
-
-void MainWindow::setWinner(int w)
-{
-	winner = w;
 }
 
 /*
@@ -511,32 +506,22 @@ void MainWindow::returnBtnClicked()
 */
 void MainWindow::boardClicked()
 {
-	ChessThread *thread1;
-	ChessThread *thread2;
 	Gobang::Step new_step;
 	try
 	{
 		switch (gameType)
 		{
 		case GameType::PVE:
-			if (getGobang().getTurn() == computerColor)
+			if (gobang.getTurn() == computerColor)
 				return;
 			new_step = getStepFromScreen();
 			walkAStep(new_step);
 			break;
 		case GameType::PVP:
-			thread1 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
-			thread1->start();
-			thread1->wait();
-			showWinnerDialog();
-			delete thread1;
+			new_step = getStepFromScreen();
+			walkAStep(new_step);
 			break;
 		case GameType::ONLINE:
-			thread1 = new ChessThread(std::ref(*this), PlayerType::HUMAN);
-			thread1->start();
-			thread1->wait();
-			showWinnerDialog();
-			delete thread1;
 			break;
 		default:
 			break;

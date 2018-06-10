@@ -3,7 +3,6 @@
 #include "ui_MainWindow.h"
 #include "Gobang.h"
 #include "Server.h"
-#include "ChessThread.h"
 
 #include <QtWidgets/QMainWindow>
 #include <QMediaPlayer>
@@ -16,7 +15,7 @@ class MainWindow;
 /* ---------------------------------------------- */
 /*
 		AI走棋线程（调用Start以开启线程）
-                                     -By 叶志枫   */
+									 -By 叶志枫   */
 /* ---------------------------------------------- */
 class AIThread
 {
@@ -47,9 +46,7 @@ public:
 	void showWinnerDialog();								// 显示胜方信息
 
 	Gobang & getGobang() { return gobang; };
-	int getIsRestricted() { return isRestricted; };
 	int getGameType() { return gameType; };
-	void setWinner(int w);
 	Server *s;
 
 private:
