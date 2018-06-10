@@ -521,6 +521,24 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/关闭.png);}</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_music">
+    <property name="geometry">
+     <rect>
+      <x>1380</x>
+      <y>20</y>
+      <width>81</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{border-image: url(:/MainWindow/image/music.png);}
+QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}
+QPushButton:pressed{border-image: url(:/MainWindow/image/music.png);}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>lbl_showranking</zorder>
    <zorder>btn_close</zorder>
    <zorder>lbl_ranking</zorder>
@@ -543,6 +561,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/关闭.png);}</string>
    <zorder>btn_pvp</zorder>
    <zorder>btn_chessboard</zorder>
    <zorder>lbl_chessboard</zorder>
+   <zorder>btn_music</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -787,6 +806,22 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/关闭.png);}</string>
     <hint type="destinationlabel">
      <x>-62</x>
      <y>797</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_music</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindowClass</receiver>
+   <slot>btnsClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1415</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1420</x>
+     <y>-57</y>
     </hint>
    </hints>
   </connection>
