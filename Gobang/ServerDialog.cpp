@@ -111,7 +111,7 @@ void ServerDialog::hostBtnClicked()
 	mainWindow->s = new Server(addr);
 	mainWindow->s->server_start();
 
-	connect(mainWindow->s, SIGNAL(msg_rec(int, int, int)), mainWindow, SLOT(mainWindow->s->setRecv_mes(int x, int y, int operation)));
+	connect(mainWindow->s, SIGNAL(msg_rec(int, int, int)), mainWindow, SLOT(mainWindow->handleRecv_mes(int x, int y, int operation)));
 
 	mainWindow->s->start();
 	okClicked = true;
@@ -147,7 +147,7 @@ void ServerDialog::connectBtnClicked()
 
 	mainWindow->s = new Server(ip, port);
 	mainWindow->s->client_start();
-	connect(mainWindow->s, SIGNAL(msg_rec(int, int, int)), mainWindow, SLOT(mainWindow->s->getRecv_mes(int x, int y, int operation)));
+	connect(mainWindow->s, SIGNAL(msg_rec(int, int, int)), mainWindow, SLOT(mainWindow->handleRecv_mes(int x, int y, int operation)));
 
 	mainWindow->s->start();
 	okClicked = true;

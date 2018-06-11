@@ -27,17 +27,16 @@ public:
 	void server_start();                                        //开启服务端
 	void client_start();                                        //开启客户端
 	void msg_send(int x, int y,int operation);                  //网络发送信息
-	void setRecv_mes(int x, int y, int operation);              //设置线程接受的消息
-	int getRecv_mes_op();                                       //获得operation
-	Gobang::Step getRecv_mes_step();                            //获得下一步位置
+	
+	bool judge;                                                 // 
+
 private:
 	SOCKET server_s;
 	SOCKET client_s;
 	
 	int port;
 	char * IPAddr;
-	int x, y, operation;
-	bool judge;
+	
 	
 private:
 	void sendMessage(SOCKET target, string msg);        //send函数
