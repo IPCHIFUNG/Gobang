@@ -427,9 +427,8 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 {
 	Step s = steps->back();
 	int i, j;												// i---x坐标，j---y坐标
-	int chessNum = -1;										// chessNum---相同棋子数目
 	int chessTypeNow = (turn + 1) % 2;						// chessTypeNow----当前棋子类别
-
+	int chessNum = -1;										// chessNum---相同棋子数目
 
 	if (!isRestricted || turn == ChessType::WHITECHESS) {
 		// 往右方及下方扫描 
@@ -451,7 +450,7 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 		}
 	}
 	else {
-		int blankNum = 0, otherNum = 0;						// blankNum---空位数目，otherNum---不同色棋子数
+		/*int blankNum = 0, otherNum = 0;						// blankNum---空位数目，otherNum---不同色棋子数
 		int blankOtherChessNum = 0;							// blankOtherChessNum---空位后一个位置不同色棋子数
 		int blankChessNum1 = 0, blankChessNum2 = 0;			// blankChessNum---空位后同色棋子数
 		int boardNum = 0;									// 墙
@@ -536,6 +535,106 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
 		else if (chessNum + blankChessNum1 == 4)
 			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
+		*/
+
+		/*  lchess[0] 表示(y, x) 左边的且与(y, x) 相连的连续同类棋数目；
+		lempty[0] 表示(y, x) 左边第一个空点数起的连续空点数目
+		lchess[1] 表示(y, x) 左边的且与(y, x) 至少隔一个空点的连续同类棋数目
+		lempty[1] 表示在 lchess[1] 个同类棋左边的连续空点数目
+
+		rchess，rempty同理
+		同理设下为左，上为右
+		*/
+		int lchess[2], rchess[2];
+		int lempty[2], rempty[2];
+		int i, j;											// i---x坐标，j---y坐标
+
+		lchess[0] = lchess[1] = lempty[0] = lempty[1] = 0;
+		rchess[0] = rchess[1] = rempty[0] = rempty[1] = 0;
+
+		i = s.x - m;
+		j = s.y - n;
+		while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+			lchess[0]++;
+			i -= m;
+			j -= n;
+		}
+		while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+			lempty[0]++;
+			i -= m;
+			j -= n;
+		}
+		while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+			lchess[1]++;
+			i -= m;
+			j -= n;
+		}
+		while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+			lempty[1]++;
+			i -= m;
+			j -= n;
+		}
+
+		i = s.x + m;
+		j = s.y + n;
+		while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+			rchess[0]++;
+			i += m;
+			j += n;
+		}
+		while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+			rempty[0]++;
+			i += m;
+			j += n;
+		}
+		while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+			rchess[1]++;
+			i += m;
+			j += n;
+		}
+		while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+			rempty[1]++;
+			i += m;
+			j += n;
+		}
+
+		chessNum = lchess[0] + rchess[0] + 1;
+
+		if (chessNum > 4)
+			return chessNum;
+		else if (chessNum == 4) {
+			if (lempty[0] >= 1 && rempty[0] >= 1)
+				setChessModel(ChessModel::LIVEFOUR, temp);		// 活四
+			else if (lempty[0] + rempty[0])
+				setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
+		}
+		else if (chessNum == 3) {
+			int ok = 0;        // 同一个方向上如果可形成活三和冲四，舍弃活三  
+			if ((lempty[0] == 1 && lchess[1] >= 1) || (rempty[0] == 1 && rchess[1] >= 1)) {
+				setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
+				ok = 1;
+			}
+			if (!ok && lempty[0] + rempty[0] >= 3 && lempty[0] >= 1 && rempty[0] >= 1)
+				setChessModel(ChessModel::LIVETHREE, temp);		// 活三
+		}
+		else if (chessNum == 2) {
+			int ok = 0;
+			if ((lempty[0] == 1 && lchess[1] >= 2) || (rempty[0] == 1 && rchess[1] >= 2)) {
+				setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
+				ok = 1;
+			}
+			if (!ok && ((lempty[0] == 1 && lchess[1] == 1 && rempty[0] >= 1 && lempty[1] >= 1) || (rempty[0] == 1 && rchess[1] == 1 && lempty[0] >= 1 && rempty[1] >= 1)))
+				setChessModel(ChessModel::LIVETHREE, temp);		// 活三
+		}
+		else if (chessNum == 1) {
+			int ok = 0;
+			if ((lempty[0] == 1 && lchess[1] >= 3) || (rempty[0] == 1 && rchess[1] >= 3)) {
+				setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
+				ok = 1;
+			}
+			if (!ok && ((lempty[0] == 1 && lchess[1] == 2 && rempty[0] >= 1 && lempty[1] >= 1) || (rempty[0] == 1 && rchess[1] == 2 && lempty[0] >= 1 && rempty[1] >= 1)))
+				setChessModel(ChessModel::LIVETHREE, temp);		// 活三
+		}
 	}
 
 	return chessNum;

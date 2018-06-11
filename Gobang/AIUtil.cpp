@@ -147,7 +147,7 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 		return alpha;
 	}
 
-	// 最多选18 个候选点 
+	// 最多选10 个候选点 
 	for (int i = 0; i < 10 && i < n; i++) {									
 		tst = st;
 		x = sp[i].x;
