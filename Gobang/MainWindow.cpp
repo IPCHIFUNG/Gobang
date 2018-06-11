@@ -69,6 +69,7 @@ void MainWindow::walkAStep(Gobang::Step new_step)
 	showStep(new_step, gobang.getTurn());
 	highlightStep(new_step, gobang.getTurn());
 	playSoundEffects();
+	showInf(new_step);
 	switch (isRestricted)
 	{
 	case QMessageBox::Yes:
@@ -100,14 +101,34 @@ void MainWindow::showInf(Gobang::Step step)
 	switch (gobang.getTurn())
 	{
 	case ChessType::BLACKCHESS:
-		s += QString::fromLocal8Bit("°×Æå(") + QString::number(step.x) + "," + QString::number(step.y) + ")\n";
+		s += QString::fromLocal8Bit("ºÚÆå------------( ") + QString::number(step.x) + " , " + QString::number(step.y) + " )\n";
 		break;
 	case ChessType::WHITECHESS:
-		s += QString::fromLocal8Bit("ºÚÆå(") + QString::number(step.x) + "," + QString::number(step.y) + ")\n";
+		s += QString::fromLocal8Bit("°×Æå------------( ") + QString::number(step.x) + " , " + QString::number(step.y) + " )\n";
 		break;
 	default:
 		break;
 	}
+	ui.text_chessinf->setText(s);
+	QTextCursor cursor = ui.text_chessinf->textCursor();
+	cursor.movePosition(QTextCursor::End);
+	ui.text_chessinf->setTextCursor(cursor);
+}
+
+/*
+	É¾³ýÆå×ÓÐÅÏ¢
+
+	@author Íõ¿ªÑô
+*/
+void MainWindow::delInf()
+{
+	QString s = ui.text_chessinf->toPlainText();
+	for (int i = s.length() - 2; i > 0; i--)
+		if (s[i] == '\n')
+		{
+			s = s.left(i + 1);
+			break;
+		}
 	ui.text_chessinf->setText(s);
 	QTextCursor cursor = ui.text_chessinf->textCursor();
 	cursor.movePosition(QTextCursor::End);
@@ -349,6 +370,7 @@ void MainWindow::pveBtnClicked()
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
 	gameType = GameType::PVE;
+	ui.text_chessinf->setText("");
 	computer.Start(this, computerColor);
 }
 
@@ -368,6 +390,7 @@ void MainWindow::pvpBtnClicked()
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
 	gameType = GameType::PVP;
+	ui.text_chessinf->setText("");
 }
 
 /*
@@ -390,6 +413,7 @@ void MainWindow::onlineBtnClicked()
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
 	gameType = GameType::ONLINE;
+	ui.text_chessinf->setText("");
 }
 
 /*
@@ -444,6 +468,7 @@ void MainWindow::restartBtnClicked()
 	clearBoard();
 	gobang.initBoard();
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+	ui.text_chessinf->setText("");
 }
 
 /*
@@ -492,10 +517,16 @@ void MainWindow::retractBtnClicked()
 			return;
 		step = gobang.popLastStep();
 		if (step.x != -1 && step.y != -1)
+		{
 			chess[step.x][step.y].setPixmap(QPixmap(""));
+			delInf();
+		}
 		step = gobang.popLastStep();
 		if (step.x != -1 && step.y != -1)
+		{
 			chess[step.x][step.y].setPixmap(QPixmap(""));
+			delInf();
+		}
 		highlightStep(step, -2);
 		break;
 	default:
@@ -503,6 +534,7 @@ void MainWindow::retractBtnClicked()
 		if (step.x != -1 && step.y != -1)
 		{
 			chess[step.x][step.y].setPixmap(QPixmap(""));
+			delInf();
 			gobang.shiftTurn();
 		}
 		break;
@@ -569,12 +601,10 @@ void MainWindow::boardClicked()
 				return;
 			new_step = getStepFromScreen();
 			walkAStep(new_step);
-			showInf(new_step);
 			break;
 		case GameType::PVP:
 			new_step = getStepFromScreen();
 			walkAStep(new_step);
-			showInf(new_step);
 			break;
 		case GameType::ONLINE:
 			break;
@@ -684,6 +714,5 @@ void AIThread::Main()
 		}
 		Gobang::Step new_step = mainapp->getGobang().AIWalk(color);
 		mainapp->walkAStep(new_step);
-		mainapp->showInf(new_step);
 	}
 }

@@ -44,6 +44,7 @@ public:
 	void walkAStep(Gobang::Step new_step);
 	void showStep(Gobang::Step step, int type);				// 显示一步棋
 	void showInf(Gobang::Step step);						// 显示棋子信息
+	void delInf();											// 删除棋子信息
 	void playSoundEffects();								// 播放落子音效
 	void highlightStep(Gobang::Step step, int type);		// 高亮棋子
 	void showWinnerDialog();								// 显示胜方信息
