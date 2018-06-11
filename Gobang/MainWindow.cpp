@@ -680,51 +680,6 @@ std::string MainWindow::selectDirectory()
 	return fd.selectedFiles()[0].toStdString();
 }
 
-#include <thread>
-#include <chrono>
-
-AIThread::AIThread()
-{
-}
-
-AIThread::~AIThread()
-{
-}
-
-/*
-	开启AI走棋线程
-
-	@author 叶志枫
-	@para color - 电脑执棋颜色
-*/
-bool AIThread::Start(MainWindow *mainapp, int color)
-{
-	this->mainapp = mainapp;
-	this->color = color;
-	thread th(&AIThread::Main, this);
-	th.detach();
-	return true;
-}
-
-/*
-	AI走棋线程
-
-	@author 叶志枫
-*/
-void AIThread::Main()
-{
-	while (GameType::PVE == mainapp->getGameType())
-	{
-		if (mainapp->getGobang().getTurn() != color)
-		{
-			this_thread::sleep_for(std::chrono::milliseconds(100));
-			continue;
-		}
-		Gobang::Step new_step = mainapp->getGobang().AIWalk(color);
-		mainapp->walkAStep(new_step);
-	}
-}
-
 void MainWindow::handleRecv_mes(int x, int y, int operation)
 {
 	int isOKClicked = -1;
@@ -836,5 +791,50 @@ void MainWindow::handleRecv_mes(int x, int y, int operation)
 
 	default:
 		break;
+	}
+}
+
+#include <thread>
+#include <chrono>
+
+AIThread::AIThread()
+{
+}
+
+AIThread::~AIThread()
+{
+}
+
+/*
+	开启AI走棋线程
+
+	@author 叶志枫
+	@para color - 电脑执棋颜色
+*/
+bool AIThread::Start(MainWindow *mainapp, int color)
+{
+	this->mainapp = mainapp;
+	this->color = color;
+	thread th(&AIThread::Main, this);
+	th.detach();
+	return true;
+}
+
+/*
+	AI走棋线程
+
+	@author 叶志枫
+*/
+void AIThread::Main()
+{
+	while (GameType::PVE == mainapp->getGameType())
+	{
+		if (mainapp->getGobang().getTurn() != color)
+		{
+			this_thread::sleep_for(std::chrono::milliseconds(100));
+			continue;
+		}
+		Gobang::Step new_step = mainapp->getGobang().AIWalk(color);
+		mainapp->walkAStep(new_step);
 	}
 }
