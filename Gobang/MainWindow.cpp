@@ -538,6 +538,7 @@ void MainWindow::retractBtnClicked()
 			delInf();
 			gobang.shiftTurn();
 		}
+		highlightStep(step, -2);
 		break;
 	}
 }
