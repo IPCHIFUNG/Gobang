@@ -70,7 +70,7 @@ void MainWindow::walkAStep(Gobang::Step new_step)
 	showStep(new_step, gobang.getTurn());
 	highlightStep(new_step, gobang.getTurn());
 	playSoundEffects();
-	showInf(new_step);
+	//showInf(new_step);
 	switch (isRestricted)
 	{
 	case QMessageBox::Yes:
@@ -283,17 +283,17 @@ void MainWindow::showWinnerDialog()
 	switch (winner)
 	{
 	case ChessType::BLACKCHESS:
-		QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！"), QMessageBox::NoButton);
+		QMessageBox::information(NULL, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！"), QMessageBox::NoButton);
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		break;
 	case ChessType::WHITECHESS:
-		QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！"), QMessageBox::NoButton);
+		QMessageBox::information(NULL, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！"), QMessageBox::NoButton);
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		break;
 	case ChessType::NOCHESS:
 		if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
 		{
-			QMessageBox::information(this, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
+			QMessageBox::information(NULL, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
 			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		}
 		break;
