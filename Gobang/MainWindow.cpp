@@ -285,16 +285,22 @@ void MainWindow::showWinnerDialog()
 	case ChessType::BLACKCHESS:
 		QMessageBox::information(NULL, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！"), QMessageBox::NoButton);
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+		setHomePageBtnVisable(true);
+		setGamePageBtnVisable(false);
 		break;
 	case ChessType::WHITECHESS:
 		QMessageBox::information(NULL, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！"), QMessageBox::NoButton);
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+		setHomePageBtnVisable(true);
+		setGamePageBtnVisable(false);
 		break;
 	case ChessType::NOCHESS:
 		if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
 		{
 			QMessageBox::information(NULL, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
 			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+			setHomePageBtnVisable(true);
+			setGamePageBtnVisable(false);
 		}
 		break;
 	default:
