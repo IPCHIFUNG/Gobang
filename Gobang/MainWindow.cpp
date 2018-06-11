@@ -70,7 +70,7 @@ void MainWindow::walkAStep(Gobang::Step new_step)
 	showStep(new_step, gobang.getTurn());
 	highlightStep(new_step, gobang.getTurn());
 	playSoundEffects();
-	//showInf(new_step);
+	showInf(gobang.getTurn(), new_step.x, new_step.y);
 	switch (isRestricted)
 	{
 	case QMessageBox::Yes:
@@ -96,16 +96,16 @@ void MainWindow::walkAStep(Gobang::Step new_step)
 
 	@author 王开阳
 */
-void MainWindow::showInf(Gobang::Step step)
+void MainWindow::showInf(int color, int x, int y)
 {
 	QString s = ui.text_chessinf->toPlainText();
-	switch (gobang.getTurn())
+	switch (color)
 	{
 	case ChessType::BLACKCHESS:
-		s += QString::fromLocal8Bit("黑棋------------( ") + QString::number(step.x) + " , " + QString::number(step.y) + " )\n";
+		s += QString::fromLocal8Bit("黑棋------------( ") + QString::number(x) + " , " + QString::number(y) + " )\n";
 		break;
 	case ChessType::WHITECHESS:
-		s += QString::fromLocal8Bit("白棋------------( ") + QString::number(step.x) + " , " + QString::number(step.y) + " )\n";
+		s += QString::fromLocal8Bit("白棋------------( ") + QString::number(x) + " , " + QString::number(y) + " )\n";
 		break;
 	default:
 		break;
@@ -283,13 +283,13 @@ void MainWindow::showWinnerDialog()
 	switch (winner)
 	{
 	case ChessType::BLACKCHESS:
-		QMessageBox::information(NULL, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！"), QMessageBox::NoButton);
+		QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！"), QMessageBox::NoButton);
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		setHomePageBtnVisable(true);
 		setGamePageBtnVisable(false);
 		break;
 	case ChessType::WHITECHESS:
-		QMessageBox::information(NULL, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！"), QMessageBox::NoButton);
+		QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！"), QMessageBox::NoButton);
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		setHomePageBtnVisable(true);
 		setGamePageBtnVisable(false);
@@ -297,7 +297,7 @@ void MainWindow::showWinnerDialog()
 	case ChessType::NOCHESS:
 		if (gobang.getSteps().size() == BOARDLENGTH * BOARDLENGTH)
 		{
-			QMessageBox::information(NULL, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
+			QMessageBox::information(this, QString::fromLocal8Bit("游戏平局"), QString::fromLocal8Bit("双方平局！"), QMessageBox::NoButton);
 			disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 			setHomePageBtnVisable(true);
 			setGamePageBtnVisable(false);
@@ -373,7 +373,12 @@ void MainWindow::pveBtnClicked()
 		return;
 	if (isFirstHand == QMessageBox::No)
 		computerColor = ChessType::BLACKCHESS;
+	isRestricted = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要带禁手开始游戏？"), QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
+	if (isRestricted == QMessageBox::Cancel)
+		return;
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+	connect(&computer, SIGNAL(showInf(int, int, int)), this, SLOT(showInf(int, int, int)));
+	connect(&computer, SIGNAL(showWinnerDialog()), this, SLOT(showWinnerDialog()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
 	gameType = GameType::PVE;
@@ -822,7 +827,7 @@ bool AIThread::Start(MainWindow *mainapp, int color)
 {
 	this->mainapp = mainapp;
 	this->color = color;
-	thread th(&AIThread::Main, this);
+	std::thread th(&AIThread::Main, this);
 	th.detach();
 	return true;
 }
@@ -834,7 +839,7 @@ bool AIThread::Start(MainWindow *mainapp, int color)
 */
 void AIThread::Main()
 {
-	while (GameType::PVE == mainapp->getGameType())
+	while (GameType::PVE == mainapp->gameType)
 	{
 		if (mainapp->getGobang().getTurn() != color)
 		{
@@ -842,6 +847,28 @@ void AIThread::Main()
 			continue;
 		}
 		Gobang::Step new_step = mainapp->getGobang().AIWalk(color);
-		mainapp->walkAStep(new_step);
+		mainapp->getGobang().newStep(new_step);
+		mainapp->showStep(new_step, mainapp->getGobang().getTurn());
+		mainapp->highlightStep(new_step, mainapp->getGobang().getTurn());
+		mainapp->playSoundEffects();
+		emit showInf(mainapp->getGobang().getTurn(), new_step.x, new_step.y);
+		switch (mainapp->getIsRestricted())
+		{
+		case QMessageBox::Yes:
+			mainapp->winner = mainapp->getGobang().isOverWithRestricted();
+			break;
+		case QMessageBox::No:
+			mainapp->winner = mainapp->getGobang().isOverWithoutRestricted();
+			break;
+		default:
+			break;
+		}
+		emit showWinnerDialog();
+		if (mainapp->winner != ChessType::NOCHESS)
+		{
+			mainapp->gameType = GameType::NONE;
+			return;
+		}
+		mainapp->getGobang().shiftTurn();
 	}
 }
