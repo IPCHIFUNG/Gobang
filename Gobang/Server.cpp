@@ -112,7 +112,7 @@ void Server::client_start()
 	@para operation 棋子操作
     
 */
-void Server::msg_send(int x, int y,int operation)
+void Server::msg_send( int x, int y, int operation)
 {
 	string msg;
 	if (operation == 0)
@@ -157,10 +157,9 @@ void Server::run()
 			nLen = recv(client_s, recvBuf, sizeof(recvBuf), 0);
 		if (nLen <= 0)
 		{
-			QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端接收失败"));
+			emit Omsg_rec("连接断开");
 			return;
 		}
-		QMessageBox::about(NULL, "yunxing success", recvBuf);
 
 		int op = ServerMsgItem::getOperationFromString(recvBuf);
 		switch (op)
@@ -189,6 +188,8 @@ void Server::run()
 	exec();
 	
 }
+
+
 
 
 

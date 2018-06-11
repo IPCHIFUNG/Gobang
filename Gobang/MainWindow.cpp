@@ -426,6 +426,7 @@ void MainWindow::onlineBtnClicked()
 	setGamePageBtnVisable(true);
 	gameType = GameType::ONLINE;
 	ui.text_chessinf->setText("");
+	isRestricted = QMessageBox::Yes;
 }
 
 /*
@@ -620,13 +621,13 @@ void MainWindow::boardClicked()
 			walkAStep(new_step);
 			break;
 		case GameType::ONLINE:
+			if (!s->judge && gobang.getTurn() == ChessType::WHITECHESS)
+				return;
+			if (s->judge && gobang.getTurn() == ChessType::BLACKCHESS)
+				return;
 			new_step = getStepFromScreen();
-			gobang.newStep(new_step);
-			showStep(new_step, gobang.getTurn());
-			highlightStep(new_step, gobang.getTurn());
 			s->msg_send(new_step.x, new_step.y, OperationType::WALK);
-			gobang.shiftTurn();
-			playSoundEffects();
+			walkAStep(new_step);
 			break;
 		default:
 			break;
@@ -692,7 +693,14 @@ std::string MainWindow::selectDirectory()
 	return fd.selectedFiles()[0].toStdString();
 }
 
-void MainWindow::handleRecv_mes(int x, int y, int operation)
+/*
+	处理联机另一端操作信息
+
+	@author 王锴贞
+	@para operation 操作类型 
+	@para x，y 位置坐标
+*/
+void MainWindow::handleRecv_mes(int operation,int x, int y)
 {
 	int isOKClicked = -1;
 
@@ -720,10 +728,7 @@ void MainWindow::handleRecv_mes(int x, int y, int operation)
 			Gobang::Step new_step;
 			new_step.x = x;
 			new_step.y = y;
-			showStep(new_step, gobang.getTurn());
-			highlightStep(new_step, gobang.getTurn());
-			playSoundEffects();
-			gobang.shiftTurn();
+			walkAStep(new_step);
 		}
 		catch (char *msg)
 		{
@@ -804,6 +809,17 @@ void MainWindow::handleRecv_mes(int x, int y, int operation)
 	default:
 		break;
 	}
+}
+
+/*
+	处理联机另一端其他信息
+
+	@author 王锴贞
+	@para msg 其他信息
+*/
+void MainWindow::Do_msg(char *msg) {
+	QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit(msg));
+
 }
 
 #include <thread>
