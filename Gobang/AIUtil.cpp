@@ -249,7 +249,7 @@ int AIUtil::get_points(AIStep *step, int *kill) {
 	int zc4, zl3;					// nc4---总冲四，nl3---总活三
 
 	*kill = 0;
-	po.g5 = po.rc4 = po.l4 = po.l3 = po.rl3 = po.l2 = po.rl2 = po.c4 = po.m3 = po.d4 = po.d3 = po.d2 = 0;
+	po.bb5 = po.g5 = po.rc4 = po.l4 = po.l3 = po.rl3 = po.l2 = po.rl2 = po.c4 = po.m3 = po.d4 = po.d3 = po.d2 = 0;
 	tco.player = player;
 	tco.y = y;
 	tco.x = x;
@@ -266,7 +266,18 @@ int AIUtil::get_points(AIStep *step, int *kill) {
 		value = CHENG5;
 		return value;
 	}
-	if (player == AIChessType::AIBLACKCHESS) {			// 禁手
+	else if (po.bb5 >= 1) {
+		if (player == AIChessType::AIBLACKCHESS) {			// 黑棋长连禁手
+			value = BAN;
+			return value;
+		}
+		else {												// 白棋成五
+			*kill = 3;
+			value = CHENG5;
+			return value;
+		}
+	}
+	if (player == AIChessType::AIBLACKCHESS) {			// 三三禁手、四四禁手
 		if (zl3 >= 2 || (po.l4 + zc4 >= 2)) {
 			value = BAN;
 			return value;
@@ -360,7 +371,9 @@ void AIUtil::cal_chess(Points *po, AIStep *steps, int m, int n)
 
 	chessNum = lchess[0] + rchess[0] + 1;
 
-	if (chessNum >= 5)
+	if (chessNum > 5)
+		po->bb5++;
+	else if (chessNum == 5)
 		po->g5++;
 	else if (chessNum == 4) {
 		if (lempty[0] >= 1 && rempty[0] >= 1)

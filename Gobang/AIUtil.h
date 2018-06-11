@@ -40,6 +40,7 @@ public:
 		int g5;											// 成五
 		int l4, l3, rc4, rl3, l2, rl2, d4, d3, d2;		// l4--活四，l3--活三，rc4--跳四，rl3--跳活三，l2--活二，rl2--跳活二，d4--死四，d3--死三，d2--死二
 		int c4, m3;										// c4--冲四，m3--眠三
+		int bb5;										// 黑棋长连
 	}Points;
 
 	typedef struct {
@@ -61,7 +62,7 @@ private:
 	LL zobrist[3][20][20];
 	HashElem hashtable[HASHSIZE];
 
-	int DEPTH = 8;
+	int DEPTH = 4;
 	int comy, comx;
 
 	/* cpoint[i][j][0] 表示电脑绝杀棋情况 */
