@@ -17,8 +17,10 @@ class MainWindow;
 		AI走棋线程（调用Start以开启线程）
 									 -By 叶志枫   */
 /* ---------------------------------------------- */
-class AIThread
+class AIThread : public QObject
 {
+	Q_OBJECT
+
 public:
 	AIThread();
 	~AIThread();
@@ -27,6 +29,11 @@ public:
 	bool isThinking() { return isCalculating; };
 
 	MainWindow *mainapp;
+
+signals:
+	void showWinnerDialog();
+signals:
+	void showInf(int color, int x, int y);
 
 private:
 	int color;
@@ -43,19 +50,18 @@ public:
 	Gobang::Step getStepFromScreen();						// 从屏幕获取棋子坐标
 	void walkAStep(Gobang::Step new_step);
 	void showStep(Gobang::Step step, int type);				// 显示一步棋
-	void showInf(Gobang::Step step);						// 显示棋子信息
 	void delInf();											// 删除棋子信息
 	void playSoundEffects();								// 播放落子音效
 	void highlightStep(Gobang::Step step, int type);		// 高亮棋子
-	void showWinnerDialog();								// 显示胜方信息
 
 	Gobang & getGobang() { return gobang; };
-	int getGameType() { return gameType; };
+	int getIsRestricted() { return isRestricted; };
+	int gameType;											// 游戏类型
+	int winner;												// 获胜玩家棋子颜色
 	Server *s;
 
 private:
 	Ui::MainWindowClass ui;
-	int gameType;
 	std::string ranking;
 	Gobang gobang;
 	QMediaPlayer music;
@@ -78,7 +84,6 @@ private:
 	bool isMusicOn;								// 播放和暂停背景音乐
 	int isRestricted;							// 是否带禁手开始游戏
 	int isFirstHand;							// 是否先手开始游戏
-	int winner;									// 获胜玩家棋子颜色
 
 	AIThread computer;
 	int computerColor;
@@ -97,7 +102,10 @@ private slots:
 	void returnBtnClicked();
 	void boardClicked();						// 棋盘被点击响应事件
 
-	void handleRecv_mes(int x, int y, int operation);              //设置线程接受的消息
+public slots:
+	void showWinnerDialog();								// 显示胜方信息
+	void showInf(int color, int x, int y);					// 显示棋子信息
+	void handleRecv_mes(int x, int y, int operation);       //设置线程接受的消息
 };
 
 /*
