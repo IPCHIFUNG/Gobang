@@ -40,7 +40,6 @@ void Gobang::initBoard()
 		overSteps->clear();*/
 	steps = new std::deque<Step>();
 	overSteps = new std::deque<Step>();
-	isFirstStep = true;
 }
 
 /*
@@ -264,8 +263,7 @@ Gobang::Step Gobang::AIWalk(int type)
 	
 	Step walk;
 
-	if (isFirstStep) {
-		isFirstStep = false;
+	if (steps->size() <= 1) {
 
 		if (board[9][9] == ChessType::NOCHESS) {	// AI第一次落子
 			walk.x = 9;
