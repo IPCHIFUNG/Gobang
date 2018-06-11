@@ -95,6 +95,8 @@ private slots:
 	void saveBtnClicked();
 	void returnBtnClicked();
 	void boardClicked();						// 棋盘被点击响应事件
+
+	void handleRecv_mes(int x, int y, int operation);              //设置线程接受的消息
 };
 
 /*

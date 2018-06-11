@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "ServerDialog.h"
+#include "ServerMsgItem.h"
 #include <qmessagebox.h>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -577,6 +578,13 @@ void MainWindow::boardClicked()
 			showInf(new_step);
 			break;
 		case GameType::ONLINE:
+			new_step = getStepFromScreen();
+			gobang.newStep(new_step);
+			showStep(new_step, gobang.getTurn());
+			highlightStep(new_step, gobang.getTurn());
+			s->msg_send(new_step.x, new_step.y, OperationType::WALK);
+			gobang.shiftTurn();
+			playSoundEffects();
 			break;
 		default:
 			break;
@@ -685,5 +693,119 @@ void AIThread::Main()
 		Gobang::Step new_step = mainapp->getGobang().AIWalk(color);
 		mainapp->walkAStep(new_step);
 		mainapp->showInf(new_step);
+	}
+}
+
+void MainWindow::handleRecv_mes(int x, int y, int operation)
+{
+	int isOKClicked = -1;
+
+	switch (operation)
+	{
+	case OperationType::WALK:
+		try
+		{
+			if (!s->judge)
+			{
+				if (gobang.getTurn() == ChessType::BLACKCHESS)
+				{
+					s->msg_send(-1, -1, OperationType::ERR);
+					return;
+				}
+			}
+			else
+			{
+				if (gobang.getTurn() == ChessType::WHITECHESS)
+				{
+					s->msg_send(-1, -1, OperationType::ERR);
+					return;
+				}
+			}
+			Gobang::Step new_step;
+			new_step.x = x;
+			new_step.y = y;
+			showStep(new_step, gobang.getTurn());
+			highlightStep(new_step, gobang.getTurn());
+			playSoundEffects();
+			gobang.shiftTurn();
+		}
+		catch (char *msg)
+		{
+			QMessageBox::warning(NULL, "ERROR", msg);
+		}
+		break;
+	case OperationType::TIPS:
+		if (!s->judge)
+		{
+			if (gobang.getTurn() == ChessType::BLACKCHESS)
+			{
+				s->msg_send(-1, -1, OperationType::ERR);
+				return;
+			}
+		}
+		else
+		{
+			if (gobang.getTurn() == ChessType::WHITECHESS)
+			{
+				s->msg_send(-1, -1, OperationType::ERR);
+				return;
+			}
+		}
+		isOKClicked = QMessageBox::question(this, QString::fromLocal8Bit("提示请求"), QString::fromLocal8Bit("是否同意对方提示"), QMessageBox::Yes, QMessageBox::No);
+		switch (isOKClicked)
+		{
+		case QMessageBox::Yes:
+			s->msg_send(-1, -1, OperationType::AGREE);
+			break;
+		case QMessageBox::No:
+			s->msg_send(-1, -1, OperationType::DISAGREE);
+			break;
+		default:
+			s->msg_send(-1, -1, OperationType::ERR);
+			break;
+		}
+		break;
+	case OperationType::RESTART:
+		isOKClicked = QMessageBox::question(this, QString::fromLocal8Bit("重新开始请求"), QString::fromLocal8Bit("是否同意重新开始游戏"), QMessageBox::Yes, QMessageBox::No);
+		switch (isOKClicked)
+		{
+		case QMessageBox::Yes:
+			s->msg_send(-1, -1, OperationType::AGREE);
+			break;
+		case QMessageBox::No:
+			s->msg_send(-1, -1, OperationType::DISAGREE);
+			break;
+		default:
+			s->msg_send(-1, -1, OperationType::ERR);
+			break;
+		}
+		break;
+	case OperationType::CHEAT:
+		isOKClicked = QMessageBox::question(this, QString::fromLocal8Bit("悔棋请求"), QString::fromLocal8Bit("是否同意悔棋"), QMessageBox::Yes, QMessageBox::No);
+		switch (isOKClicked)
+		{
+		case QMessageBox::Yes:
+			s->msg_send(-1, -1, OperationType::AGREE);
+			break;
+		case QMessageBox::No:
+			s->msg_send(-1, -1, OperationType::DISAGREE);
+			break;
+		default:
+			s->msg_send(-1, -1, OperationType::ERR);
+			break;
+		}
+		break;
+	case OperationType::GIVEUP:
+
+		break;
+	case OperationType::ERR:
+		break;
+	case OperationType::AGREE:
+		break;
+	case OperationType::DISAGREE:
+		break;
+
+	default:
+		break;
 	}
 }
