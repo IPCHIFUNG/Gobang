@@ -54,7 +54,7 @@ public:
 	void delInf();													// 删除棋子信息
 	void playSoundEffects();										// 播放落子音效
 	void highlightStep(Gobang::Step step, int type);				// 高亮棋子
-	void highlightSteps(std::deque<Gobang::Step> steps, int color);	// 高亮棋子群
+	void highlightSteps(std::deque<Gobang::Step> steps);			// 高亮棋子群
 	void showRankings();											// 显示排行榜
 
 	Gobang & getGobang() { return gobang; };
