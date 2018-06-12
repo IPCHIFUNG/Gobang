@@ -1139,6 +1139,8 @@ bool Gobang::judgeRestricted(int model1, int model2)
 		return true;						// 四四禁手 双活四
 	else if (model1 == ChessModel::LIVEFOUR && model2 == ChessModel::CHONGFOUR)
 		return true;						// 四四禁手 活四冲四
+	else if (model1 == ChessModel::CHONGFOUR && model2 == ChessModel::LIVEFOUR)
+		return true;						// 四四禁手 活四冲四
 	else if (model1 == ChessModel::CHONGFOUR && model2 == ChessModel::CHONGFOUR)
 		return true;						// 四四禁手 双冲四
 
