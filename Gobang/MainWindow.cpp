@@ -323,6 +323,7 @@ void MainWindow::showWinnerDialog()
 	switch (winner)
 	{
 	case ChessType::BLACKCHESS:
+		highlightSteps(*gobang.getWinnerModel(), BLACKCHESS);
 		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
 		if (isSave == QMessageBox::Yes)
 			gobang.addRanking(getName(), gobang.getSteps().size() / 2 + 1);
@@ -331,6 +332,7 @@ void MainWindow::showWinnerDialog()
 		setGamePageBtnVisable(false);
 		break;
 	case ChessType::WHITECHESS:
+		highlightSteps(*gobang.getWinnerModel(), WHITECHESS);
 		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
 		if (isSave == QMessageBox::Yes)
 			gobang.addRanking(getName(), gobang.getSteps().size() / 2);
