@@ -3,6 +3,8 @@
 
 #define BOARDLENGTH 19	// ∆Â≈Ã≥§∂»
 #define INF 9000000
+#define JUDGE_EDGE(y, x) \
+	((y < 0 || y > 18 || x < 0 || x > 18) ? 0 : 1)
 
 #include <string>
 #include <queue>

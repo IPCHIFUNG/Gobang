@@ -30,12 +30,14 @@ public:
 	ServerDialog(QWidget *parent = 0);
 	~ServerDialog();
 
+	bool okClicked;							// 保存确定按钮是否被点击状态
+
 	bool isOKClicked();
 	void setMainWindow(MainWindow *mainWindow);
 private:
 	Ui::ServerDialog * ui;
 	MainWindow *mainWindow;
-	bool okClicked;							// 保存确定按钮是否被点击状态
+	
 
 
 private slots:
