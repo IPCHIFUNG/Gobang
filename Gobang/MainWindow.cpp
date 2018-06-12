@@ -224,9 +224,11 @@ void MainWindow::highlightStep(Gobang::Step step, int type)
 	@author 叶志枫
 	@para step - 需要高亮的棋子群
 */
-void MainWindow::highlightSteps(std::deque<Gobang::Step> steps, int color)
+void MainWindow::highlightSteps(std::deque<Gobang::Step> steps)
 {
-	QPixmap *pixmap = color == ChessType::BLACKCHESS ? &HLBlackChess : &HLWhiteChess;
+	Gobang::Step temp = steps.front();
+	steps.pop_front();
+	QPixmap *pixmap = temp.x == ChessType::BLACKCHESS ? &HLBlackChess : &HLWhiteChess;
 	while (steps.size() > 0)
 	{
 		Gobang::Step temp = steps.back();
@@ -323,7 +325,7 @@ void MainWindow::showWinnerDialog()
 	switch (winner)
 	{
 	case ChessType::BLACKCHESS:
-		highlightSteps(*gobang.getWinnerModel(), BLACKCHESS);
+		highlightSteps(gobang.getWinModel());
 		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
 		if (isSave == QMessageBox::Yes)
 			gobang.addRanking(getName(), gobang.getSteps().size() / 2 + 1);
@@ -332,7 +334,7 @@ void MainWindow::showWinnerDialog()
 		setGamePageBtnVisable(false);
 		break;
 	case ChessType::WHITECHESS:
-		highlightSteps(*gobang.getWinnerModel(), WHITECHESS);
+		highlightSteps(gobang.getWinModel());
 		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
 		if (isSave == QMessageBox::Yes)
 			gobang.addRanking(getName(), gobang.getSteps().size() / 2);
