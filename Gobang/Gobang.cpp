@@ -383,25 +383,25 @@ int Gobang::isOver(bool isRestricted)
 	if (!isRestricted || turn == ChessType::WHITECHESS) {
 		result[0] = searchNumOfChess(1, 0, 0, isRestricted);		// 竖直查找，0---竖直
 		if (result[0] == 5) {
-			setWinnerModel(0);
+			setWinnerModel(0, turn);
 			return turn;
 		}
 
 		result[1] = searchNumOfChess(0, 1, 1, isRestricted);		// 水平查找，1---水平
 		if (result[1] == 5) {
-			setWinnerModel(1);
+			setWinnerModel(1, turn);
 			return turn;
 		}
 
 		result[2] = searchNumOfChess(1, 1, 2, isRestricted);		// 主对角线查找，2---主对角线
 		if (result[2] == 5) {
-			setWinnerModel(2);
+			setWinnerModel(2, turn);
 			return turn;
 		}
 
 		result[3] = searchNumOfChess(1, -1, 3, isRestricted);		// 副对角线查找，3---副对角线
 		if (result[3] == 5) {
-			setWinnerModel(3);
+			setWinnerModel(3, turn);
 			return turn;
 		}
 	}
@@ -412,7 +412,7 @@ int Gobang::isOver(bool isRestricted)
 			return sign;
 		}
 		else if (result[0] == 5) {									// 黑棋成五
-			setWinnerModel(0);
+			setWinnerModel(0, turn);
 			return turn;
 		}
 
@@ -424,7 +424,7 @@ int Gobang::isOver(bool isRestricted)
 			return sign;
 		}
 		else if (result[1] == 5) {									// 黑棋成五
-			setWinnerModel(1);
+			setWinnerModel(1, turn);
 			return turn;
 		}
 		model[1] = getChessModel(1);								// 水平类型
@@ -440,7 +440,7 @@ int Gobang::isOver(bool isRestricted)
 			return sign;
 		}
 		else if (result[2] == 5) {									// 黑棋成五
-			setWinnerModel(2);
+			setWinnerModel(2, turn);
 			return turn;
 		}
 		model[2] = getChessModel(2);								// 主对角线类型
@@ -459,7 +459,7 @@ int Gobang::isOver(bool isRestricted)
 			return sign;
 		}
 		else if (result[3] == 5) {									// 黑棋成五
-			setWinnerModel(3);
+			setWinnerModel(3, turn);
 			return turn;
 		}
 		model[3] = getChessModel(3);								// 副对角线类型
@@ -644,10 +644,10 @@ int Gobang::getChessModel(int temp)
 /*
 	设置获胜棋型
 
-	@para direction---查找方向
+	@para direction---查找方向，type---颜色类型
 	@author 应禹尧
 */
-void Gobang::setWinnerModel(int direction)
+void Gobang::setWinnerModel(int direction, int type)
 {
 	Step last_step = steps->back();		// 最后一步
 	int i, j;							// 横纵坐标
@@ -669,6 +669,11 @@ void Gobang::setWinnerModel(int direction)
 		m = 1;
 		n = -1;
 	}
+
+	Gobang::Step temp;
+	temp.x = type;
+	temp.y = -1;
+	winnerSteps->push_back(temp);
 
 	// 往右方及下方扫描 
 	i = last_step.x;
@@ -704,7 +709,7 @@ void Gobang::setWinnerModel(int direction)
 void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 {
 	if (ban_model == 0)
-		setWinnerModel(dir1);
+		setWinnerModel(dir1, (turn + 1) % 2);
 	else {
 		int dir = dir1;
 		int judge = 0;
@@ -795,10 +800,13 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 			chessNum = lchess[0] + rchess[0] + 1;
 
 			if (chessNum == 4) {
-				Gobang::Step temp;
-				temp.x = last_step.x;
-				temp.y = last_step.y;
-				winnerSteps->push_back(temp);
+				Gobang::Step temp1, temp2;
+				temp1.x = (turn + 1) % 2;
+				temp1.y = -1;
+				winnerSteps->push_back(temp1);
+				temp2.x = last_step.x;
+				temp2.y = last_step.y;
+				winnerSteps->push_back(temp2);
 
 				i = last_step.x - m;
 				j = last_step.y - n;
@@ -824,10 +832,13 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 			else if (chessNum == 3) {
 				int ok = 0;        // 同一个方向上如果可形成活三和冲四，舍弃活三  
 				if ((lempty[0] == 1 && lchess[1] >= 1) || (rempty[0] == 1 && rchess[1] >= 1)) {
-					Gobang::Step temp;												// 冲四
-					temp.x = last_step.x;
-					temp.y = last_step.y;
-					winnerSteps->push_back(temp);
+					Gobang::Step temp1, temp2;												// 冲四
+					temp1.x = (turn + 1) % 2;
+					temp1.y = -1;
+					winnerSteps->push_back(temp1);
+					temp2.x = last_step.x;
+					temp2.y = last_step.y;
+					winnerSteps->push_back(temp2);
 
 					i = last_step.x - m;
 					j = last_step.y - n;
@@ -877,10 +888,13 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 					ok = 1;
 				}
 				if (!ok && lempty[0] + rempty[0] >= 3 && lempty[0] >= 1 && rempty[0] >= 1) {
-					Gobang::Step temp;												// 活三
-					temp.x = last_step.x;
-					temp.y = last_step.y;
-					winnerSteps->push_back(temp);
+					Gobang::Step temp1, temp2;												// 活三
+					temp1.x = (turn + 1) % 2;
+					temp1.y = -1;
+					winnerSteps->push_back(temp1);
+					temp2.x = last_step.x;
+					temp2.y = last_step.y;
+					winnerSteps->push_back(temp2);
 
 					i = last_step.x - m;
 					j = last_step.y - n;
@@ -907,11 +921,13 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 			else if (chessNum == 2) {
 				int ok = 0;
 				if ((lempty[0] == 1 && lchess[1] >= 2) || (rempty[0] == 1 && rchess[1] >= 2)) {
-					// 冲四
-					Gobang::Step temp;												// 冲四
-					temp.x = last_step.x;
-					temp.y = last_step.y;
-					winnerSteps->push_back(temp);
+					Gobang::Step temp1, temp2;												// 冲四
+					temp1.x = (turn + 1) % 2;
+					temp1.y = -1;
+					winnerSteps->push_back(temp1);
+					temp2.x = last_step.x;
+					temp2.y = last_step.y;
+					winnerSteps->push_back(temp2);
 
 					i = last_step.x - m;
 					j = last_step.y - n;
@@ -961,11 +977,13 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 					ok = 1;
 				}
 				if (!ok && ((lempty[0] == 1 && lchess[1] == 1 && rempty[0] >= 1 && lempty[1] >= 1) || (rempty[0] == 1 && rchess[1] == 1 && lempty[0] >= 1 && rempty[1] >= 1))) {
-					// 活三
-					Gobang::Step temp;												// 冲四
-					temp.x = last_step.x;
-					temp.y = last_step.y;
-					winnerSteps->push_back(temp);
+					Gobang::Step temp1, temp2;												// 活三
+					temp1.x = (turn + 1) % 2;
+					temp1.y = -1;
+					winnerSteps->push_back(temp1);
+					temp2.x = last_step.x;
+					temp2.y = last_step.y;
+					winnerSteps->push_back(temp2);
 
 					i = last_step.x - m;
 					j = last_step.y - n;
@@ -1016,11 +1034,13 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 			else if (chessNum == 1) {
 				int ok = 0;
 				if ((lempty[0] == 1 && lchess[1] >= 3) || (rempty[0] == 1 && rchess[1] >= 3)) {
-					// 冲四
-					Gobang::Step temp;												// 冲四
-					temp.x = last_step.x;
-					temp.y = last_step.y;
-					winnerSteps->push_back(temp);
+					Gobang::Step temp1, temp2;												// 冲四
+					temp1.x = (turn + 1) % 2;
+					temp1.y = -1;
+					winnerSteps->push_back(temp1);
+					temp2.x = last_step.x;
+					temp2.y = last_step.y;
+					winnerSteps->push_back(temp2);
 
 					i = last_step.x - m;
 					j = last_step.y - n;
@@ -1070,11 +1090,13 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 					ok = 1;
 				}
 				if (!ok && ((lempty[0] == 1 && lchess[1] == 2 && rempty[0] >= 1 && lempty[1] >= 1) || (rempty[0] == 1 && rchess[1] == 2 && lempty[0] >= 1 && rempty[1] >= 1))) {
-					// 活三
-					Gobang::Step temp;												// 冲四
-					temp.x = last_step.x;
-					temp.y = last_step.y;
-					winnerSteps->push_back(temp);
+					Gobang::Step temp1, temp2;												// 活三
+					temp1.x = (turn + 1) % 2;
+					temp1.y = -1;
+					winnerSteps->push_back(temp1);
+					temp2.x = last_step.x;
+					temp2.y = last_step.y;
+					winnerSteps->push_back(temp2);
 
 					i = last_step.x - m;
 					j = last_step.y - n;

@@ -68,7 +68,7 @@ private:
 
 	void setChessModel(int model, int temp);							// 设置棋型
 	int getChessModel(int temp);										// 获得棋型
-	void setWinnerModel(int direction);									// 设置获胜棋型
+	void setWinnerModel(int direction, int type);						// 设置获胜棋型
 	void setBanModel(int dir1, int dir2, int ban_model);				// 设置禁手棋型
 
 };
