@@ -153,6 +153,8 @@ std::deque<Gobang::rank> & Gobang::getRankings()
 */
 void Gobang::addRanking(std::string name, int n)
 {
+	if (name == "")
+		return;
 	rank r = { name,n };
 	for (auto it = rankings->begin();; it++)
 		if (it->n > r.n)

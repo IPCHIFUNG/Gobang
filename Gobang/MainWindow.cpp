@@ -321,9 +321,7 @@ void MainWindow::showWinnerDialog()
 	case ChessType::BLACKCHESS:
 		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
 		if (isSave == QMessageBox::Yes)
-		{
-
-		}
+			gobang.addRanking(getName(), gobang.getSteps().size() / 2 + 1);
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		setHomePageBtnVisable(true);
 		setGamePageBtnVisable(false);
@@ -331,9 +329,7 @@ void MainWindow::showWinnerDialog()
 	case ChessType::WHITECHESS:
 		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
 		if (isSave == QMessageBox::Yes)
-		{
-
-		}
+			gobang.addRanking(getName(), gobang.getSteps().size() / 2);
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		setHomePageBtnVisable(true);
 		setGamePageBtnVisable(false);
@@ -350,6 +346,20 @@ void MainWindow::showWinnerDialog()
 	default:
 		break;
 	}
+}
+
+/*
+	接收玩家姓名
+
+	@author 王开阳
+*/
+std::string MainWindow::getName()
+{
+	bool ok = FALSE;
+	QString name = QInputDialog::getText(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("请输入您的昵称："), QLineEdit::Normal, QString::null, &ok);
+	if (ok && !name.isEmpty())
+		return name.toStdString();
+	return "";
 }
 
 /*
