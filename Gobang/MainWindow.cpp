@@ -225,10 +225,14 @@ void MainWindow::highlightStep(Gobang::Step step, int type)
 */
 void MainWindow::showRankings()
 {
-	std::string s = "";
+	std::string names = "", steps = "";
 	for (auto it = gobang.getRankings().begin(); it != gobang.getRankings().end(); it++)
-		s += it->name + "\t\t\t\t" + std::to_string(it->n) + "\n";
-	ui.lbl_ranking->setText(QString::fromStdString(s));
+	{
+		names += it->name + " ---" + "\n";
+		steps += "--- " + to_string(it->n) + "\n";
+	}
+	ui.lbl_names->setText(QString::fromStdString(names));
+	ui.lbl_steps->setText(QString::fromStdString(steps));
 }
 
 /*
@@ -356,6 +360,8 @@ void MainWindow::btnsClicked()
 	if (btnName == "btn_ranking")
 	{
 		ui.lbl_ranking->raise();
+		ui.lbl_names->raise();
+		ui.lbl_steps->raise();
 		ui.btn_close->raise();
 		showRankings();
 	}
@@ -389,6 +395,8 @@ void MainWindow::btnsClicked()
 		ui.lbl_ranking->lower();
 		ui.lbl_team->lower();
 		ui.lbl_rules->lower();
+		ui.lbl_names->lower();
+		ui.lbl_steps->lower();
 		ui.btn_close->lower();
 	}
 	else if (btnName == "btn_exit")

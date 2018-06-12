@@ -157,14 +157,14 @@ void Gobang::addRanking(std::string name, int n)
 		return;
 	rank r = { name,n };
 	for (auto it = rankings->begin();; it++)
-		if (it->n > r.n)
-		{
-			rankings->insert(it, r);
-			break;
-		}
-		else if (it == rankings->end())
+		if (it == rankings->end())
 		{
 			rankings->push_back(r);
+			break;
+		}
+		else if (it->n > r.n)
+		{
+			rankings->insert(it, r);
 			break;
 		}
 }

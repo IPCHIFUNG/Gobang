@@ -457,7 +457,7 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
     <property name="font">
      <font>
       <family>微软雅黑</family>
-      <pointsize>28</pointsize>
+      <pointsize>24</pointsize>
      </font>
     </property>
     <property name="styleSheet">
@@ -560,9 +560,55 @@ QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}</stri
      <string notr="true">background-color: rgb(255, 255, 255, 60);</string>
     </property>
    </widget>
+   <widget class="QLabel" name="lbl_names">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>260</y>
+      <width>301</width>
+      <height>541</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_steps">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>260</y>
+      <width>301</width>
+      <height>541</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+   </widget>
+   <zorder>lbl_steps</zorder>
+   <zorder>lbl_ranking</zorder>
+   <zorder>lbl_names</zorder>
    <zorder>lbl_showranking</zorder>
    <zorder>btn_close</zorder>
-   <zorder>lbl_ranking</zorder>
    <zorder>lbl_rules</zorder>
    <zorder>lbl_team</zorder>
    <zorder>lbl_background</zorder>
