@@ -271,6 +271,21 @@ void Gobang::shiftTurn()
 }
 
 /*
+	设置难度
+
+	* dif = 1  ——  初级难度
+	* dif = 2  ——  中级难度
+	* dif = 3  ——  高级难度
+
+	@para dif---难度等级
+	@author 应禹尧
+*/
+void Gobang::setDifficulty(int dif)
+{
+	AIutil->DEPTH = 2 + 2 * dif;
+}
+
+/*
 	人机对战
 
 	@author 应禹尧
@@ -296,7 +311,7 @@ Gobang::Step Gobang::AIWalk(int type)
 	}
 	else {
 		AIUtil::AIStep AIs;
-		int DEPTH = 4;								// 搜索深度
+		int DEPTH = AIutil->DEPTH;								// 搜索深度
 		int alpha = -INF;
 		int beta = INF;
 		LL st;
@@ -352,85 +367,109 @@ int Gobang::isOver(bool isRestricted)
 	int sign = (turn + 1) % 2;										// sign----棋子类别
 	int result[4] = { -1,-1,-1,-1 }, model[4] = { -1,-1,-1,-1 };	// result---棋子数目，model---棋型
 
+	winnerSteps = new std::deque<Step>();
+
 	for (int i = 0; i < 4; i++)
 		cModel[i] = -1;
 
 
 	/* ------------------------------------------------------------- */
 
-	if (!isRestricted) {
+	if (!isRestricted || turn == ChessType::WHITECHESS) {
 		result[0] = searchNumOfChess(1, 0, 0, isRestricted);		// 竖直查找，0---竖直
-		if (result[0] == 5)
+		if (result[0] == 5) {
+			setWinnerModel(0);
 			return turn;
+		}
 
 		result[1] = searchNumOfChess(0, 1, 1, isRestricted);		// 水平查找，1---水平
-		if (result[1] == 5)
+		if (result[1] == 5) {
+			setWinnerModel(1);
 			return turn;
+		}
 
 		result[2] = searchNumOfChess(1, 1, 2, isRestricted);		// 主对角线查找，2---主对角线
-		if (result[2] == 5)
+		if (result[2] == 5) {
+			setWinnerModel(2);
 			return turn;
+		}
 
 		result[3] = searchNumOfChess(1, -1, 3, isRestricted);		// 副对角线查找，3---副对角线
-		if (result[3] == 5)
+		if (result[3] == 5) {
+			setWinnerModel(3);
 			return turn;
+		}
 	}
 	else {
 		result[0] = searchNumOfChess(1, 0, 0, isRestricted);		// 竖直查找，0---竖直
 		if (result[0] > 5) {										// 长连禁手
-			if (turn == ChessType::BLACKCHESS)
-				return sign;
-			else
-				return turn;
+			setBanModel(0, -1, 0);
+			return sign;
 		}
-		else if (result[0] == 5)
+		else if (result[0] == 5) {									// 黑棋成五
+			setWinnerModel(0);
 			return turn;
+		}
+
 		model[0] = getChessModel(0);								// 竖直类型
 
 		result[1] = searchNumOfChess(0, 1, 1, isRestricted);		// 水平查找，1---水平
 		if (result[1] > 5) {										// 长连禁手
-			if (turn == ChessType::BLACKCHESS)
-				return sign;
-			else
-				return turn;
-		}
-		else if (result[1] == 5)
-			return turn;
-		model[1] = getChessModel(1);								// 水平类型
-		if (judgeRestricted(model[0], model[1]))
+			setBanModel(1, -1, 0);
 			return sign;
+		}
+		else if (result[1] == 5) {									// 黑棋成五
+			setWinnerModel(1);
+			return turn;
+		}
+		model[1] = getChessModel(1);								// 水平类型
+		if (judgeRestricted(model[0], model[1])) {
+			setBanModel(0, 1, 1);
+			return sign;
+		}
+
 
 		result[2] = searchNumOfChess(1, 1, 2, isRestricted);		// 主对角线查找，2---主对角线
 		if (result[2] > 5) {										// 长连禁手
-			if (turn == ChessType::BLACKCHESS)
-				return sign;
-			else
-				return turn;
+			setBanModel(2, -1, 0);
+			return sign;
 		}
-		else if (result[2] == 5)
+		else if (result[2] == 5) {									// 黑棋成五
+			setWinnerModel(2);
 			return turn;
+		}
 		model[2] = getChessModel(2);								// 主对角线类型
-		if (judgeRestricted(model[0], model[2]))
+		if (judgeRestricted(model[0], model[2])) {
+			setBanModel(0, 2, 1);
 			return sign;
-		else if (judgeRestricted(model[1], model[2]))
+		}
+		else if (judgeRestricted(model[1], model[2])) {
+			setBanModel(1, 2, 1);
 			return sign;
+		}
 
 		result[3] = searchNumOfChess(1, -1, 3, isRestricted);		// 副对角线查找，3---副对角线
 		if (result[3] > 5) {										// 长连禁手
-			if (turn == ChessType::BLACKCHESS)
-				return sign;
-			else
-				return turn;
+			setBanModel(3, -1, 0);
+			return sign;
 		}
-		else if (result[3] == 5)
+		else if (result[3] == 5) {									// 黑棋成五
+			setWinnerModel(3);
 			return turn;
+		}
 		model[3] = getChessModel(3);								// 副对角线类型
-		if (judgeRestricted(model[0], model[3]))
+		if (judgeRestricted(model[0], model[3])) {
+			setBanModel(0, 3, 1);
 			return sign;
-		else if (judgeRestricted(model[1], model[3]))
+		}
+		else if (judgeRestricted(model[1], model[3])) {
+			setBanModel(1, 3, 1);
 			return sign;
-		else if (judgeRestricted(model[2], model[3]))
+		}
+		else if (judgeRestricted(model[2], model[3])) {
+			setBanModel(2, 3, 1);
 			return sign;
+		}
 	}
 
 	return ChessType::NOCHESS;
@@ -470,93 +509,6 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 		}
 	}
 	else {
-		/*int blankNum = 0, otherNum = 0;						// blankNum---空位数目，otherNum---不同色棋子数
-		int blankOtherChessNum = 0;							// blankOtherChessNum---空位后一个位置不同色棋子数
-		int blankChessNum1 = 0, blankChessNum2 = 0;			// blankChessNum---空位后同色棋子数
-		int boardNum = 0;									// 墙
-
-		// 往右方及下方扫描
-		i = s.x;
-		j = s.y;
-		while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == turn) {
-			i += m;
-			j += n;
-			chessNum++;
-		}
-		if (board[i][j] == ChessType::NOCHESS) {         // 判断右方或下方是否有空位置
-			blankNum++;
-			i += m;
-			j += n;
-			if (board[i][j] == chessTypeNow) {
-				if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH)
-					blankOtherChessNum++;
-			}
-			else if (board[i][j] == turn) {
-				if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH) {
-					blankChessNum1++;
-					i += m;
-					j += n;
-					if (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH)
-						if (board[i][j] == chessTypeNow)
-							blankOtherChessNum++;
-				}
-			}
-			else if (i >= BOARDLENGTH || j < 0 || j >= BOARDLENGTH)
-				boardNum++;
-		}
-		else
-			otherNum++;
-
-		// 往左方及上方扫描
-		i = s.x;
-		j = s.y;
-		while (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == turn) {
-			i -= m;
-			j -= n;
-			chessNum++;
-		}
-		if (board[i][j] == ChessType::NOCHESS) {        // 判断左方或上方是否有空位置
-			blankNum++;
-			i -= m;
-			j -= n;
-			if (board[i][j] == chessTypeNow) {
-				if (i >= 0 && j >= 0 && j < BOARDLENGTH)
-					blankOtherChessNum++;
-			}
-			else if (board[i][j] == turn) {
-				if (i >= 0 && j >= 0 && j < BOARDLENGTH) {
-					blankChessNum2++;
-					i -= m;
-					j -= n;
-					if (i >= 0 && j >= 0 && j < BOARDLENGTH)
-						if (board[i][j] == chessTypeNow)
-							blankOtherChessNum++;
-				}
-
-			}
-			else if (i < 0 || j < 0 || j >= BOARDLENGTH)
-				boardNum++;
-		}
-		else
-			otherNum++;
-
-		if (chessNum > 4)
-			return chessNum;
-
-		if (chessNum + blankChessNum1 == 3 && blankOtherChessNum + boardNum < 2 && otherNum == 0)
-			setChessModel(ChessModel::LIVETHREE, temp);		// 活三
-		else if (chessNum + blankChessNum2 == 3 && blankOtherChessNum + boardNum < 2 && otherNum == 0)
-			setChessModel(ChessModel::LIVETHREE, temp);		// 活三
-		else if (chessNum == 4 && otherNum == 0)
-			setChessModel(ChessModel::LIVEFOUR, temp);		// 活四
-		else if (chessNum == 4 && otherNum == 1)
-			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
-		else if (chessNum + blankChessNum1 == 4)
-			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
-		else if (chessNum + blankChessNum1 == 4)
-			setChessModel(ChessModel::CHONGFOUR, temp);		// 冲四
-		*/
-
 		/*  lchess[0] 表示(y, x) 左边的且与(y, x) 相连的连续同类棋数目；
 		lempty[0] 表示(y, x) 左边第一个空点数起的连续空点数目
 		lchess[1] 表示(y, x) 左边的且与(y, x) 至少隔一个空点的连续同类棋数目
@@ -682,6 +634,494 @@ void Gobang::setChessModel(int model, int temp)
 int Gobang::getChessModel(int temp)
 {
 	return cModel[temp];
+}
+
+/*
+	设置获胜棋型
+
+	@para direction---查找方向
+	@author 应禹尧
+*/
+void Gobang::setWinnerModel(int direction)
+{
+	Step last_step = steps->back();		// 最后一步
+	int i, j;							// 横纵坐标
+	int m, n;							// 扫描方向
+
+	if (direction == 0) {
+		m = 1;
+		n = 0;
+	}
+	else if (direction == 1) {
+		m = 0;
+		n = 1;
+	}
+	else if (direction == 2) {
+		m = 1;
+		n = 1;
+	}
+	else if (direction == 3) {
+		m = 1;
+		n = -1;
+	}
+
+	// 往右方及下方扫描 
+	i = last_step.x;
+	j = last_step.y;
+	while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == turn) {
+		Gobang::Step temp;
+		temp.x = i;
+		temp.y = j;
+		winnerSteps->push_back(temp);
+		i += m;
+		j += n;
+	}
+
+	// 往左方及上方扫描
+	i = last_step.x;
+	j = last_step.y;
+	while (i >= 0 && j >= 0 && j < BOARDLENGTH && board[i][j] == turn) {
+		Gobang::Step temp;
+		temp.x = i;
+		temp.y = j;
+		winnerSteps->push_back(temp);
+		i -= m;
+		j -= n;
+	}
+}
+
+/*
+	设置禁手棋型
+
+	@para dir1---查找方向1，dir2---查找方向2，ban_model---禁手类型
+	@author 应禹尧
+*/
+void Gobang::setBanModel(int dir1, int dir2, int ban_model)
+{
+	if (ban_model == 0)
+		setWinnerModel(dir1);
+	else {
+		int dir = dir1;
+		int judge = 0;
+		while (judge < 2) {
+			Step last_step = steps->back();		// 最后一步
+			int m, n;							// 扫描方向
+
+			if (dir == 0) {
+				m = 1;
+				n = 0;
+			}
+			else if (dir == 1) {
+				m = 0;
+				n = 1;
+			}
+			else if (dir == 2) {
+				m = 1;
+				n = 1;
+			}
+			else if (dir == 3) {
+				m = 1;
+				n = -1;
+			}
+
+			/*
+			lchess[0] 表示(y, x) 左边的且与(y, x) 相连的连续同类棋数目；
+			lempty[0] 表示(y, x) 左边第一个空点数起的连续空点数目
+			lchess[1] 表示(y, x) 左边的且与(y, x) 至少隔一个空点的连续同类棋数目
+			lempty[1] 表示在 lchess[1] 个同类棋左边的连续空点数目
+
+			rchess，rempty同理
+			同理设下为左，上为右
+			*/
+			int lchess[2], rchess[2];
+			int lempty[2], rempty[2];
+			int i, j;											// i---x坐标，j---y坐标
+			int chessNum = 0;									// 同色棋子数目
+
+			lchess[0] = lchess[1] = lempty[0] = lempty[1] = 0;
+			rchess[0] = rchess[1] = rempty[0] = rempty[1] = 0;
+
+			i = last_step.x - m;
+			j = last_step.y - n;
+			while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+				lchess[0]++;
+				i -= m;
+				j -= n;
+			}
+			while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+				lempty[0]++;
+				i -= m;
+				j -= n;
+			}
+			while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+				lchess[1]++;
+				i -= m;
+				j -= n;
+			}
+			while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+				lempty[1]++;
+				i -= m;
+				j -= n;
+			}
+
+			i = last_step.x + m;
+			j = last_step.y + n;
+			while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+				rchess[0]++;
+				i += m;
+				j += n;
+			}
+			while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+				rempty[0]++;
+				i += m;
+				j += n;
+			}
+			while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+				rchess[1]++;
+				i += m;
+				j += n;
+			}
+			while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+				rempty[1]++;
+				i += m;
+				j += n;
+			}
+
+			chessNum = lchess[0] + rchess[0] + 1;
+
+			if (chessNum == 4) {
+				Gobang::Step temp;
+				temp.x = last_step.x;
+				temp.y = last_step.y;
+				winnerSteps->push_back(temp);
+
+				i = last_step.x - m;
+				j = last_step.y - n;
+				while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+					Gobang::Step temp;
+					temp.x = i;
+					temp.y = j;
+					winnerSteps->push_back(temp);
+					i -= m;
+					j -= n;
+				}
+				i = last_step.x + m;
+				j = last_step.y + n;
+				while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+					Gobang::Step temp;
+					temp.x = i;
+					temp.y = j;
+					winnerSteps->push_back(temp);
+					i += m;
+					j += n;
+				}
+			}
+			else if (chessNum == 3) {
+				int ok = 0;        // 同一个方向上如果可形成活三和冲四，舍弃活三  
+				if ((lempty[0] == 1 && lchess[1] >= 1) || (rempty[0] == 1 && rchess[1] >= 1)) {
+					Gobang::Step temp;												// 冲四
+					temp.x = last_step.x;
+					temp.y = last_step.y;
+					winnerSteps->push_back(temp);
+
+					i = last_step.x - m;
+					j = last_step.y - n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+						i -= m;
+						j -= n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					i = last_step.x + m;
+					j = last_step.y + n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+						i += m;
+						j += n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+
+					ok = 1;
+				}
+				if (!ok && lempty[0] + rempty[0] >= 3 && lempty[0] >= 1 && rempty[0] >= 1) {
+					Gobang::Step temp;												// 活三
+					temp.x = last_step.x;
+					temp.y = last_step.y;
+					winnerSteps->push_back(temp);
+
+					i = last_step.x - m;
+					j = last_step.y - n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					i = last_step.x + m;
+					j = last_step.y + n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+				}
+			}
+			else if (chessNum == 2) {
+				int ok = 0;
+				if ((lempty[0] == 1 && lchess[1] >= 2) || (rempty[0] == 1 && rchess[1] >= 2)) {
+					// 冲四
+					Gobang::Step temp;												// 冲四
+					temp.x = last_step.x;
+					temp.y = last_step.y;
+					winnerSteps->push_back(temp);
+
+					i = last_step.x - m;
+					j = last_step.y - n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+						i -= m;
+						j -= n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					i = last_step.x + m;
+					j = last_step.y + n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+						i += m;
+						j += n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+
+					ok = 1;
+				}
+				if (!ok && ((lempty[0] == 1 && lchess[1] == 1 && rempty[0] >= 1 && lempty[1] >= 1) || (rempty[0] == 1 && rchess[1] == 1 && lempty[0] >= 1 && rempty[1] >= 1))) {
+					// 活三
+					Gobang::Step temp;												// 冲四
+					temp.x = last_step.x;
+					temp.y = last_step.y;
+					winnerSteps->push_back(temp);
+
+					i = last_step.x - m;
+					j = last_step.y - n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+						i -= m;
+						j -= n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					i = last_step.x + m;
+					j = last_step.y + n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+						i += m;
+						j += n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+				}
+			}
+			else if (chessNum == 1) {
+				int ok = 0;
+				if ((lempty[0] == 1 && lchess[1] >= 3) || (rempty[0] == 1 && rchess[1] >= 3)) {
+					// 冲四
+					Gobang::Step temp;												// 冲四
+					temp.x = last_step.x;
+					temp.y = last_step.y;
+					winnerSteps->push_back(temp);
+
+					i = last_step.x - m;
+					j = last_step.y - n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+						i -= m;
+						j -= n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					i = last_step.x + m;
+					j = last_step.y + n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+						i += m;
+						j += n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+
+					ok = 1;
+				}
+				if (!ok && ((lempty[0] == 1 && lchess[1] == 2 && rempty[0] >= 1 && lempty[1] >= 1) || (rempty[0] == 1 && rchess[1] == 2 && lempty[0] >= 1 && rempty[1] >= 1))) {
+					// 活三
+					Gobang::Step temp;												// 冲四
+					temp.x = last_step.x;
+					temp.y = last_step.y;
+					winnerSteps->push_back(temp);
+
+					i = last_step.x - m;
+					j = last_step.y - n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+						i -= m;
+						j -= n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i -= m;
+						j -= n;
+					}
+					i = last_step.x + m;
+					j = last_step.y + n;
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+						i += m;
+						j += n;
+					}
+					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+						Gobang::Step temp;
+						temp.x = i;
+						temp.y = j;
+						winnerSteps->push_back(temp);
+						i += m;
+						j += n;
+					}
+				}
+			}
+
+			dir = dir2;
+			judge++;
+		}
+	}
 }
 
 /*

@@ -28,6 +28,7 @@ public:
 	~AIUtil();
 
 	int state[19][19];
+	int DEPTH = 4;
 
 	typedef struct AIStep
 	{
@@ -62,7 +63,6 @@ private:
 	LL zobrist[3][20][20];
 	HashElem hashtable[HASHSIZE];
 
-	int DEPTH = 4;
 	int comy, comx;
 
 	/* cpoint[i][j][0] 表示电脑绝杀棋情况 */

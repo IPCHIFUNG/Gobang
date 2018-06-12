@@ -32,6 +32,7 @@ public:
 	void newStep(Step step);				// 走一步棋
 	Step popLastStep();						// 弹出最后一步棋
 	void shiftTurn();						// 换人走棋
+	void setDifficulty(int dif);			// 设置难度	
 	Step AIWalk(int type);					// 机器走棋
 
 	int isOverWithRestricted();				// 判断游戏是否结束，否返回ChessType::NOCHESS, 是返回棋子对应枚举，有禁手
@@ -48,23 +49,27 @@ public:
 	std::deque<Step> & getSteps();			// 返回储存落子顺序的双端队列
 	std::deque<Step> & getOverSteps();      // 返回储存导致游戏结束的落子位置的双端队列
 	std::deque<rank> & getRankings();		// 返回排行榜
+	std::deque<Step> * getWinnerModel();	// 返回导致胜负的棋子
 
 private:
 
-	int board[BOARDLENGTH][BOARDLENGTH];	// 棋盘信息
-	int turn;								// 轮次
-	int cModel[4];							// 棋型
-	AIUtil *AIutil;							// AI
-	std::deque<rank> * rankings;			// 排行榜
-	std::deque<Step> * steps;				// 储存落子顺序的双端队列
-	std::deque<Step> * overSteps;			// 储存导致游戏结束的落子位置
+	int board[BOARDLENGTH][BOARDLENGTH];								// 棋盘信息
+	int turn;															// 轮次
+	int cModel[4];														// 棋型
+	AIUtil *AIutil;														// AI
+	std::deque<rank> * rankings;										// 排行榜
+	std::deque<Step> * steps;											// 储存落子顺序的双端队列
+	std::deque<Step> * overSteps;										// 储存导致游戏结束的落子位置
+	std::deque<Step> * winnerSteps;										// 储存胜负落子
 
-	int isOver(bool isRestricted);			// 判断游戏是否结束，否返回ChessType::NOCHESS, 是返回棋子对应枚举
-	int searchNumOfChess(int m, int n, int temp, bool isRestricted);     // 判断棋子数
-	void setChessModel(int model, int temp);	// 设置棋型
-	int getChessModel(int temp);			// 获得棋型
+	int isOver(bool isRestricted);										// 判断游戏是否结束，否返回ChessType::NOCHESS, 是返回棋子对应枚举
+	int searchNumOfChess(int m, int n, int temp, bool isRestricted);	// 判断棋子数
+	bool judgeRestricted(int model1, int model2);						// 判断棋型
 
-	bool judgeRestricted(int model1, int model2);	// 判断棋型
+	void setChessModel(int model, int temp);							// 设置棋型
+	int getChessModel(int temp);										// 获得棋型
+	void setWinnerModel(int direction);									// 设置获胜棋型
+	void setBanModel(int dir1, int dir2, int ban_model);				// 设置禁手棋型
 
 };
 
