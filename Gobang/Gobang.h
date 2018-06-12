@@ -18,7 +18,13 @@ public:
 	{
 		int x;
 		int y;
-	} Step;
+	}Step;
+
+	typedef struct rank
+	{
+		std::string name;
+		int n;
+	}rank;
 
 	void initBoard();						// 初始化棋盘或用于清空棋盘
 	void newStep(Step step);				// 走一步棋
@@ -33,22 +39,21 @@ public:
 	void loadBoard(char * path);			// 从文件里读取棋盘
 	void readRanking();						// 读取排行榜
 	void writeRanking();					// 保存排行榜
+	void addRanking(std::string name, int n);	// 添加排行信息
 
-	std::string getRanking(int n);			// 返回排行榜
 	int getTurn();							// 返回当前轮次
 	int getAtPosition(int x, int y);		// 返回（x, y）位置的棋子
 	std::deque<Step> & getSteps();			// 返回储存落子顺序的双端队列
 	std::deque<Step> & getOverSteps();      // 返回储存导致游戏结束的落子位置的双端队列
-
+	std::deque<rank> & getRankings();		// 返回排行榜
 
 private:
 
 	int board[BOARDLENGTH][BOARDLENGTH];	// 棋盘信息
 	int turn;								// 轮次
 	int cModel[4];							// 棋型
-	std::string ranking[10];
 	AIUtil *AIutil;							// AI
-
+	std::deque<rank> * rankings;			// 排行榜
 	std::deque<Step> * steps;				// 储存落子顺序的双端队列
 	std::deque<Step> * overSteps;			// 储存导致游戏结束的落子位置
 

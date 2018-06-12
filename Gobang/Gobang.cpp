@@ -5,11 +5,9 @@
 Gobang::Gobang()
 {
 	AIutil = new AIUtil();
+	rankings = new std::deque<rank>();
 	// 初始化棋盘
 	initBoard();
-
-	for (int i = 0; i < 10; i++)
-		ranking[i] = "";
 }
 
 Gobang::~Gobang()
@@ -109,11 +107,11 @@ void Gobang::readRanking()
 
 	int n;
 	char tmp[50];
-	for (int i = 0; i < 10 && !feof(inFile); i++)
+	while (!feof(inFile))
 	{
 		fscanf(inFile, "%s\t%d\n", tmp, &n);
-		ranking[i] = tmp;
-		ranking[i] = ranking[i] + "\t" + std::to_string(n) + "\n";
+		rank r = { tmp,n };
+		rankings->push_back(r);
 	}
 	fclose(inFile);
 }
@@ -132,10 +130,9 @@ void Gobang::writeRanking()
 	if (outFile == nullptr)
 		throw "Unable to open file.";
 
-	for (int i = 0; i < 10 && ranking[i] != ""; i++)
-	{
-		fprintf(outFile, "%s", ranking[i].c_str());
-	}
+	for (auto it = rankings->begin(); it != rankings->end(); it++)
+		fprintf(outFile, "%s\t%d\n", it->name.c_str(), it->n);
+
 	fclose(outFile);
 }
 
@@ -144,9 +141,20 @@ void Gobang::writeRanking()
 
 	@author 王开阳
 */
-std::string Gobang::getRanking(int n)
+std::deque<Gobang::rank> & Gobang::getRankings()
 {
-	return ranking[n];
+	return *rankings;
+}
+
+/*
+	添加排行榜
+
+	@author 王开阳
+*/
+void Gobang::addRanking(std::string name, int n)
+{
+	rank r = { name,n };
+	rankings->push_back(r);
 }
 
 /*
@@ -260,7 +268,7 @@ Gobang::Step Gobang::AIWalk(int type)
 {
 	if (type != ChessType::BLACKCHESS && type != ChessType::WHITECHESS)
 		throw "The chess type does not exist";
-	
+
 	Step walk;
 
 	if (steps->size() <= 1) {
@@ -292,7 +300,7 @@ Gobang::Step Gobang::AIWalk(int type)
 		walk.y = AIutil->getX();
 		walk.x = AIutil->getY();
 	}
-	
+
 	return walk;
 }
 

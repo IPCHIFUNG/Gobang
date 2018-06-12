@@ -29,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
 		}
 	ui.btn_chessboard->raise();
 
+	connect(&computer, SIGNAL(showInf(int, int, int)), this, SLOT(showInf(int, int, int)));
+	connect(&computer, SIGNAL(showWinnerDialog()), this, SLOT(showWinnerDialog()));
+
 	// 读取音乐和音效
 	music.setMedia(QUrl::fromLocalFile("./sound/FlowerDance.mp3"));
 	soundEff.setMedia(QUrl::fromLocalFile("./sound/b.mp3"));
@@ -36,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
 	isMusicOn = true;
 
 	gobang = Gobang();
+	gobang.readRanking();
 	gameType = GameType::NONE;
 	winner = ChessType::NOCHESS;
 }
@@ -215,6 +219,19 @@ void MainWindow::highlightStep(Gobang::Step step, int type)
 }
 
 /*
+	显示排行榜
+
+	@author 王开阳
+*/
+void MainWindow::showRankings()
+{
+	std::string s = "";
+	for (auto it = gobang.getRankings().begin(); it != gobang.getRankings().end(); it++)
+		s += it->name + "\t" + std::to_string(it->n) + "\n";
+	ui.lbl_ranking->setText(QString::fromStdString(s));
+}
+
+/*
 	播放落子音效
 
 	@author 王开阳
@@ -280,16 +297,25 @@ Gobang::Step MainWindow::getStepFromScreen()
 */
 void MainWindow::showWinnerDialog()
 {
+	int isSave;
 	switch (winner)
 	{
 	case ChessType::BLACKCHESS:
-		QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！"), QMessageBox::NoButton);
+		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
+		if (isSave == QMessageBox::Yes)
+		{
+
+		}
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		setHomePageBtnVisable(true);
 		setGamePageBtnVisable(false);
 		break;
 	case ChessType::WHITECHESS:
-		QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！"), QMessageBox::NoButton);
+		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
+		if (isSave == QMessageBox::Yes)
+		{
+
+		}
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		setHomePageBtnVisable(true);
 		setGamePageBtnVisable(false);
@@ -321,6 +347,7 @@ void MainWindow::btnsClicked()
 	{
 		ui.lbl_ranking->raise();
 		ui.btn_close->raise();
+		showRankings();
 	}
 	else if (btnName == "btn_team")
 	{
@@ -355,7 +382,10 @@ void MainWindow::btnsClicked()
 		ui.btn_close->lower();
 	}
 	else if (btnName == "btn_exit")
+	{
+		gobang.writeRanking();
 		exit(0);
+	}
 }
 
 /*
@@ -377,8 +407,6 @@ void MainWindow::pveBtnClicked()
 	if (isRestricted == QMessageBox::Cancel)
 		return;
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
-	connect(&computer, SIGNAL(showInf(int, int, int)), this, SLOT(showInf(int, int, int)));
-	connect(&computer, SIGNAL(showWinnerDialog()), this, SLOT(showWinnerDialog()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
 	gameType = GameType::PVE;
@@ -439,7 +467,11 @@ void MainWindow::loadBtnClicked()
 	try
 	{
 		if (file != "")
+		{
+			clearBoard();
+			gobang.initBoard();
 			gobang.loadBoard(const_cast<char*>(file.c_str()));
+		}
 		else
 			return;
 	}
@@ -448,6 +480,7 @@ void MainWindow::loadBtnClicked()
 		qDebug() << msg;
 	}
 
+	QString s = "";
 	int size = gobang.getSteps().size();
 	auto iterator = gobang.getSteps().begin();
 	for (int i = 0; i < size; i++)
@@ -455,10 +488,12 @@ void MainWindow::loadBtnClicked()
 		{
 		case 0:
 			chess[iterator->x][iterator->y].setPixmap(blackChess);
+			s += QString::fromLocal8Bit("黑棋------------( ") + QString::number(iterator->x) + " , " + QString::number(iterator->y) + " )\n";
 			iterator++;
 			break;
 		case 1:
 			chess[iterator->x][iterator->y].setPixmap(whiteChess);
+			s += QString::fromLocal8Bit("白棋------------( ") + QString::number(iterator->x) + " , " + QString::number(iterator->y) + " )\n";
 			iterator++;
 			break;
 		default:
@@ -467,6 +502,13 @@ void MainWindow::loadBtnClicked()
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
+	isRestricted = QMessageBox::Yes;
+	gameType = GameType::PVP;
+
+	ui.text_chessinf->setText(s);
+	QTextCursor cursor = ui.text_chessinf->textCursor();
+	cursor.movePosition(QTextCursor::End);
+	ui.text_chessinf->setTextCursor(cursor);
 }
 
 /*
@@ -646,6 +688,7 @@ void MainWindow::boardClicked()
 */
 void MainWindow::closeEvent(QCloseEvent * event)
 {
+	gobang.writeRanking();
 	event->accept();
 	//event->ignore();
 }

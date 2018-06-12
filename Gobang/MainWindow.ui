@@ -540,7 +540,7 @@ QPushButton:hover{border-image: url(:/MainWindow/image/music(close).png);}</stri
    </widget>
    <widget class="QTextEdit" name="text_chessinf">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
