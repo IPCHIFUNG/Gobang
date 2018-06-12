@@ -8,6 +8,7 @@
 #include <QMediaPlayer>
 #include <QFileDialog>
 #include <QCloseEvent>
+#include <qinputdialog.h>
 #include <string>
 
 class MainWindow;
@@ -16,7 +17,7 @@ class MainWindow;
 /*
 		AI走棋线程（调用Start以开启线程）
 									 -By 叶志枫   */
-									 /* ---------------------------------------------- */
+/* ---------------------------------------------- */
 class AIThread : public QObject
 {
 	Q_OBJECT
@@ -77,7 +78,7 @@ private:
 private:
 	void clearBoard();							// 清空棋盘
 	void closeEvent(QCloseEvent *event);		// 窗口关闭事件
-
+	std::string getName();						// 输入胜利玩家姓名
 	void setHomePageBtnVisable(bool isOn);		// 设置主页按钮的可见性
 	void setGamePageBtnVisable(bool isOn);		// 设置游戏页按钮的可见性
 	std::string selectFile();					// 选择读取文件
