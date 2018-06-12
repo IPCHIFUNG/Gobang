@@ -219,6 +219,24 @@ void MainWindow::highlightStep(Gobang::Step step, int type)
 }
 
 /*
+	高亮棋子群
+
+	@author 叶志枫
+	@para step - 需要高亮的棋子群
+*/
+void MainWindow::highlightSteps(std::deque<Gobang::Step> steps, int color)
+{
+	QPixmap *pixmap = color == ChessType::BLACKCHESS ? &HLBlackChess : &HLWhiteChess;
+	while (steps.size() > 0)
+	{
+		Gobang::Step temp = steps.back();
+		steps.pop_back();
+		chess[temp.x][temp.y].setPixmap(*pixmap);
+	}
+	pixmap = NULL;
+}
+
+/*
 	显示排行榜
 
 	@author 王开阳

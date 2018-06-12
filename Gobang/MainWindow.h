@@ -48,18 +48,19 @@ class MainWindow : public QMainWindow
 
 public:
 	MainWindow(QWidget *parent = Q_NULLPTR);
-	Gobang::Step getStepFromScreen();						// 从屏幕获取棋子坐标
+	Gobang::Step getStepFromScreen();								// 从屏幕获取棋子坐标
 	void walkAStep(Gobang::Step new_step);
-	void showStep(Gobang::Step step, int type);				// 显示一步棋
-	void delInf();											// 删除棋子信息
-	void playSoundEffects();								// 播放落子音效
-	void highlightStep(Gobang::Step step, int type);		// 高亮棋子
-	void showRankings();									// 显示排行榜
+	void showStep(Gobang::Step step, int type);						// 显示一步棋
+	void delInf();													// 删除棋子信息
+	void playSoundEffects();										// 播放落子音效
+	void highlightStep(Gobang::Step step, int type);				// 高亮棋子
+	void highlightSteps(std::deque<Gobang::Step> steps, int color);	// 高亮棋子群
+	void showRankings();											// 显示排行榜
 
 	Gobang & getGobang() { return gobang; };
 	int getIsRestricted() { return isRestricted; };
-	int gameType;											// 游戏类型
-	int winner;												// 获胜玩家棋子颜色
+	int gameType;													// 游戏类型
+	int winner;														// 获胜玩家棋子颜色
 	Server *s;
 
 private:
