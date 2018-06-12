@@ -154,7 +154,17 @@ std::deque<Gobang::rank> & Gobang::getRankings()
 void Gobang::addRanking(std::string name, int n)
 {
 	rank r = { name,n };
-	rankings->push_back(r);
+	for (auto it = rankings->begin();; it++)
+		if (it->n > r.n)
+		{
+			rankings->insert(it, r);
+			break;
+		}
+		else if (it == rankings->end())
+		{
+			rankings->push_back(r);
+			break;
+		}
 }
 
 /*
@@ -463,7 +473,7 @@ int Gobang::searchNumOfChess(int m, int n, int temp, bool isRestricted)
 		int blankChessNum1 = 0, blankChessNum2 = 0;			// blankChessNum---空位后同色棋子数
 		int boardNum = 0;									// 墙
 
-		// 往右方及下方扫描 
+		// 往右方及下方扫描
 		i = s.x;
 		j = s.y;
 		while (i < BOARDLENGTH && j >= 0 && j < BOARDLENGTH && board[i][j] == turn) {

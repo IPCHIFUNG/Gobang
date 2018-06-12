@@ -457,14 +457,14 @@ QPushButton:pressed{border-image: url(:/MainWindow/image/开始游戏.png);}</st
     <property name="font">
      <font>
       <family>微软雅黑</family>
-      <pointsize>20</pointsize>
+      <pointsize>28</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/MainWindow/image/排行榜弹窗.png);</string>
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>image/排行榜弹窗.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>

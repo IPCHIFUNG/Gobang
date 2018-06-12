@@ -227,7 +227,7 @@ void MainWindow::showRankings()
 {
 	std::string s = "";
 	for (auto it = gobang.getRankings().begin(); it != gobang.getRankings().end(); it++)
-		s += it->name + "\t" + std::to_string(it->n) + "\n";
+		s += it->name + "\t\t\t\t" + std::to_string(it->n) + "\n";
 	ui.lbl_ranking->setText(QString::fromStdString(s));
 }
 
@@ -741,10 +741,10 @@ std::string MainWindow::selectDirectory()
 	处理联机另一端操作信息
 
 	@author 王锴贞
-	@para operation 操作类型 
+	@para operation 操作类型
 	@para x，y 位置坐标
 */
-void MainWindow::handleRecv_mes(int operation,int x, int y)
+void MainWindow::handleRecv_mes(int operation, int x, int y)
 {
 	int isOKClicked = -1;
 

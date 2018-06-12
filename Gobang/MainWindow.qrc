@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/MainWindow">
+    <file>image/排行榜弹窗.png</file>
     <file>image/music(close).png</file>
     <file>image/music.png</file>
     <file>image/70透明度棋盘.png</file>
