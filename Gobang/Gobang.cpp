@@ -146,6 +146,11 @@ std::deque<Gobang::rank> & Gobang::getRankings()
 	return *rankings;
 }
 
+std::deque<Gobang::Step> & Gobang::getWinModel()
+{
+	return *winnerSteps;
+}
+
 /*
 	Ìí¼ÓÅÅĞĞ°ñ
 
