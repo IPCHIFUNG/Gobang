@@ -594,6 +594,7 @@ void MainWindow::saveBtnClicked()
 void MainWindow::returnBtnClicked()
 {
 	disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+	gameType = GameType::NONE;
 	setHomePageBtnVisable(true);
 	setGamePageBtnVisable(false);
 }
