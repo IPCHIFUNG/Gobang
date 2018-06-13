@@ -559,6 +559,11 @@ void MainWindow::loadBtnClicked()
 */
 void MainWindow::restartBtnClicked()
 {
+	if (gameType == GameType::ONLINE)
+	{
+		s->msg_send(0, 0, OperationType::RESTART);
+		return;
+	}
 	// 清理棋盘
 	clearBoard();
 	gobang.initBoard();
@@ -583,6 +588,9 @@ void MainWindow::promptBtnClicked()
 				return;
 			new_step = gobang.AIWalk(gobang.getTurn());
 			walkAStep(new_step);
+			break;
+		case GameType::ONLINE:
+			s->msg_send(0, 0, OperationType::TIPS);
 			break;
 		default:
 			new_step = gobang.AIWalk(gobang.getTurn());
@@ -624,6 +632,9 @@ void MainWindow::retractBtnClicked()
 		}
 		highlightStep(step, -2);
 		break;
+	case GameType::ONLINE:
+		s->msg_send(0, 0, OperationType::CHEAT);
+		break;
 	default:
 		step = gobang.popLastStep();
 		if (step.x != -1 && step.y != -1)
@@ -644,6 +655,9 @@ void MainWindow::retractBtnClicked()
 */
 void MainWindow::giveUpBtnClicked()
 {
+	if (gameType == GameType::ONLINE)
+		s->msg_send(0, 0, OperationType::GIVEUP);
+
 	winner = (gobang.getTurn() + 1) % 2;
 	showWinnerDialog();
 	disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
@@ -787,6 +801,7 @@ std::string MainWindow::selectDirectory()
 void MainWindow::handleRecv_mes(int operation, int x, int y)
 {
 	int isOKClicked = -1;
+	Gobang::Step new_step;
 
 	switch (operation)
 	{
@@ -797,7 +812,7 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 			{
 				if (gobang.getTurn() == ChessType::BLACKCHESS)
 				{
-					s->msg_send(-1, -1, OperationType::ERR);
+					s->msg_send(0, 0, OperationType::ERR);
 					return;
 				}
 			}
@@ -805,7 +820,7 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 			{
 				if (gobang.getTurn() == ChessType::WHITECHESS)
 				{
-					s->msg_send(-1, -1, OperationType::ERR);
+					s->msg_send(0, 0, OperationType::ERR);
 					return;
 				}
 			}
@@ -824,7 +839,7 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		{
 			if (gobang.getTurn() == ChessType::BLACKCHESS)
 			{
-				s->msg_send(-1, -1, OperationType::ERR);
+				s->msg_send(0, 0, OperationType::ERR);
 				return;
 			}
 		}
@@ -832,7 +847,7 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		{
 			if (gobang.getTurn() == ChessType::WHITECHESS)
 			{
-				s->msg_send(-1, -1, OperationType::ERR);
+				s->msg_send(0, 0, OperationType::ERR);
 				return;
 			}
 		}
@@ -840,54 +855,153 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		switch (isOKClicked)
 		{
 		case QMessageBox::Yes:
-			s->msg_send(-1, -1, OperationType::AGREE);
+			s->msg_send(1, 1, OperationType::AGREE);
 			break;
 		case QMessageBox::No:
-			s->msg_send(-1, -1, OperationType::DISAGREE);
+			s->msg_send(1, 0, OperationType::DISAGREE);
 			break;
 		default:
-			s->msg_send(-1, -1, OperationType::ERR);
+			s->msg_send(0, 0, OperationType::ERR);
 			break;
 		}
 		break;
 	case OperationType::RESTART:
+		if (!s->judge)
+		{
+			if (gobang.getTurn() == ChessType::BLACKCHESS)
+			{
+				s->msg_send(0, 0, OperationType::ERR);
+				return;
+			}
+		}
+		else
+		{
+			if (gobang.getTurn() == ChessType::WHITECHESS)
+			{
+				s->msg_send(0, 0, OperationType::ERR);
+				return;
+			}
+		}
 		isOKClicked = QMessageBox::question(this, QString::fromLocal8Bit("重新开始请求"), QString::fromLocal8Bit("是否同意重新开始游戏"), QMessageBox::Yes, QMessageBox::No);
 		switch (isOKClicked)
 		{
 		case QMessageBox::Yes:
-			s->msg_send(-1, -1, OperationType::AGREE);
+			clearBoard();
+			gobang.initBoard();
+			connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+			ui.text_chessinf->setText("");
+
+			s->msg_send(2, 1, OperationType::AGREE);
 			break;
 		case QMessageBox::No:
-			s->msg_send(-1, -1, OperationType::DISAGREE);
+			s->msg_send(2, 0, OperationType::DISAGREE);
 			break;
 		default:
-			s->msg_send(-1, -1, OperationType::ERR);
+			s->msg_send(0, 0, OperationType::ERR);
 			break;
 		}
 		break;
 	case OperationType::CHEAT:
+		if (!s->judge)
+		{
+			if (gobang.getTurn() == ChessType::BLACKCHESS)
+			{
+				s->msg_send(0, 0, OperationType::ERR);
+				return;
+			}
+		}
+		else
+		{
+			if (gobang.getTurn() == ChessType::WHITECHESS)
+			{
+				s->msg_send(0, 0, OperationType::ERR);
+				return;
+			}
+		}
 		isOKClicked = QMessageBox::question(this, QString::fromLocal8Bit("悔棋请求"), QString::fromLocal8Bit("是否同意悔棋"), QMessageBox::Yes, QMessageBox::No);
 		switch (isOKClicked)
 		{
 		case QMessageBox::Yes:
-			s->msg_send(-1, -1, OperationType::AGREE);
+			s->msg_send(3, 1, OperationType::AGREE);
 			break;
 		case QMessageBox::No:
-			s->msg_send(-1, -1, OperationType::DISAGREE);
+			s->msg_send(3, 0, OperationType::DISAGREE);
 			break;
 		default:
-			s->msg_send(-1, -1, OperationType::ERR);
+			s->msg_send(0, 0, OperationType::ERR);
 			break;
 		}
 		break;
 	case OperationType::GIVEUP:
-
+		if (!s->judge)
+		{
+			if (gobang.getTurn() == ChessType::BLACKCHESS)
+			{
+				s->msg_send(0, 0, OperationType::ERR);
+				return;
+			}
+		}
+		else
+		{
+			if (gobang.getTurn() == ChessType::WHITECHESS)
+			{
+				s->msg_send(0, 0, OperationType::ERR);
+				return;
+			}
+		}
+		winner = (gobang.getTurn() + 1) % 2;
+		showWinnerDialog();
+		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		break;
 	case OperationType::ERR:
+		QMessageBox::warning(NULL, "ERROR", QString::fromLocal8Bit("非法的操作"));
 		break;
 	case OperationType::AGREE:
+		switch (x)
+		{
+		case 1:
+			promptBtnClicked();
+			new_step = getStepFromScreen();
+			s->msg_send(new_step.x, new_step.y, OperationType::WALK);
+			break;
+		case 2:
+			clearBoard();
+			gobang.initBoard();
+			connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+			ui.text_chessinf->setText("");
+			break;
+		case 3:
+			new_step = gobang.popLastStep();
+			if (new_step.x != -1 && new_step.y != -1)
+			{
+				chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+				delInf();
+				gobang.shiftTurn();
+			}
+			highlightStep(new_step, -2);
+			break;
+		default:
+			break;
+		}
 		break;
 	case OperationType::DISAGREE:
+		switch (x)
+		{
+		case 1:
+			QMessageBox::about(NULL, "Message", QString::fromLocal8Bit("对方不同意提示，对局继续"));
+			break;
+		case 2:
+			QMessageBox::about(NULL, "Message", QString::fromLocal8Bit("对方不同意重新开始，对局继续"));
+			break;
+		case 3:
+			QMessageBox::about(NULL, "Message", QString::fromLocal8Bit("对方不同意悔棋，对局继续"));
+			break;
+		case 4:
+			giveUpBtnClicked();
+			break;
+		default:
+			break;
+		}
 		break;
 
 	default:
