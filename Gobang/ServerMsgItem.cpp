@@ -9,9 +9,11 @@ ServerMsgItem::ServerMsgItem(int x, int y)
 	this->y = y;
 }
 
-ServerMsgItem::ServerMsgItem(int operation)
+ServerMsgItem::ServerMsgItem(int operation, int x, int y)
 {
 	this->operation = operation;
+	this->x = x;
+	this->y = y;
 }
 
 ServerMsgItem::~ServerMsgItem()
@@ -34,6 +36,14 @@ std::string ServerMsgItem::convertToString()
 		ss << y << "}";
 		break;
 	default:
+		//ss << "{x:" << x << "}{y:" << y << "}";
+		ss << "{x:";
+		if (x < 10)
+			ss << "0";
+		ss << x << "}{y:";
+		if (y < 10)
+			ss << "0";
+		ss << y << "}";
 		break;
 	}
 	ss << "}";
@@ -57,4 +67,18 @@ int ServerMsgItem::getYFromString(std::string str)
 	if (OperationType::WALK != ServerMsgItem::getOperationFromString(str))
 		throw "Error in conerting";
 	return (str[27] - '0') * 10 + (str[28] - '0');
+}
+
+int ServerMsgItem::getxFromString(std::string str)
+{
+	if (OperationType::WALK == ServerMsgItem::getOperationFromString(str))
+		throw "Error in conerting";
+	return (str[22] - '0');
+}
+
+int ServerMsgItem::getyFromString(std::string str)
+{
+	if (OperationType::WALK == ServerMsgItem::getOperationFromString(str))
+		throw "Error in conerting";
+	return (str[28] - '0');
 }

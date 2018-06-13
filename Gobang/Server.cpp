@@ -118,7 +118,7 @@ void Server::msg_send( int x, int y, int operation)
 	if (operation == 0)
 		msg = ServerMsgItem(x, y).convertToString();
 	else
-		msg = ServerMsgItem(operation).convertToString();
+		msg = ServerMsgItem(operation, x, y).convertToString();
 	if(judge)
 		sendMessage(server_s, msg);
 	else
@@ -180,7 +180,10 @@ void Server::run()
 		default:
 			if (op < 0 || op > 7)
 				throw"invalue operation";
-			emit msg_rec(op, -1, -1);
+			int x1 = ServerMsgItem::getxFromString(recvBuf);
+			int y1 = ServerMsgItem::getyFromString(recvBuf);
+			emit msg_rec(op, x1, y1);
+			
 			break;
 		}
 	}

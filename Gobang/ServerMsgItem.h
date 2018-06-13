@@ -7,13 +7,15 @@ class ServerMsgItem
 {
 public:
 	ServerMsgItem(int x, int y);
-	ServerMsgItem(int operation);
+	ServerMsgItem(int operation,int x, int y);
 	~ServerMsgItem();
 
 	std::string convertToString();
 	static int getOperationFromString(std::string str);
 	static int getXFromString(std::string str);
 	static int getYFromString(std::string str);
+	static int getxFromString(std::string str);
+	static int getyFromString(std::string str);
 
 private:
 	int operation;
