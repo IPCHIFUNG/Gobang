@@ -657,10 +657,10 @@ void MainWindow::giveUpBtnClicked()
 {
 	if (gameType == GameType::ONLINE)
 		s->msg_send(0, 0, OperationType::GIVEUP);
-
 	winner = (gobang.getTurn() + 1) % 2;
 	showWinnerDialog();
 	disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+	
 }
 
 /*
@@ -855,6 +855,8 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		switch (isOKClicked)
 		{
 		case QMessageBox::Yes:
+			new_step = gobang.AIWalk(gobang.getTurn());
+			walkAStep(new_step);
 			s->msg_send(1, 1, OperationType::AGREE);
 			break;
 		case QMessageBox::No:
@@ -922,6 +924,21 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		switch (isOKClicked)
 		{
 		case QMessageBox::Yes:
+			new_step = gobang.popLastStep();
+			if (new_step.x != -1 && new_step.y != -1)
+			{
+				chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+				delInf();
+				gobang.shiftTurn();
+			}
+			new_step = gobang.popLastStep();
+			if (new_step.x != -1 && new_step.y != -1)
+			{
+				chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+				delInf();
+				gobang.shiftTurn();
+			}
+			highlightStep(new_step, -2);
 			s->msg_send(3, 1, OperationType::AGREE);
 			break;
 		case QMessageBox::No:
@@ -960,9 +977,8 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		switch (x)
 		{
 		case 1:
-			promptBtnClicked();
-			new_step = getStepFromScreen();
-			s->msg_send(new_step.x, new_step.y, OperationType::WALK);
+			new_step = gobang.AIWalk(gobang.getTurn());
+			walkAStep(new_step);
 			break;
 		case 2:
 			clearBoard();
@@ -971,6 +987,13 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 			ui.text_chessinf->setText("");
 			break;
 		case 3:
+			new_step = gobang.popLastStep();
+			if (new_step.x != -1 && new_step.y != -1)
+			{
+				chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+				delInf();
+				gobang.shiftTurn();
+			}
 			new_step = gobang.popLastStep();
 			if (new_step.x != -1 && new_step.y != -1)
 			{
