@@ -5,7 +5,7 @@
 
 	@author - 叶志枫
 																	 */
-																	 /* ----------------------------------------------------------------- */
+/* ----------------------------------------------------------------- */
 
 #ifndef DIALOG_H
 #define DIALOG_H
@@ -13,10 +13,7 @@
 #include "MainWindow.h"
 #include"Server.h"
 #include <QDialog>
-
 #include<qMessageBox>
-
-
 
 namespace Ui {
 	class ServerDialog;
@@ -27,7 +24,7 @@ class ServerDialog : public QDialog
 	Q_OBJECT
 
 public:
-	ServerDialog(QWidget *parent = 0);
+	ServerDialog(QWidget *parent = Q_NULLPTR);
 	~ServerDialog();
 
 	bool okClicked;							// 保存确定按钮是否被点击状态

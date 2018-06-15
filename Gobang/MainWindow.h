@@ -5,6 +5,9 @@
 #include "Server.h"
 
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QRadioButton>
 #include <QMediaPlayer>
 #include <QFileDialog>
 #include <QCloseEvent>
@@ -17,7 +20,7 @@ class MainWindow;
 /*
 		AI走棋线程（调用Start以开启线程）
 									 -By 叶志枫   */
-/* ---------------------------------------------- */
+									 /* ---------------------------------------------- */
 class AIThread : public QObject
 {
 	Q_OBJECT
@@ -41,6 +44,31 @@ private:
 	bool isCalculating = false;
 };
 
+class SelectDialog : public QDialog
+{
+	Q_OBJECT
+
+public:
+	SelectDialog(QWidget *parent = Q_NULLPTR);	// 人机对战的选择框
+	void setMainWindow(MainWindow *mainWindow);
+
+private:
+	MainWindow * mainWindow;
+	QGroupBox *groupBox;
+	QGroupBox *groupBox_2;
+	QRadioButton *radioButton;
+	QRadioButton *radioButton_2;
+	QRadioButton *radioButton_3;
+	QCheckBox *checkBox;
+	QCheckBox *checkBox_2;
+	QPushButton *pushButton;
+	QPushButton *pushButton_2;
+
+private slots:
+	void okBtnClicked();			// 设置人机游戏变量
+	void cancelBtnClicked();		// 取消按钮响应
+
+};
 
 class MainWindow : public QMainWindow
 {
@@ -56,6 +84,7 @@ public:
 	void highlightStep(Gobang::Step step, int type);				// 高亮棋子
 	void highlightSteps(std::deque<Gobang::Step> steps);			// 高亮棋子群
 	void showRankings();											// 显示排行榜
+	void setVariable(int isFir, int isRes, bool ok);				// 设置人机游戏变量
 
 	Gobang & getGobang() { return gobang; };
 	int getIsRestricted() { return isRestricted; };
@@ -87,6 +116,7 @@ private:
 	bool isMusicOn;								// 播放和暂停背景音乐
 	int isRestricted;							// 是否带禁手开始游戏
 	int isFirstHand;							// 是否先手开始游戏
+	bool okClicked;								// 是否开始游戏
 
 	AIThread computer;
 	int computerColor;

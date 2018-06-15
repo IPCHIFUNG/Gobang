@@ -370,6 +370,107 @@ std::string MainWindow::getName()
 	return "";
 }
 
+
+/*
+	人机对战的选择框
+
+	@author 王开阳
+*/
+SelectDialog::SelectDialog(QWidget *parent)
+	: QDialog(parent)
+{
+	this->setWindowTitle(QString::fromLocal8Bit("联机对战"));
+	this->resize(352, 224);
+	// 设置窗口居中
+	this->move(parent->geometry().center() - this->rect().center());
+
+	QFont font;
+	font.setFamily(QString::fromUtf8("\345\276\256\350\275\257\351\233\205\351\273\221"));
+	font.setPointSize(12);
+
+	groupBox = new QGroupBox(this);
+	groupBox->setGeometry(QRect(20, 30, 141, 131));
+	radioButton = new QRadioButton(groupBox);
+	radioButton->setGeometry(QRect(40, 30, 61, 21));
+	radioButton->setFont(font);
+	radioButton->setChecked(true);
+	radioButton_2 = new QRadioButton(groupBox);
+	radioButton_2->setGeometry(QRect(40, 60, 61, 21));
+	radioButton_2->setFont(font);
+	radioButton_3 = new QRadioButton(groupBox);
+	radioButton_3->setGeometry(QRect(40, 90, 61, 21));
+	radioButton_3->setFont(font);
+	groupBox->setTitle(QString::fromLocal8Bit("难度选择"));
+	radioButton->setText(QString::fromLocal8Bit("简单"));
+	radioButton_2->setText(QString::fromLocal8Bit("中等"));
+	radioButton_3->setText(QString::fromLocal8Bit("困难"));
+
+	groupBox_2 = new QGroupBox(this);
+	groupBox_2->setGeometry(QRect(190, 30, 141, 131));
+	checkBox = new QCheckBox(groupBox_2);
+	checkBox->setGeometry(QRect(30, 40, 91, 21));
+	checkBox->setFont(font);
+	checkBox_2 = new QCheckBox(groupBox_2);
+	checkBox_2->setGeometry(QRect(30, 80, 91, 21));
+	checkBox_2->setFont(font);
+	groupBox_2->setTitle(QString::fromLocal8Bit("游戏选择"));
+	checkBox->setText(QString::fromLocal8Bit("先手开始"));
+	checkBox_2->setText(QString::fromLocal8Bit("禁手游戏"));
+
+	pushButton = new QPushButton(this);
+	pushButton->setGeometry(QRect(40, 180, 91, 31));
+	pushButton->setFont(font);
+	pushButton_2 = new QPushButton(this);
+	pushButton_2->setGeometry(QRect(220, 180, 91, 31));
+	pushButton_2->setFont(font);
+	pushButton->setText(QString::fromLocal8Bit("确认"));
+	pushButton_2->setText(QString::fromLocal8Bit("取消"));
+
+	// 连接信号槽
+	connect(pushButton, SIGNAL(clicked()), this, SLOT(okBtnClicked()));
+	connect(pushButton_2, SIGNAL(clicked()), this, SLOT(cancelBtnClicked()));
+}
+
+void SelectDialog::setMainWindow(MainWindow *mainWindow)
+{
+	this->mainWindow = mainWindow;
+}
+
+/*
+棋盘被点击响应事件
+
+@author 王开阳
+*/
+void SelectDialog::okBtnClicked()
+{
+	int isFir, isRes;
+	if (radioButton->isChecked())
+		mainWindow->getGobang().setDifficulty(1);
+	else if (radioButton_2->isChecked())
+		mainWindow->getGobang().setDifficulty(2);
+	else if (radioButton_3->isChecked())
+		mainWindow->getGobang().setDifficulty(3);
+	isFir = checkBox->isChecked();
+	if (checkBox_2->isChecked())
+		isRes = QMessageBox::Yes;
+	else
+		isRes = QMessageBox::No;
+	mainWindow->setVariable(isFir, isRes, true);
+	this->close();
+}
+
+void SelectDialog::cancelBtnClicked()
+{
+	this->close();
+}
+
+void MainWindow::setVariable(int isFir, int isRes, bool ok)
+{
+	isFirstHand = isFir;
+	isRestricted = isRes;
+	okClicked = ok;
+}
+
 /*
 	按钮被点击响应事件
 
@@ -437,15 +538,15 @@ void MainWindow::pveBtnClicked()
 {
 	clearBoard();
 	gobang.initBoard();
-	isFirstHand = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要先手落子？"), QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
+	okClicked = false;
+	SelectDialog dialog = new SelectDialog(this);
+	dialog.setMainWindow(this);
+	dialog.exec();
+	if (!okClicked)
+		return;
 	computerColor = ChessType::WHITECHESS;
-	if (isFirstHand == QMessageBox::Cancel)
-		return;
-	if (isFirstHand == QMessageBox::No)
+	if (!isFirstHand)
 		computerColor = ChessType::BLACKCHESS;
-	isRestricted = QMessageBox::question(this, QString::fromLocal8Bit("五子棋"), QString::fromLocal8Bit("是否要带禁手开始游戏？"), QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
-	if (isRestricted == QMessageBox::Cancel)
-		return;
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
@@ -660,7 +761,6 @@ void MainWindow::giveUpBtnClicked()
 	winner = (gobang.getTurn() + 1) % 2;
 	showWinnerDialog();
 	disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
-	
 }
 
 /*

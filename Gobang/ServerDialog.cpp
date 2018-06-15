@@ -35,8 +35,6 @@ bool ServerDialog::isOKClicked()
 	return okClicked;
 }
 
-
-
 void ServerDialog::setMainWindow(MainWindow * mainWindow)
 {
 	this->mainWindow = mainWindow;
@@ -111,7 +109,7 @@ void ServerDialog::hostBtnClicked()
 	mainWindow->s = new Server(addr);
 	mainWindow->s->server_start();
 
-	connect(mainWindow->s, SIGNAL(msg_rec(int, int, int)), mainWindow, SLOT(handleRecv_mes(int , int , int )));
+	connect(mainWindow->s, SIGNAL(msg_rec(int, int, int)), mainWindow, SLOT(handleRecv_mes(int, int, int)));
 
 	mainWindow->s->start();
 	okClicked = true;
@@ -147,7 +145,7 @@ void ServerDialog::connectBtnClicked()
 
 	mainWindow->s = new Server(ip, port);
 	mainWindow->s->client_start();
-	connect(mainWindow->s, SIGNAL(msg_rec(int, int, int)), mainWindow, SLOT(handleRecv_mes(int , int , int)));
+	connect(mainWindow->s, SIGNAL(msg_rec(int, int, int)), mainWindow, SLOT(handleRecv_mes(int, int, int)));
 	connect(mainWindow->s, SIGNAL(Omsg_rec(char*)), mainWindow, SLOT(Do_msg(char*)));
 	mainWindow->s->start();
 	okClicked = true;
