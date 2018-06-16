@@ -590,6 +590,8 @@ void MainWindow::onlineBtnClicked()
 	if (!serverDialog.isOKClicked())
 		return;
 
+	clearBoard();
+	gobang.initBoard();
 	connect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	setHomePageBtnVisable(false);
 	setGamePageBtnVisable(true);
@@ -968,22 +970,6 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		}
 		break;
 	case OperationType::RESTART:
-		if (!s->judge)
-		{
-			if (gobang.getTurn() == ChessType::BLACKCHESS)
-			{
-				s->msg_send(0, 0, OperationType::ERR);
-				return;
-			}
-		}
-		else
-		{
-			if (gobang.getTurn() == ChessType::WHITECHESS)
-			{
-				s->msg_send(0, 0, OperationType::ERR);
-				return;
-			}
-		}
 		isOKClicked = QMessageBox::question(this, QString::fromLocal8Bit("重新开始请求"), QString::fromLocal8Bit("是否同意重新开始游戏"), QMessageBox::Yes, QMessageBox::No);
 		switch (isOKClicked)
 		{
@@ -1004,39 +990,60 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		}
 		break;
 	case OperationType::CHEAT:
-		if (!s->judge)
-		{
-			if (gobang.getTurn() == ChessType::BLACKCHESS)
-			{
-				s->msg_send(0, 0, OperationType::ERR);
-				return;
-			}
-		}
-		else
-		{
-			if (gobang.getTurn() == ChessType::WHITECHESS)
-			{
-				s->msg_send(0, 0, OperationType::ERR);
-				return;
-			}
-		}
+		
 		isOKClicked = QMessageBox::question(this, QString::fromLocal8Bit("悔棋请求"), QString::fromLocal8Bit("是否同意悔棋"), QMessageBox::Yes, QMessageBox::No);
 		switch (isOKClicked)
 		{
 		case QMessageBox::Yes:
-			new_step = gobang.popLastStep();
-			if (new_step.x != -1 && new_step.y != -1)
+			if (!s->judge)
 			{
-				chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
-				delInf();
-				gobang.shiftTurn();
+				if (gobang.getTurn() == ChessType::BLACKCHESS)
+				{
+					new_step = gobang.popLastStep();
+					if (new_step.x != -1 && new_step.y != -1)
+					{
+						chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+						delInf();
+						gobang.shiftTurn();
+					}
+				}
+				else
+				{
+					for (int c = 1; c < 3; c++) {
+						new_step = gobang.popLastStep();
+						if (new_step.x != -1 && new_step.y != -1)
+						{
+							chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+							delInf();
+							gobang.shiftTurn();
+						}
+					}
+				}
 			}
-			new_step = gobang.popLastStep();
-			if (new_step.x != -1 && new_step.y != -1)
+			else
 			{
-				chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
-				delInf();
-				gobang.shiftTurn();
+				if (gobang.getTurn() == ChessType::WHITECHESS)
+				{
+					new_step = gobang.popLastStep();
+					if (new_step.x != -1 && new_step.y != -1)
+					{
+						chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+						delInf();
+						gobang.shiftTurn();
+					}
+				}
+				else
+				{
+					for (int c = 1; c < 3; c++) {
+						new_step = gobang.popLastStep();
+						if (new_step.x != -1 && new_step.y != -1)
+						{
+							chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+							delInf();
+							gobang.shiftTurn();
+						}
+					}
+				}
 			}
 			highlightStep(new_step, -2);
 			s->msg_send(3, 1, OperationType::AGREE);
@@ -1050,22 +1057,6 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		}
 		break;
 	case OperationType::GIVEUP:
-		if (!s->judge)
-		{
-			if (gobang.getTurn() == ChessType::BLACKCHESS)
-			{
-				s->msg_send(0, 0, OperationType::ERR);
-				return;
-			}
-		}
-		else
-		{
-			if (gobang.getTurn() == ChessType::WHITECHESS)
-			{
-				s->msg_send(0, 0, OperationType::ERR);
-				return;
-			}
-		}
 		winner = (gobang.getTurn() + 1) % 2;
 		showWinnerDialog();
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
@@ -1087,19 +1078,55 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 			ui.text_chessinf->setText("");
 			break;
 		case 3:
-			new_step = gobang.popLastStep();
-			if (new_step.x != -1 && new_step.y != -1)
+			if (s->judge)
 			{
-				chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
-				delInf();
-				gobang.shiftTurn();
+				if (gobang.getTurn() == ChessType::BLACKCHESS)
+				{
+					new_step = gobang.popLastStep();
+					if (new_step.x != -1 && new_step.y != -1)
+					{
+						chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+						delInf();
+						gobang.shiftTurn();
+					}
+				}
+				else
+				{
+					for (int c = 1; c < 3; c++) {
+						new_step = gobang.popLastStep();
+						if (new_step.x != -1 && new_step.y != -1)
+						{
+							chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+							delInf();
+							gobang.shiftTurn();
+						}
+					}
+				}
 			}
-			new_step = gobang.popLastStep();
-			if (new_step.x != -1 && new_step.y != -1)
+			else
 			{
-				chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
-				delInf();
-				gobang.shiftTurn();
+				if (gobang.getTurn() == ChessType::WHITECHESS)
+				{
+					new_step = gobang.popLastStep();
+					if (new_step.x != -1 && new_step.y != -1)
+					{
+						chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+						delInf();
+						gobang.shiftTurn();
+					}
+				}
+				else
+				{
+					for (int c = 1; c < 3; c++) {
+						new_step = gobang.popLastStep();
+						if (new_step.x != -1 && new_step.y != -1)
+						{
+							chess[new_step.x][new_step.y].setPixmap(QPixmap(""));
+							delInf();
+							gobang.shiftTurn();
+						}
+					}
+				}
 			}
 			highlightStep(new_step, -2);
 			break;
