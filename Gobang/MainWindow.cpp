@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 	gobang.readRanking();
 	gameType = GameType::NONE;
 	winner = ChessType::NOCHESS;
+
+	isclicked_online = false;
 }
 
 /*
@@ -662,8 +664,14 @@ void MainWindow::loadBtnClicked()
 */
 void MainWindow::restartBtnClicked()
 {
+	if (isclicked_online)
+	{
+		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("ÇëÎðÖØ¸´µã»÷"));
+		return;
+	}
 	if (gameType == GameType::ONLINE)
 	{
+		isclicked_online = true;
 		s->msg_send(0, 0, OperationType::RESTART);
 		return;
 	}
@@ -693,6 +701,12 @@ void MainWindow::promptBtnClicked()
 			walkAStep(new_step);
 			break;
 		case GameType::ONLINE:
+			if (isclicked_online)
+			{
+				QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("ÇëÎðÖØ¸´µã»÷"));
+				return;
+			}
+			isclicked_online = true;
 			s->msg_send(0, 0, OperationType::TIPS);
 			break;
 		default:
@@ -736,6 +750,12 @@ void MainWindow::retractBtnClicked()
 		highlightStep(step, -2);
 		break;
 	case GameType::ONLINE:
+		if (isclicked_online)
+		{
+			QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("ÇëÎðÖØ¸´µã»÷"));
+			return;
+		}
+		isclicked_online = true;
 		s->msg_send(0, 0, OperationType::CHEAT);
 		break;
 	default:
@@ -758,8 +778,17 @@ void MainWindow::retractBtnClicked()
 */
 void MainWindow::giveUpBtnClicked()
 {
+	if (isclicked_online)
+	{
+		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("ÇëÎðÖØ¸´µã»÷"));
+		return;
+	}
 	if (gameType == GameType::ONLINE)
+	{
+		isclicked_online = true;
 		s->msg_send(0, 0, OperationType::GIVEUP);
+	}
+		
 	winner = (gobang.getTurn() + 1) % 2;
 	showWinnerDialog();
 	disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
@@ -990,7 +1019,6 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		}
 		break;
 	case OperationType::CHEAT:
-		
 		isOKClicked = QMessageBox::question(this, QString::fromLocal8Bit("»ÚÆåÇëÇó"), QString::fromLocal8Bit("ÊÇ·ñÍ¬Òâ»ÚÆå"), QMessageBox::Yes, QMessageBox::No);
 		switch (isOKClicked)
 		{
@@ -1133,6 +1161,7 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		default:
 			break;
 		}
+		isclicked_online = false;
 		break;
 	case OperationType::DISAGREE:
 		switch (x)
@@ -1152,6 +1181,7 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		default:
 			break;
 		}
+		isclicked_online = false;
 		break;
 
 	default:

@@ -117,6 +117,7 @@ private:
 	int isRestricted;							// 是否带禁手开始游戏
 	int isFirstHand;							// 是否先手开始游戏
 	bool okClicked;								// 是否开始游戏
+	bool isclicked_online;						// 联机中是否点击过功能按钮
 
 	AIThread computer;
 	int computerColor;
