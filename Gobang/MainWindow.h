@@ -111,8 +111,8 @@ private:
 	std::string getName();						// 输入胜利玩家姓名
 	void setHomePageBtnVisable(bool isOn);		// 设置主页按钮的可见性
 	void setGamePageBtnVisable(bool isOn);		// 设置游戏页按钮的可见性
-	std::string selectFile();					// 选择读取文件
-	std::string selectDirectory();				// 选择保存目录
+	std::string selectFile();							// 选择读取文件
+	std::string selectDirectory();					// 选择保存目录
 	bool isMusicOn;								// 播放和暂停背景音乐
 	int isRestricted;							// 是否带禁手开始游戏
 	int isFirstHand;							// 是否先手开始游戏

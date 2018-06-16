@@ -328,7 +328,7 @@ void MainWindow::showWinnerDialog()
 	switch (winner)
 	{
 	case ChessType::BLACKCHESS:
-		if(!isGiveUp)
+		if (!isGiveUp)
 			highlightSteps(gobang.getWinModel());
 		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
 		if (isSave == QMessageBox::Yes)
@@ -791,7 +791,7 @@ void MainWindow::giveUpBtnClicked()
 		isclicked_online = true;
 		s->msg_send(0, 0, OperationType::GIVEUP);
 	}
-		
+
 	winner = (gobang.getTurn() + 1) % 2;
 	isGiveUp = true;
 	showWinnerDialog();
@@ -902,7 +902,8 @@ std::string MainWindow::selectFile()
 	fd.setNameFilters(filters);					//文件过滤
 	if (!fd.exec())
 		return "";
-	return fd.selectedFiles()[0].toStdString();
+	QByteArray ba = fd.selectedFiles()[0].toLocal8Bit();
+	return ba.data();
 }
 
 /*
@@ -923,7 +924,8 @@ std::string MainWindow::selectDirectory()
 	fd.setNameFilters(filters);					//文件过滤
 	if (!fd.exec())
 		return "";
-	return fd.selectedFiles()[0].toStdString();
+	QByteArray ba = fd.selectedFiles()[0].toLocal8Bit();
+	return ba.data();
 }
 
 /*
