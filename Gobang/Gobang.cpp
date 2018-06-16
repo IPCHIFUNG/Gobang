@@ -382,25 +382,25 @@ int Gobang::isOver(bool isRestricted)
 
 	if (!isRestricted || turn == ChessType::WHITECHESS) {
 		result[0] = searchNumOfChess(1, 0, 0, isRestricted);		// 竖直查找，0---竖直
-		if (result[0] == 5) {
+		if (result[0] >= 5) {
 			setWinnerModel(0, turn);
 			return turn;
 		}
 
 		result[1] = searchNumOfChess(0, 1, 1, isRestricted);		// 水平查找，1---水平
-		if (result[1] == 5) {
+		if (result[1] >= 5) {
 			setWinnerModel(1, turn);
 			return turn;
 		}
 
 		result[2] = searchNumOfChess(1, 1, 2, isRestricted);		// 主对角线查找，2---主对角线
-		if (result[2] == 5) {
+		if (result[2] >= 5) {
 			setWinnerModel(2, turn);
 			return turn;
 		}
 
 		result[3] = searchNumOfChess(1, -1, 3, isRestricted);		// 副对角线查找，3---副对角线
-		if (result[3] == 5) {
+		if (result[3] >= 5) {
 			setWinnerModel(3, turn);
 			return turn;
 		}
@@ -842,50 +842,8 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 						temp2.y = last_step.y;
 						winnerSteps->push_back(temp2);
 					}
-					i = last_step.x - m;
-					j = last_step.y - n;
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i -= m;
-						j -= n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
-						i -= m;
-						j -= n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i -= m;
-						j -= n;
-					}
-					i = last_step.x + m;
-					j = last_step.y + n;
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i += m;
-						j += n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
-						i += m;
-						j += n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i += m;
-						j += n;
-					}
+
+					getBan(m, n);
 
 					ok = 1;
 				}
@@ -933,50 +891,8 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 						temp2.y = last_step.y;
 						winnerSteps->push_back(temp2);
 					}
-					i = last_step.x - m;
-					j = last_step.y - n;
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i -= m;
-						j -= n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
-						i -= m;
-						j -= n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i -= m;
-						j -= n;
-					}
-					i = last_step.x + m;
-					j = last_step.y + n;
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i += m;
-						j += n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
-						i += m;
-						j += n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i += m;
-						j += n;
-					}
+
+					getBan(m, n);
 
 					ok = 1;
 				}
@@ -990,50 +906,8 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 						temp2.y = last_step.y;
 						winnerSteps->push_back(temp2);
 					}
-					i = last_step.x - m;
-					j = last_step.y - n;
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i -= m;
-						j -= n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
-						i -= m;
-						j -= n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i -= m;
-						j -= n;
-					}
-					i = last_step.x + m;
-					j = last_step.y + n;
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i += m;
-						j += n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
-						i += m;
-						j += n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i += m;
-						j += n;
-					}
+
+					getBan(m, n);
 				}
 			}
 			else if (chessNum == 1) {
@@ -1048,50 +922,8 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 						temp2.y = last_step.y;
 						winnerSteps->push_back(temp2);
 					}
-					i = last_step.x - m;
-					j = last_step.y - n;
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i -= m;
-						j -= n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
-						i -= m;
-						j -= n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i -= m;
-						j -= n;
-					}
-					i = last_step.x + m;
-					j = last_step.y + n;
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i += m;
-						j += n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
-						i += m;
-						j += n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i += m;
-						j += n;
-					}
+
+					getBan(m, n);
 
 					ok = 1;
 				}
@@ -1105,56 +937,71 @@ void Gobang::setBanModel(int dir1, int dir2, int ban_model)
 						temp2.y = last_step.y;
 						winnerSteps->push_back(temp2);
 					}
-					i = last_step.x - m;
-					j = last_step.y - n;
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i -= m;
-						j -= n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
-						i -= m;
-						j -= n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i -= m;
-						j -= n;
-					}
-					i = last_step.x + m;
-					j = last_step.y + n;
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i += m;
-						j += n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
-						i += m;
-						j += n;
-					}
-					while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
-						Gobang::Step temp;
-						temp.x = i;
-						temp.y = j;
-						winnerSteps->push_back(temp);
-						i += m;
-						j += n;
-					}
+
+					getBan(m, n);
 				}
 			}
 
 			dir = dir2;
 			judge++;
 		}
+	}
+}
+
+/*
+	禁手棋型
+
+	@para m---左上方向，n---右下方向
+	@author 应禹尧
+*/
+void Gobang::getBan(int m, int n)
+{
+	int i, j;
+	Step last_step = steps->back();
+
+	i = last_step.x - m;
+	j = last_step.y - n;
+	while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+		Gobang::Step temp;
+		temp.x = i;
+		temp.y = j;
+		winnerSteps->push_back(temp);
+		i -= m;
+		j -= n;
+	}
+	while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+		i -= m;
+		j -= n;
+	}
+	while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+		Gobang::Step temp;
+		temp.x = i;
+		temp.y = j;
+		winnerSteps->push_back(temp);
+		i -= m;
+		j -= n;
+	}
+	i = last_step.x + m;
+	j = last_step.y + n;
+	while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+		Gobang::Step temp;
+		temp.x = i;
+		temp.y = j;
+		winnerSteps->push_back(temp);
+		i += m;
+		j += n;
+	}
+	while (JUDGE_EDGE(i, j) && board[i][j] == AIChessType::AINOCHESS) {
+		i += m;
+		j += n;
+	}
+	while (JUDGE_EDGE(i, j) && board[i][j] == turn) {
+		Gobang::Step temp;
+		temp.x = i;
+		temp.y = j;
+		winnerSteps->push_back(temp);
+		i += m;
+		j += n;
 	}
 }
 

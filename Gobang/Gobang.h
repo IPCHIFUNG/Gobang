@@ -71,6 +71,8 @@ private:
 	void setWinnerModel(int direction, int type);						// 设置获胜棋型
 	void setBanModel(int dir1, int dir2, int ban_model);				// 设置禁手棋型
 
+	void getBan(int m, int n);											// 禁手棋型
+
 };
 
 /*
