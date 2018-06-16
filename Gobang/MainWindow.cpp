@@ -63,6 +63,7 @@ void MainWindow::clearBoard()
 		chess[steps.front().x][steps.front().y].setPixmap(QPixmap(""));
 		steps.pop_front();
 	}
+	isGiveUp = false;
 }
 
 /*
@@ -327,7 +328,8 @@ void MainWindow::showWinnerDialog()
 	switch (winner)
 	{
 	case ChessType::BLACKCHESS:
-		highlightSteps(gobang.getWinModel());
+		if(!isGiveUp)
+			highlightSteps(gobang.getWinModel());
 		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("黑棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
 		if (isSave == QMessageBox::Yes)
 			gobang.addRanking(getName(), gobang.getSteps().size() / 2 + 1);
@@ -336,7 +338,8 @@ void MainWindow::showWinnerDialog()
 		setGamePageBtnVisable(false);
 		break;
 	case ChessType::WHITECHESS:
-		highlightSteps(gobang.getWinModel());
+		if (!isGiveUp)
+			highlightSteps(gobang.getWinModel());
 		isSave = QMessageBox::information(this, QString::fromLocal8Bit("游戏获胜"), QString::fromLocal8Bit("白棋获胜！\n是否要保存游戏记录？"), QMessageBox::Yes, QMessageBox::No);
 		if (isSave == QMessageBox::Yes)
 			gobang.addRanking(getName(), gobang.getSteps().size() / 2);
@@ -790,6 +793,7 @@ void MainWindow::giveUpBtnClicked()
 	}
 		
 	winner = (gobang.getTurn() + 1) % 2;
+	isGiveUp = true;
 	showWinnerDialog();
 	disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 }

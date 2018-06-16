@@ -20,7 +20,7 @@ class MainWindow;
 /*
 		AI走棋线程（调用Start以开启线程）
 									 -By 叶志枫   */
-									 /* ---------------------------------------------- */
+/* ---------------------------------------------- */
 class AIThread : public QObject
 {
 	Q_OBJECT
@@ -85,11 +85,11 @@ public:
 	void highlightSteps(std::deque<Gobang::Step> steps);			// 高亮棋子群
 	void showRankings();											// 显示排行榜
 	void setVariable(int isFir, int isRes, bool ok);				// 设置人机游戏变量
-
 	Gobang & getGobang() { return gobang; };
 	int getIsRestricted() { return isRestricted; };
-	int gameType;													// 游戏类型
-	int winner;														// 获胜玩家棋子颜色
+
+	int gameType;								// 游戏类型
+	int winner;									// 获胜玩家棋子颜色
 	Server *s;
 
 private:
@@ -117,6 +117,7 @@ private:
 	int isRestricted;							// 是否带禁手开始游戏
 	int isFirstHand;							// 是否先手开始游戏
 	bool okClicked;								// 是否开始游戏
+	bool isGiveUp;
 	bool isclicked_online;						// 联机中是否点击过功能按钮
 
 	AIThread computer;

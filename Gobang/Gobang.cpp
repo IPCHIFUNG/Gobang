@@ -31,11 +31,8 @@ void Gobang::initBoard()
 			AIutil->state[i][j] = 2;
 
 	turn = ChessType::BLACKCHESS;
-	// 初始化双端队列
-	/*if (steps != NULL)
-		steps->clear();
-	if (overSteps != NULL)
-		overSteps->clear();*/
+	setDifficulty(1);
+
 	steps = new std::deque<Step>();
 	overSteps = new std::deque<Step>();
 }
@@ -59,7 +56,7 @@ void Gobang::loadBoard(char * path)
 	for (int i = 0; i < size; i++)
 	{
 		fscanf(inFile, "%d\t%d\n", &tmp.x, &tmp.y);
-		steps->push_back(tmp);
+		newStep(tmp);
 	}
 	turn = size % 2;
 	fclose(inFile);
