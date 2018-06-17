@@ -141,7 +141,6 @@ public slots:
 	void showWinnerDialog();								// 显示胜方信息
 	void showInf(int color, int x, int y);					// 显示棋子信息
 	void handleRecv_mes(int operation, int x, int y);       //处理联机另一端操作信息
-	void Do_msg(char *msg);                                 //处理联机另一端其他信息
 };
 
 /*

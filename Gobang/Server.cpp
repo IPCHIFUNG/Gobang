@@ -156,11 +156,8 @@ void Server::run()
 		else
 			nLen = recv(client_s, recvBuf, sizeof(recvBuf), 0);
 		if (nLen <= 0)
-		{
-			emit Omsg_rec("Á¬½Ó¶Ï¿ª");
 			return;
-		}
-
+		
 		int op = ServerMsgItem::getOperationFromString(recvBuf);
 		switch (op)
 		{
@@ -178,7 +175,7 @@ void Server::run()
 
 			break;
 		default:
-			if (op < 0 || op > 7)
+			if (op < 0 || op > 8)
 				throw"invalue operation";
 			int x1 = ServerMsgItem::getxFromString(recvBuf);
 			int y1 = ServerMsgItem::getyFromString(recvBuf);

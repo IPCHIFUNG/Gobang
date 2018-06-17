@@ -789,7 +789,15 @@ void MainWindow::giveUpBtnClicked()
 	if (gameType == GameType::ONLINE)
 	{
 		isclicked_online = true;
+		if(s->judge)
+			winner = ChessType::BLACKCHESS;
+		else
+			winner = ChessType::WHITECHESS;
+		isGiveUp = true;
+		showWinnerDialog();
+		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		s->msg_send(0, 0, OperationType::GIVEUP);
+		return;
 	}
 
 	winner = (gobang.getTurn() + 1) % 2;
@@ -824,6 +832,12 @@ void MainWindow::saveBtnClicked()
 */
 void MainWindow::returnBtnClicked()
 {
+	if (gameType == GameType::ONLINE) 
+	{		
+		s->msg_send(0,0,OperationType::BREAK);
+		delete s;
+	}
+
 	disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 	gameType = GameType::NONE;
 	setHomePageBtnVisable(true);
@@ -879,6 +893,9 @@ void MainWindow::boardClicked()
 */
 void MainWindow::closeEvent(QCloseEvent * event)
 {
+	if (gameType == GameType::ONLINE)
+		s->msg_send(0, 0, OperationType::BREAK);
+	
 	gobang.writeRanking();
 	event->accept();
 	//event->ignore();
@@ -1091,11 +1108,16 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		}
 		break;
 	case OperationType::GIVEUP:
-		winner = (gobang.getTurn() + 1) % 2;
+		if (s->judge)
+			winner = ChessType::WHITECHESS;
+		else
+			winner = ChessType::BLACKCHESS;
+		isGiveUp = true;
 		showWinnerDialog();
 		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
 		break;
 	case OperationType::ERR:
+		isclicked_online = false;
 		QMessageBox::warning(NULL, "ERROR", QString::fromLocal8Bit("非法的操作"));
 		break;
 	case OperationType::AGREE:
@@ -1162,6 +1184,7 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 					}
 				}
 			}
+			QMessageBox::about(NULL, "Message", QString::fromLocal8Bit("请继续走棋"));
 			highlightStep(new_step, -2);
 			break;
 		default:
@@ -1181,29 +1204,24 @@ void MainWindow::handleRecv_mes(int operation, int x, int y)
 		case 3:
 			QMessageBox::about(NULL, "Message", QString::fromLocal8Bit("对方不同意悔棋，对局继续"));
 			break;
-		case 4:
-			giveUpBtnClicked();
-			break;
 		default:
 			break;
 		}
 		isclicked_online = false;
 		break;
+	case OperationType::BREAK:
+		QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("断开连接......."));
 
+		disconnect(ui.btn_chessboard, SIGNAL(pressed()), this, SLOT(boardClicked()));
+		gameType = GameType::NONE;
+		setHomePageBtnVisable(true);
+		setGamePageBtnVisable(false);
+		delete s;
+		
+		break;
 	default:
 		break;
 	}
-}
-
-/*
-	处理联机另一端其他信息
-
-	@author 王锴贞
-	@para msg 其他信息
-*/
-void MainWindow::Do_msg(char *msg) {
-	QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit(msg));
-
 }
 
 #include <thread>

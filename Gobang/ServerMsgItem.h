@@ -33,7 +33,8 @@ const enum OperationType
 	GIVEUP,
 	ERR,
 	AGREE,
-	DISAGREE
+	DISAGREE,
+	BREAK
 };
 
 #endif // !SERVERMSGITEM_H

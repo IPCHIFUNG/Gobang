@@ -46,8 +46,6 @@ protected:
 
 signals:
 	void msg_rec(int operation, int x, int y);         //接收信息后向ui发送信号
-signals:
-	void Omsg_rec(char *msg);
 };
 
 #endif // !SERVER_H
