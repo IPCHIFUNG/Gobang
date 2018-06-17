@@ -71,10 +71,19 @@ LL AIUtil::cal_zobrist()
 	return z;
 }
 
-int AIUtil::copy_and_cal_points()
+/*
+	计算每个空位价值
+
+	@author 应禹尧
+*/
+void AIUtil::copy_and_cal_points()
 {
 	int i, j;
-	int yes = 0;
+
+	/* cpoint[i][j][0] 表示电脑绝杀棋情况 */
+	/* cpoint[i][j][1] 表示玩家绝杀棋情况 */
+	/* cpoint[i][j][2] 表示电脑得分		  */
+	/* cpoint[i][j][3] 表示玩家得分		  */
 	memset(cpoint, 0, sizeof(cpoint));
 
 	for (i = 0; i < 19; i++) {
@@ -84,7 +93,6 @@ int AIUtil::copy_and_cal_points()
 			}
 		}
 	}
-	return yes;
 }
 
 int AIUtil::getX()
@@ -227,47 +235,45 @@ void AIUtil::cal_point(int x, int y)
 	
 	if (state[x][y] == AIChessType::AINOCHESS) {
 		tco.player = 0;
-		cpoint[x][y][2] = get_points(&tco, &cpoint[x][y][0]); // 攻击力 
+		cpoint[x][y][2] = get_points(&tco, &cpoint[x][y][0]); // 该位置电脑得分 
 		tco.player = 1;
-		cpoint[x][y][3] = get_points(&tco, &cpoint[x][y][1]); // 防御力 
+		cpoint[x][y][3] = get_points(&tco, &cpoint[x][y][1]); // 该位置玩家得分
 	}
 }
 
 /*
 	计算某个点的分数
 
-	@para step---落子信息，kill---
+	@para step---落子信息，kill---绝杀情况
 	@author 应禹尧
 */
 int AIUtil::get_points(AIStep *step, int *kill) {
 	Points po;
 	AIStep tco;
-	int player = step->player;
-	int y = step->y;
-	int x = step->x;
-	int value = 0;
-	int zc4, zl3;					// nc4---总冲四，nl3---总活三
+	int value = 0;					// 得分
+	int zc4, zl3;					// zc4---总冲四，zl3---总活三
 
 	*kill = 0;
 	po.bb5 = po.g5 = po.rc4 = po.l4 = po.l3 = po.rl3 = po.l2 = po.rl2 = po.c4 = po.m3 = po.d4 = po.d3 = po.d2 = 0;
-	tco.player = player;
-	tco.y = y;
-	tco.x = x;
+	tco.player = step->player;
+	tco.y = step->y;
+	tco.x = step->x;
 
-	cal_chess(&po, &tco, 1, 0);
-	cal_chess(&po, &tco, 0, 1);
-	cal_chess(&po, &tco, 1, 1);
-	cal_chess(&po, &tco, -1, 1);
+	cal_chess(&po, &tco, 1, 0);		// 竖直方向
+	cal_chess(&po, &tco, 0, 1);		// 水平方向
+	cal_chess(&po, &tco, 1, 1);		// 主对角线方向
+	cal_chess(&po, &tco, -1, 1);	// 副对角线方向
 
-	zc4 = po.c4 + po.rc4;
-	zl3 = po.l3 + po.rl3;
+	zc4 = po.c4 + po.rc4;			// 总冲四数量
+	zl3 = po.l3 + po.rl3;			// 总活三数量
+
 	if (po.g5 >= 1) {										// 成五 
 		*kill = 3;
 		value = CHENG5;
 		return value;
 	}
 	else if (po.bb5 >= 1) {
-		if (player == AIChessType::AIBLACKCHESS) {			// 黑棋长连禁手
+		if (tco.player == AIChessType::AIBLACKCHESS) {		// 黑棋长连禁手
 			value = BAN;
 			return value;
 		}
@@ -277,13 +283,13 @@ int AIUtil::get_points(AIStep *step, int *kill) {
 			return value;
 		}
 	}
-	if (player == AIChessType::AIBLACKCHESS) {			// 三三禁手、四四禁手
+	if (tco.player == AIChessType::AIBLACKCHESS) {			// 三三禁手、四四禁手
 		if (zl3 >= 2 || (po.l4 + zc4 >= 2)) {
 			value = BAN;
 			return value;
 		}
 	}
-	if (po.l4 >= 1 || zc4 >= 2 || (zc4 && zl3)) {		// 绝杀 
+	if (po.l4 >= 1 || zc4 >= 2 || (zc4 && zl3)) {			// 绝杀 
 		*kill = 2;
 		value = LIVE4;
 	}
@@ -301,24 +307,25 @@ int AIUtil::get_points(AIStep *step, int *kill) {
 /*
 	判断某一方向棋型
 
-	@para m---水平查找，n---竖直查找，isRestricted---是否禁手
+	@para m---水平查找，n---竖直查找
 	@author 应禹尧
 */
 void AIUtil::cal_chess(Points *po, AIStep *steps, int m, int n)
 {
-	/*  lchess[0] 表示(y, x) 左边的且与(y, x) 相连的连续同类棋数目；
-	lempty[0] 表示(y, x) 左边第一个空点数起的连续空点数目
-	lchess[1] 表示(y, x) 左边的且与(y, x) 至少隔一个空点的连续同类棋数目
-	lempty[1] 表示在 lchess[1] 个同类棋左边的连续空点数目
+	/*  
+		lchess[0] 表示左边相连的连续同类棋数目；
+		lempty[0] 表示左边第一个空点数起的连续空点数目
+		lchess[1] 表示左边的且与至少隔一个空点的连续同类棋数目
+		lempty[1] 表示在 lchess[1] 个同类棋左边的连续空点数目
 
-	rchess，rempty同理
-	同理设下为左，上为右
+		rchess，rempty同理
+		同理设下为左，上为右
 	*/
 	int lchess[2], rchess[2];
 	int lempty[2], rempty[2];
 	int i, j;											// i---x坐标，j---y坐标
-	int player = steps->player;
-	int chessNum = 0;
+	int player = steps->player;							// 棋子类别
+	int chessNum = 0;									//连续同色棋子数
 
 	lchess[0] = lchess[1] = lempty[0] = lempty[1] = 0;
 	rchess[0] = rchess[1] = rempty[0] = rempty[1] = 0;
@@ -369,68 +376,68 @@ void AIUtil::cal_chess(Points *po, AIStep *steps, int m, int n)
 		j += n;
 	}
 
-	chessNum = lchess[0] + rchess[0] + 1;
+	chessNum = lchess[0] + rchess[0] + 1;			// 连续同色棋子数目
 
-	if (chessNum > 5)
+	if (chessNum > 5)								// 大于五个同色棋子
 		po->bb5++;
-	else if (chessNum == 5)
+	else if (chessNum == 5)							// 五个同色棋子
 		po->g5++;
 	else if (chessNum == 4) {
-		if (lempty[0] >= 1 && rempty[0] >= 1)
+		if (lempty[0] >= 1 && rempty[0] >= 1)		// 活四
 			po->l4++; 
-		else if (lempty[0] + rempty[0])
+		else if (lempty[0] + rempty[0])				// 冲四
 			po->c4++;
-		else
+		else										// 死四
 			po->d4++;
 	}
 	else if (chessNum == 3) {
-		int ok = 0;        // 同一个方向上如果可形成活三和冲四，舍弃活三  
+		int ok = 0; 
 		if ((lempty[0] == 1 && lchess[1] >= 1) || (rempty[0] == 1 && rchess[1] >= 1)) {
-			po->rc4++;
+			po->rc4++;								// 跳冲四
 			ok = 1;
 		}
 		if (!ok && lempty[0] + rempty[0] >= 3 && lempty[0] >= 1 && rempty[0] >= 1) {
-			po->l3++;
+			po->l3++;								// 活三
 			ok = 1;
 		}
-		else if (lempty[0] + rempty[0])
+		else if (lempty[0] + rempty[0])				// 眠三
 			po->m3++;
-		else
+		else										// 死三
 			po->d3++;
 	}
 	else if (chessNum == 2) {
 		int ok = 0;
 		if ((lempty[0] == 1 && lchess[1] >= 2) || (rempty[0] == 1 && rchess[1] >= 2)) {
-			po->rc4++;
+			po->rc4++;								// 跳冲四
 			ok = 1;
 		}
 		if (!ok && ((lempty[0] == 1 && lchess[1] == 1 && rempty[0] >= 1 && lempty[1] >= 1) || (rempty[0] == 1 && rchess[1] == 1 && lempty[0] >= 1 && rempty[1] >= 1))) {
-			po->rl3++;
+			po->rl3++;								// 跳活三
 		}
 		else if ((lempty[0] == 1 && lchess[1] == 1 && rempty[0] + lempty[1] >= 1) || (rempty[0] == 1 && rchess[1] == 1 && lempty[0] + rempty[1] >= 1))
-			po->m3++;
+			po->m3++;								// 眠三
 		if (lempty[0] + rempty[0] >= 4 && lempty[0] >= 1 && rempty[0] >= 1)
-			po->l2++;
-		else if (lempty[0] + rempty[0] == 0)
-			po->d2++;
+			po->l2++;								// 活二
+		else if (lempty[0] + rempty[0] == 0)		
+			po->d2++;								// 死二
 	}
 	else if (chessNum == 1) {
 		int ok = 0;
 		if ((lempty[0] == 1 && lchess[1] >= 3) || (rempty[0] == 1 && rchess[1] >= 3)) {
-			po->rc4++;
+			po->rc4++;								// 跳冲四
 			ok = 1;
 		}
 		if (!ok && ((lempty[0] == 1 && lchess[1] == 2 && rempty[0] >= 1 && lempty[1] >= 1) || (rempty[0] == 1 && rchess[1] == 2 && lempty[0] >= 1 && rempty[1] >= 1))) {
-			po->rl3++;
+			po->rl3++;								// 跳活三
 		}
 		else if ((lempty[0] == 1 && lchess[1] == 2 && rempty[0] + lempty[1] >= 1) || (rempty[0] == 1 && rchess[1] == 2 && lempty[0] + rempty[1] >= 1))
-			po->m3++;
+			po->m3++;								// 眠三
 		if ((lempty[0] == 1 && lchess[1] == 1 && rempty[0] + lempty[1] >= 3 && rempty[0] >= 1 && lempty[1] >= 1)
 			|| (rempty[0] == 1 && rchess[1] == 1 && rempty[1] + lempty[0] >= 3 && lempty[0] >= 1 && rempty[1] >= 1)) {
-			po->rl2++;
+			po->rl2++;								// 跳活二
 		}
 		if ((lempty[0] == 2 && lchess[1] == 1 && rempty[0] >= 1 && lempty[1] >= 1) || (rempty[0] == 2 && rchess[1] == 1 && lempty[0] >= 1 && rempty[1] >= 1)) {
-			po->rl2++;
+			po->rl2++;								// 跳活二
 		}
 	}
 }

@@ -301,7 +301,6 @@ Gobang::Step Gobang::AIWalk(int type)
 	Step walk;
 
 	if (steps->size() <= 1) {
-
 		if (board[9][9] == ChessType::NOCHESS) {	// AI第一次落子
 			walk.x = 9;
 			walk.y = 9;
@@ -318,7 +317,7 @@ Gobang::Step Gobang::AIWalk(int type)
 		int beta = INF;
 		LL st;
 
-		AIutil->copy_and_cal_points();
+		AIutil->copy_and_cal_points();							// 计算每个空位价值
 
 		AIutil->init_zobrist();
 		AIutil->init_hashtable();

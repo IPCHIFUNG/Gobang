@@ -53,7 +53,7 @@ public:
 
 	void init_zobrist();
 	void init_hashtable();
-	int copy_and_cal_points();
+	void copy_and_cal_points();
 	int getX();
 	int getY();
 	LL cal_zobrist();
@@ -83,7 +83,7 @@ private:
 	const int DEAD4 = -10;			// 死四
 	const int DEAD3 = -10;			// 死三
 	const int DEAD2 = -10;			// 死二
-	const int BAN = 0;				// 禁手
+	const int BAN = -9000000;				// 禁手
 	const int inf = 9000000;		// alpha_beta
 	const int unknow = 9900000;		// 未知
 
