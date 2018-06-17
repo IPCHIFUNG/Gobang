@@ -4,23 +4,23 @@
 	((y < 0 || y > 18 || x < 0 || x > 18) ? 0 : 1)
 
 /*
-	@author 应禹尧
+@author 应禹尧
 */
 AIUtil::AIUtil()
 {
 }
 
 /*
-	@author 应禹尧
+@author 应禹尧
 */
 AIUtil::~AIUtil()
 {
 }
 
 /*
-	初始化键值
+初始化键值
 
-	@author 应禹尧
+@author 应禹尧
 */
 void AIUtil::init_zobrist() {
 	for (int i = 0; i < 3; i++) {
@@ -39,9 +39,9 @@ LL AIUtil::rand14()
 }
 
 /*
-	初始化哈希值
+初始化哈希值
 
-	@author 应禹尧
+@author 应禹尧
 */
 void AIUtil::init_hashtable()
 {
@@ -50,9 +50,9 @@ void AIUtil::init_hashtable()
 }
 
 /*
-	计算键值
+计算键值
 
-	@author 应禹尧
+@author 应禹尧
 */
 LL AIUtil::cal_zobrist()
 {
@@ -72,9 +72,9 @@ LL AIUtil::cal_zobrist()
 }
 
 /*
-	计算每个空位价值
+计算每个空位价值
 
-	@author 应禹尧
+@author 应禹尧
 */
 void AIUtil::copy_and_cal_points()
 {
@@ -106,10 +106,10 @@ int AIUtil::getY()
 }
 
 /*
-	alpha_beta剪枝
+alpha_beta剪枝
 
-	@para AIType---棋子类型，depth---搜索深度，alpha，beta---极大极小值
-	@author 应禹尧
+@para AIType---棋子类型，depth---搜索深度，alpha，beta---极大极小值
+@author 应禹尧
 */
 int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 {
@@ -118,36 +118,32 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 	int value;										// 价值
 	HashType hashf = HASHALPHA;
 
-	int s1 = cal_all_points(&step[0], &kill[0]);
-	int s2 = cal_all_points(&step[1], &kill[1]);
-
 	step[0].player = AIChessType::AIBLACKCHESS;		// 黑子
 	step[1].player = AIChessType::AIWHITECHESS;		// 白子
+
+	int s1 = cal_all_points(&step[0], &kill[0]);	// 黑子总价值
+	int s2 = cal_all_points(&step[1], &kill[1]);	// 白子总价值
 
 	if ((value = find_in_hash(depth, alpha, beta, st)) != unknow)
 		return value;
 
 	if (depth == 0) {										// 达到搜索深度，返回价值 
 		int s = s1 - s2;
-		record_hash(depth, s, st, HASHEXACT);
+		record_hash(depth, s, st, HASHEXACT);				// 记录哈希值
 		if (((!AIType) && s >= 0) || (AIType && s < 0))		// 如果玩家占优则返回正值，否则返回负值
 			return abs(s);
 		if (((!AIType) && s < 0) || (AIType && s >= 0))
 			return -abs(s);
 	}
 
-	Subpoints sp[19 * 19];
-	LL tst;
-	int n = set_order(sp);									// 对候选点按高分到低分排序 
 	int y, x;
 
-
-	// 己方可一步成五 || (对方不能一步成五 && 己方可一步成绝杀棋) ||  己方可一步成双活三而对方不能一步成绝杀棋
+	// 己方可一步成五 || (对方不能一步成五 && 己方可一步成绝杀棋) ||  己方可一步成双活三 && 对方不能一步成绝杀棋
 	int self = AIType;
 	int opp = (AIType + 1) % 2;
 	if (kill[self] == 3 || (kill[opp] < 3 && kill[self] == 2) || (kill[self] == 1 && kill[opp] < 2)) {
-		if (depth == DEPTH) {
-			comy = step[self].y;
+		if (depth == DEPTH) {			// 可一步达成
+			comy = step[self].y;		// 得到该点信息
 			comx = step[self].x;
 		}
 		alpha = CHENG5;
@@ -155,20 +151,24 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 		return alpha;
 	}
 
-	// 最多选10 个候选点 
-	for (int i = 0; i < 10 && i < n; i++) {
+	Subpoints sp[19 * 19];
+	LL tst;
+	int n = set_order(sp);									// 对候选点按高分到低分排序 
+
+
+	for (int i = 0; i < 10 && i < n; i++) {					// 最多选10 个候选点 						
 		tst = st;
 		x = sp[i].x;
 		y = sp[i].y;
-		state[y][x] = AIType;												// 在 (y, x) 落子
+		state[y][x] = AIType;												// 模拟落子
 		st ^= zobrist[AIType][y][x];
-		change_cpoint(y, x);												// (y, x) 四个方向上的得分受到影响，需要改变  
-		value = -alpha_beta(AIType ^ 1, depth - 1, -beta, -alpha, st);
+		change_cpoint(y, x);												// 重新计算四个方向上的得分  
+		value = -alpha_beta(AIType ^ 1, depth - 1, -beta, -alpha, st);		// 得到新的价值
 		state[y][x] = AIChessType::AINOCHESS;
 		st ^= zobrist[AIType][y][x];
-		change_cpoint(y, x);
+		change_cpoint(y, x);												// 还原得分
 
-		if (value > alpha) {
+		if (value > alpha) {				// 更新alpha
 			if (depth == DEPTH) {
 				comy = y;
 				comx = x;
@@ -178,7 +178,7 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 			alpha = value;
 		}
 
-		if (alpha >= beta) { // 千万不能把等号去掉！！！ 
+		if (alpha >= beta) {
 			record_hash(depth, beta, tst, HASHBETA);
 			return beta;
 		}
@@ -189,10 +189,10 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 }
 
 /*
-	计算所有点价值
+计算所有点价值
 
-	@para step---落子信息，kill---绝杀信息
-	@author 应禹尧
+@para step---落子信息，kill---绝杀信息
+@author 应禹尧
 */
 int AIUtil::cal_all_points(AIStep *step, int *kill)
 {
@@ -209,7 +209,7 @@ int AIUtil::cal_all_points(AIStep *step, int *kill)
 		for (int j = 0; j < 19; j++) {
 			if (state[i][j] == AIChessType::AINOCHESS) {
 				value += cpoint[i][j][flag];
-				if (cpoint[i][j][flag - 2] > (*kill)) {
+				if (cpoint[i][j][flag - 2] >(*kill)) {
 					*kill = cpoint[i][j][flag - 2];
 					step->y = i;
 					step->x = j;
@@ -222,10 +222,10 @@ int AIUtil::cal_all_points(AIStep *step, int *kill)
 }
 
 /*
-	统计某个点的分数
+统计某个点的分数
 
-	@para x---横坐标，y---纵坐标
-	@author 应禹尧
+@para x---横坐标，y---纵坐标
+@author 应禹尧
 */
 void AIUtil::cal_point(int x, int y)
 {
@@ -242,10 +242,10 @@ void AIUtil::cal_point(int x, int y)
 }
 
 /*
-	计算某个点的分数
+计算某个点的分数
 
-	@para step---落子信息，kill---绝杀情况
-	@author 应禹尧
+@para step---落子信息，kill---绝杀情况
+@author 应禹尧
 */
 int AIUtil::get_points(AIStep *step, int *kill) {
 	Points po;
@@ -305,21 +305,21 @@ int AIUtil::get_points(AIStep *step, int *kill) {
 
 
 /*
-	判断某一方向棋型
+判断某一方向棋型
 
-	@para m---水平查找，n---竖直查找
-	@author 应禹尧
+@para m---水平查找，n---竖直查找
+@author 应禹尧
 */
 void AIUtil::cal_chess(Points *po, AIStep *steps, int m, int n)
 {
 	/*
-		lchess[0] 表示左边相连的连续同类棋数目；
-		lempty[0] 表示左边第一个空点数起的连续空点数目
-		lchess[1] 表示左边的且与至少隔一个空点的连续同类棋数目
-		lempty[1] 表示在 lchess[1] 个同类棋左边的连续空点数目
+	lchess[0] 表示左边相连的连续同类棋数目；
+	lempty[0] 表示左边第一个空点数起的连续空点数目
+	lchess[1] 表示左边的且与至少隔一个空点的连续同类棋数目
+	lempty[1] 表示在 lchess[1] 个同类棋左边的连续空点数目
 
-		rchess，rempty同理
-		同理设下为左，上为右
+	rchess，rempty同理
+	同理设下为左，上为右
 	*/
 	int lchess[2], rchess[2];
 	int lempty[2], rempty[2];
@@ -443,10 +443,10 @@ void AIUtil::cal_chess(Points *po, AIStep *steps, int m, int n)
 }
 
 /*
-	计算哈希值
+计算哈希值
 
-	@para depth---深度，
-	@author 应禹尧
+@para depth---深度
+@author 应禹尧
 */
 int AIUtil::find_in_hash(int depth, int alpha, int beta, LL st)
 {
@@ -473,10 +473,10 @@ int AIUtil::find_in_hash(int depth, int alpha, int beta, LL st)
 }
 
 /*
-	记录哈希值
+记录哈希值
 
-	@para depth---深度，
-	@author 应禹尧
+@para depth---深度，
+@author 应禹尧
 */
 void AIUtil::record_hash(int depth, int val, LL st, HashType AIType)
 {
@@ -489,10 +489,10 @@ void AIUtil::record_hash(int depth, int val, LL st, HashType AIType)
 }
 
 /*
-	比较
+比较
 
-	@para
-	@author 应禹尧
+@para
+@author 应禹尧
 */
 int compare(const void* _a, const void* _b)
 {
@@ -503,10 +503,10 @@ int compare(const void* _a, const void* _b)
 }
 
 /*
-	设置顺序
+设置顺序
 
-	@para
-	@author 应禹尧
+@para
+@author 应禹尧
 */
 int AIUtil::set_order(Subpoints *od)
 {
@@ -534,15 +534,15 @@ int AIUtil::set_order(Subpoints *od)
 
 
 /*
-	改变点 (y, x) 4 个方向下可落子点的分数
+改变该点4个方向下可落子点的分数
 
-	@para
-	@author 应禹尧
+@author 应禹尧
 */
 void AIUtil::change_cpoint(int y, int x)
 {
 	int i, j;
 
+	// 竖直，水平判断
 	for (i = 0; i < 19; i++) {
 		if (state[y][i] == AIChessType::AINOCHESS) {
 			cal_point(y, i);
@@ -551,6 +551,8 @@ void AIUtil::change_cpoint(int y, int x)
 			cal_point(i, x);
 		}
 	}
+
+	// 对角线判断
 	for (i = 0; i < 19; i++) {
 		j = i - (y - x);
 		if (0 < j && j < 19 && state[i][j] == AIChessType::AINOCHESS) {
