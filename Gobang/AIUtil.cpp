@@ -111,7 +111,7 @@ int AIUtil::getY()
 	@para AIType---棋子类型，depth---搜索深度，alpha，beta---极大极小值
 	@author 应禹尧
 */
-int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st) 
+int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 {
 	AIStep step[2];									// 落子信息
 	int kill[2];									// 绝杀
@@ -156,7 +156,7 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 	}
 
 	// 最多选10 个候选点 
-	for (int i = 0; i < 10 && i < n; i++) {									
+	for (int i = 0; i < 10 && i < n; i++) {
 		tst = st;
 		x = sp[i].x;
 		y = sp[i].y;
@@ -194,7 +194,7 @@ int AIUtil::alpha_beta(int AIType, int depth, int alpha, int beta, LL st)
 	@para step---落子信息，kill---绝杀信息
 	@author 应禹尧
 */
-int AIUtil::cal_all_points(AIStep *step, int *kill) 
+int AIUtil::cal_all_points(AIStep *step, int *kill)
 {
 	int flag;
 	int value = 0;
@@ -209,7 +209,7 @@ int AIUtil::cal_all_points(AIStep *step, int *kill)
 		for (int j = 0; j < 19; j++) {
 			if (state[i][j] == AIChessType::AINOCHESS) {
 				value += cpoint[i][j][flag];
-				if (cpoint[i][j][flag - 2] >(*kill)) {
+				if (cpoint[i][j][flag - 2] > (*kill)) {
 					*kill = cpoint[i][j][flag - 2];
 					step->y = i;
 					step->x = j;
@@ -221,8 +221,8 @@ int AIUtil::cal_all_points(AIStep *step, int *kill)
 	return value;
 }
 
-/* 
-	统计某个点的分数 
+/*
+	统计某个点的分数
 
 	@para x---横坐标，y---纵坐标
 	@author 应禹尧
@@ -232,7 +232,7 @@ void AIUtil::cal_point(int x, int y)
 	AIStep tco;
 	tco.x = x;
 	tco.y = y;
-	
+
 	if (state[x][y] == AIChessType::AINOCHESS) {
 		tco.player = 0;
 		cpoint[x][y][2] = get_points(&tco, &cpoint[x][y][0]); // 该位置电脑得分 
@@ -312,7 +312,7 @@ int AIUtil::get_points(AIStep *step, int *kill) {
 */
 void AIUtil::cal_chess(Points *po, AIStep *steps, int m, int n)
 {
-	/*  
+	/*
 		lchess[0] 表示左边相连的连续同类棋数目；
 		lempty[0] 表示左边第一个空点数起的连续空点数目
 		lchess[1] 表示左边的且与至少隔一个空点的连续同类棋数目
@@ -384,14 +384,14 @@ void AIUtil::cal_chess(Points *po, AIStep *steps, int m, int n)
 		po->g5++;
 	else if (chessNum == 4) {
 		if (lempty[0] >= 1 && rempty[0] >= 1)		// 活四
-			po->l4++; 
+			po->l4++;
 		else if (lempty[0] + rempty[0])				// 冲四
 			po->c4++;
 		else										// 死四
 			po->d4++;
 	}
 	else if (chessNum == 3) {
-		int ok = 0; 
+		int ok = 0;
 		if ((lempty[0] == 1 && lchess[1] >= 1) || (rempty[0] == 1 && rchess[1] >= 1)) {
 			po->rc4++;								// 跳冲四
 			ok = 1;
@@ -418,7 +418,7 @@ void AIUtil::cal_chess(Points *po, AIStep *steps, int m, int n)
 			po->m3++;								// 眠三
 		if (lempty[0] + rempty[0] >= 4 && lempty[0] >= 1 && rempty[0] >= 1)
 			po->l2++;								// 活二
-		else if (lempty[0] + rempty[0] == 0)		
+		else if (lempty[0] + rempty[0] == 0)
 			po->d2++;								// 死二
 	}
 	else if (chessNum == 1) {
@@ -468,7 +468,7 @@ int AIUtil::find_in_hash(int depth, int alpha, int beta, LL st)
 			}
 		}
 	}
-	
+
 	return unknow;
 }
 
@@ -505,7 +505,7 @@ int compare(const void* _a, const void* _b)
 /*
 	设置顺序
 
-	@para 
+	@para
 	@author 应禹尧
 */
 int AIUtil::set_order(Subpoints *od)
@@ -562,4 +562,3 @@ void AIUtil::change_cpoint(int y, int x)
 		}
 	}
 }
-

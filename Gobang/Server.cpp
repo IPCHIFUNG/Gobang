@@ -4,7 +4,7 @@
 Server::Server(char *IPAddr, int port)
 {
 	this->IPAddr = IPAddr;
-	this->port = port;	
+	this->port = port;
 }
 
 Server::Server(int port)
@@ -20,7 +20,7 @@ Server::~Server()
 }
 
 /*
-    开启服务器
+	开启服务器
 
 	@author 王锴贞
 */
@@ -67,9 +67,9 @@ void Server::server_start()
 }
 
 /*
-    开启客户端
+	开启客户端
 
-    @author 王锴贞
+	@author 王锴贞
 */
 void Server::client_start()
 {
@@ -105,33 +105,33 @@ void Server::client_start()
 }
 
 /*
-    向ui发送信息
+	向ui发送信息
 
 	@author 王锴贞
 	@para x,y 下一步棋子位置
 	@para operation 棋子操作
-    
+
 */
-void Server::msg_send( int x, int y, int operation)
+void Server::msg_send(int x, int y, int operation)
 {
 	string msg;
 	if (operation == 0)
 		msg = ServerMsgItem(x, y).convertToString();
 	else
 		msg = ServerMsgItem(operation, x, y).convertToString();
-	if(judge)
+	if (judge)
 		sendMessage(server_s, msg);
 	else
 		sendMessage(client_s, msg);
 }
 
 /*
-    发送信息函数
+	发送信息函数
 
 	@author 王锴贞
-    @para target 目标套接字
-    @para msg 目标信息
-    
+	@para target 目标套接字
+	@para msg 目标信息
+
 */
 void Server::sendMessage(SOCKET target, string msg)
 {
@@ -140,18 +140,18 @@ void Server::sendMessage(SOCKET target, string msg)
 }
 
 /*
-    接收消息线程 
+	接收消息线程
 
-    @author 王锴贞
+	@author 王锴贞
 */
 void Server::run()
 {
 	while (true)
 	{
-		char recvBuf[1024] ;
+		char recvBuf[1024];
 		memset(recvBuf, 0, sizeof(recvBuf));
 		int nLen;
-		if(judge)
+		if (judge)
 			nLen = recv(server_s, recvBuf, sizeof(recvBuf), 0);
 		else
 			nLen = recv(client_s, recvBuf, sizeof(recvBuf), 0);
@@ -175,7 +175,7 @@ void Server::run()
 			{
 				QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("数据转化失败（run）"));
 			}
-			
+
 			break;
 		default:
 			if (op < 0 || op > 7)
@@ -183,12 +183,11 @@ void Server::run()
 			int x1 = ServerMsgItem::getxFromString(recvBuf);
 			int y1 = ServerMsgItem::getyFromString(recvBuf);
 			emit msg_rec(op, x1, y1);
-			
+
 			break;
 		}
 	}
-	
-	exec();
-	
-}
 
+	exec();
+
+}

@@ -23,21 +23,21 @@ public:
 	explicit Server(char *IPAddr, int port);
 	explicit Server(int port);
 	~Server();
-public: 
+public:
 	void server_start();                                        //开启服务端
 	void client_start();                                        //开启客户端
-	void msg_send(int x, int y,int operation);                  //网络发送信息
-	
-	bool judge;                                                 // 
+	void msg_send(int x, int y, int operation);                 //网络发送信息
+
+	bool judge;
 
 private:
 	SOCKET server_s;
 	SOCKET client_s;
-	
+
 	int port;
 	char * IPAddr;
-	
-	
+
+
 private:
 	void sendMessage(SOCKET target, string msg);        //send函数
 
@@ -45,10 +45,9 @@ protected:
 	virtual void run();                                //接收消息线程           
 
 signals:
-	void msg_rec( int operation, int x, int y);         //接收信息后向ui发送信号
+	void msg_rec(int operation, int x, int y);         //接收信息后向ui发送信号
 signals:
 	void Omsg_rec(char *msg);
 };
-
 
 #endif // !SERVER_H

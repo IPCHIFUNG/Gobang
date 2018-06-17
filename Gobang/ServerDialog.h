@@ -34,7 +34,7 @@ public:
 private:
 	Ui::ServerDialog * ui;
 	MainWindow *mainWindow;
-	
+
 
 
 private slots:

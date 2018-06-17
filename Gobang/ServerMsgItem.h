@@ -7,7 +7,7 @@ class ServerMsgItem
 {
 public:
 	ServerMsgItem(int x, int y);
-	ServerMsgItem(int operation,int x, int y);
+	ServerMsgItem(int operation, int x, int y);
 	~ServerMsgItem();
 
 	std::string convertToString();
