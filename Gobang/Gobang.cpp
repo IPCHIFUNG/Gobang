@@ -31,7 +31,7 @@ void Gobang::initBoard()
 			AIutil->state[i][j] = 2;
 
 	turn = ChessType::BLACKCHESS;
-	setDifficulty(1);
+	setDifficulty(2);
 
 	steps = new std::deque<Step>();
 	overSteps = new std::deque<Step>();

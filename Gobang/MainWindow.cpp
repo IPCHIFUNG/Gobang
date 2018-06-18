@@ -874,6 +874,8 @@ void MainWindow::boardClicked()
 			new_step = getStepFromScreen();
 			s->msg_send(new_step.x, new_step.y, OperationType::WALK);
 			walkAStep(new_step);
+			if (winner != ChessType::NOCHESS)
+				delete s;
 			break;
 		default:
 			break;
