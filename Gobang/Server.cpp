@@ -71,20 +71,20 @@ void Server::server_start()
 
 	@author 王锴贞
 */
-void Server::client_start()
+bool Server::client_start()
 {
 	WSADATA data;
 	if (WSAStartup(MAKEWORD(2, 2), &data) != 0)
 	{
 		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("客户端类库加载失败"));
-		return;
+		return false;
 	}
 
 	//初始化socket
 	server_s = socket(AF_INET, SOCK_STREAM, 0);
 	if (SOCKET_ERROR == server_s) {
 		QMessageBox::about(NULL, "Error1", QString::fromLocal8Bit("套接字创建错误"));
-		return;
+		return false;
 	}
 
 	sockaddr_in addrSrv;
@@ -98,10 +98,11 @@ void Server::client_start()
 	//连接服务器
 	if (::connect(server_s, (sockaddr*)&addrSrv, addrSize) == INVALID_SOCKET) {
 		QMessageBox::about(NULL, "Error", QString::fromLocal8Bit("连接失败"));
-		return;
+		return false;
 	}
 	QMessageBox::about(NULL, "Tip", QString::fromLocal8Bit("客户端连接成功"));
 	judge = true;
+	return true;
 }
 
 /*

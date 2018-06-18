@@ -144,9 +144,14 @@ void ServerDialog::connectBtnClicked()
 	}
 
 	mainWindow->s = new Server(ip, port);
-	mainWindow->s->client_start();
+	bool success = mainWindow->s->client_start();
+	if (!success)
+	{
+		this->close();
+		return;
+	}
+	
 	connect(mainWindow->s, SIGNAL(msg_rec(int, int, int)), mainWindow, SLOT(handleRecv_mes(int, int, int)));
-	connect(mainWindow->s, SIGNAL(Omsg_rec(char*)), mainWindow, SLOT(Do_msg(char*)));
 	mainWindow->s->start();
 	okClicked = true;
 	this->close();

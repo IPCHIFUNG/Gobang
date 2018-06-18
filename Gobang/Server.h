@@ -25,7 +25,7 @@ public:
 	~Server();
 public:
 	void server_start();                                        //开启服务端
-	void client_start();                                        //开启客户端
+	bool client_start();                                        //开启客户端
 	void msg_send(int x, int y, int operation);                 //网络发送信息
 
 	bool judge;
